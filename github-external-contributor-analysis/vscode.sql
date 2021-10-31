@@ -362,7 +362,7 @@ create table vscode_external_contributors as (
     c.count as vscode_commits,
     'https://github.com/microsoft/vscode/commits?author=' || c.author_login as commits_url,
     i.count as vscode_issues,
-    'https://github.com/micosoft/vscode/issues?q=author:' || c.author_login as issues_url,
+    'https://github.com/microsoft/vscode/issues?q=author:' || c.author_login as issues_url,
     cd.name,
     cd.company,
     cd.twitter_username

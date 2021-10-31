@@ -362,7 +362,7 @@ create table typescript_external_contributors as (
     c.count as typescript_commits,
     'https://github.com/microsoft/typescript/commits?author=' || c.author_login as commits_url,
     i.count as typescript_issues,
-    'https://github.com/micosoft/typescript/issues?q=author:' || c.author_login as issues_url,
+    'https://github.com/microsoft/typescript/issues?q=author:' || c.author_login as issues_url,
     cd.name,
     cd.company,
     cd.twitter_username

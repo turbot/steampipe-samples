@@ -1,22 +1,40 @@
 """
-REPO = 'vscode'
-ORG_REPO = 'microsoft/vscode'
 ORG_LOGIN = 'microsoft'
+REPO = 'vscode'
+REPO_TABLE = REPO
 COMPANY = 'microsoft'
-COMMIT_URL_STUB =  f'https://github.com/microsoft/vscode/commits?author=' 
-ISSUE_URL_STUB =  f'https://github.com/micosoft/vscode/issues?q=author:' 
 EXCLUDE_FROM_EXTERNAL_COMMITS = "['octref','eamodio']"
 EXCLUDE_FROM_EXTERNAL_ISSUES = "['ghost', 'octref', 'vscodeerrors', 'eamodio']"
-"""
 
-REPO = 'typescript'
-ORG_REPO = 'microsoft/typescript'
 ORG_LOGIN = 'microsoft'
+REPO = 'typescript'
+REPO_TABLE = REPO
 COMPANY = 'microsoft'
-COMMIT_URL_STUB =  f'https://github.com/microsoft/typescript/commits?author=' 
-ISSUE_URL_STUB =  f'https://github.com/micosoft/typescript/issues?q=author:' 
 EXCLUDE_FROM_EXTERNAL_COMMITS = "['CyrusNajmabadi','vladima','mhegazy','csigs']"
 EXCLUDE_FROM_EXTERNAL_ISSUES = "['mhegazy','ghost']"
+
+ORG_LOGIN = 'aws'
+REPO = 'aws-cdk'
+REPO_TABLE = REPO.replace('-','_')
+COMPANY = 'amazon|aws'
+EXCLUDE_FROM_EXTERNAL_COMMITS = "['']"
+EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
+"""
+
+# choose one set of vars from above
+
+ORG_LOGIN = 'aws'
+REPO = 'aws-cdk'
+REPO_TABLE = REPO.replace('-','_')
+COMPANY = 'amazon|aws'
+EXCLUDE_FROM_EXTERNAL_COMMITS = "['']"
+EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
+
+# common variables
+
+ORG_REPO = f'{ORG_LOGIN}/{REPO}'
+COMMIT_URL_STUB =  f'https://github.com/{ORG_LOGIN}/{REPO}/commits?author=' 
+ISSUE_URL_STUB =  f'https://github.com/{ORG_LOGIN}/{REPO}/issues?q=author:' 
 
 """
 To find "false externals":
@@ -29,12 +47,12 @@ To find "false externals":
 
 def sql():
   return f"""
-drop table if exists {REPO}_log;
-create table {REPO}_log(time timestamp, event text);
+drop table if exists {REPO_TABLE}_log;
+create table {REPO_TABLE}_log(time timestamp, event text);
 
-drop table if exists {REPO}_org_members;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_org_members');
-create table {REPO}_org_members as (
+drop table if exists {REPO_TABLE}_org_members;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_org_members');
+create table {REPO_TABLE}_org_members as (
   select
     g.name,
     g.login,
@@ -45,9 +63,9 @@ create table {REPO}_org_members as (
     g.login = '{ORG_LOGIN}'
 );
 
-drop table if exists {REPO}_commits;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_commits');
-create table {REPO}_commits as (
+drop table if exists {REPO_TABLE}_commits;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_commits');
+create table {REPO_TABLE}_commits as (
   select
     g.repository_full_name,
     g.author_login,
@@ -61,15 +79,15 @@ create table {REPO}_commits as (
     g.repository_full_name = '{ORG_REPO}'
 );
 
-drop table if exists {REPO}_committers;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_committers');
-create table {REPO}_committers as (
+drop table if exists {REPO_TABLE}_committers;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_committers');
+create table {REPO_TABLE}_committers as (
   with unordered as (
     select distinct
       c.repository_full_name,
       c.author_login
     from
-      {REPO}_commits c
+      {REPO_TABLE}_commits c
   )
   select
     *
@@ -79,9 +97,9 @@ create table {REPO}_committers as (
     lower(author_login)
 );
 
-drop table if exists {REPO}_committer_details;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_committer_details');
-create table {REPO}_committer_details as (
+drop table if exists {REPO_TABLE}_committer_details;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_committer_details');
+create table {REPO_TABLE}_committer_details as (
   select
     g.login,
     g.name,
@@ -91,31 +109,31 @@ create table {REPO}_committer_details as (
   from
     github_user g
   join
-    {REPO}_committers c 
+    {REPO_TABLE}_committers c 
   on 
     c.author_login = g.login
 );
 
-drop table if exists {REPO}_internal_committers;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_internal_committers');
-create table {REPO}_internal_committers as (
+drop table if exists {REPO_TABLE}_internal_committers;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_internal_committers');
+create table {REPO_TABLE}_internal_committers as (
   with by_membership as (
     select 
       *
     from    
-      {REPO}_committers c 
+      {REPO_TABLE}_committers c 
     join
-      {REPO}_org_members o
+      {REPO_TABLE}_org_members o
     on
       c.author_login = o.member_login
     order by
       c.author_login
   ),
-  by_{REPO}_committer_details as (
+  by_{REPO_TABLE}_committer_details as (
     select 
       *
     from
-      {REPO}_committer_details cd
+      {REPO_TABLE}_committer_details cd
     where
       cd.company ~* '{COMPANY}' or cd.email ~* '{COMPANY}'
     order by
@@ -128,7 +146,7 @@ create table {REPO}_internal_committers as (
     from
       by_membership m
     full join 
-      by_{REPO}_committer_details cd
+      by_{REPO_TABLE}_committer_details cd
     on
       m.author_login = cd.login
   ),
@@ -149,28 +167,28 @@ create table {REPO}_internal_committers as (
     lower(author_login)
 );
 
-drop table if exists {REPO}_internal_commits;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_internal_commits');
-create table {REPO}_internal_commits as (
+drop table if exists {REPO_TABLE}_internal_commits;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_internal_commits');
+create table {REPO_TABLE}_internal_commits as (
   select 
     *
   from    
-    {REPO}_commits c
+    {REPO_TABLE}_commits c
   join
-    {REPO}_internal_committers i
+    {REPO_TABLE}_internal_committers i
   using
     (author_login)
 );
 
-drop table if exists {REPO}_internal_commit_counts;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_internal_commit_counts');
-create table {REPO}_internal_commit_counts as (
+drop table if exists {REPO_TABLE}_internal_commit_counts;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_internal_commit_counts');
+create table {REPO_TABLE}_internal_commit_counts as (
   select 
     i.repository_full_name,
     i.author_login,
     count(*)
   from    
-    {REPO}_internal_commits i
+    {REPO_TABLE}_internal_commits i
   group by
     i.repository_full_name,
     i.author_login
@@ -178,18 +196,18 @@ create table {REPO}_internal_commit_counts as (
     count desc
 );
 
-drop table if exists {REPO}_external_committers;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_committers');
-create table {REPO}_external_committers as (
+drop table if exists {REPO_TABLE}_external_committers;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_committers');
+create table {REPO_TABLE}_external_committers as (
   select 
     *
   from    
-    {REPO}_committers c 
+    {REPO_TABLE}_committers c 
   where not exists (
     select
       *
     from 
-      {REPO}_internal_committers i 
+      {REPO_TABLE}_internal_committers i 
     where
       c.author_login = i.author_login
       or c.author_login = any ( array {EXCLUDE_FROM_EXTERNAL_COMMITS} )
@@ -198,28 +216,28 @@ create table {REPO}_external_committers as (
     c.author_login
 );
 
-drop table if exists {REPO}_external_commits;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_commits');
-create table {REPO}_external_commits as (
+drop table if exists {REPO_TABLE}_external_commits;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_commits');
+create table {REPO_TABLE}_external_commits as (
   select 
     *
   from    
-    {REPO}_commits c
+    {REPO_TABLE}_commits c
   join
-    {REPO}_external_committers i
+    {REPO_TABLE}_external_committers i
   using
     (repository_full_name, author_login)
 );
 
-drop table if exists {REPO}_external_commit_counts;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_commit_counts');
-create table {REPO}_external_commit_counts as (
+drop table if exists {REPO_TABLE}_external_commit_counts;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_commit_counts');
+create table {REPO_TABLE}_external_commit_counts as (
   select 
     e.repository_full_name,
     e.author_login,
     count(*)
   from    
-    {REPO}_external_commits e
+    {REPO_TABLE}_external_commits e
   group by
     e.repository_full_name,
     e.author_login
@@ -227,9 +245,9 @@ create table {REPO}_external_commit_counts as (
     count desc
 );
 
-drop table if exists {REPO}_issues;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_issues');
-create table {REPO}_issues as (
+drop table if exists {REPO_TABLE}_issues;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_issues');
+create table {REPO_TABLE}_issues as (
   select
     repository_full_name,
     author_login,
@@ -246,15 +264,15 @@ create table {REPO}_issues as (
      repository_full_name = '{ORG_REPO}'
 );
 
-drop table if exists {REPO}_issue_filers;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_issue_filers');
-create table {REPO}_issue_filers as (
+drop table if exists {REPO_TABLE}_issue_filers;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_issue_filers');
+create table {REPO_TABLE}_issue_filers as (
   with unordered as (
     select distinct
       i.repository_full_name,
       i.author_login
     from
-      {REPO}_issues i
+      {REPO_TABLE}_issues i
   )
   select
     *
@@ -264,31 +282,31 @@ create table {REPO}_issue_filers as (
     lower(author_login)
 );
 
--- insert into {REPO}_log(time, event) values (now(), '{REPO}_issue_filer_details');
--- create table {REPO}_issue_filer_details as (
+-- insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_issue_filer_details');
+-- create table {REPO_TABLE}_issue_filer_details as (
 --  
 --   impractical for vscode's 52K issue authors at 5K API calls/hr!'
 --
 --);
 
-drop table if exists {REPO}_internal_issue_filers;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_internal_issue_filers');
-create table {REPO}_internal_issue_filers as (
+drop table if exists {REPO_TABLE}_internal_issue_filers;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_internal_issue_filers');
+create table {REPO_TABLE}_internal_issue_filers as (
   select 
     *
   from    
-    {REPO}_issue_filers i 
+    {REPO_TABLE}_issue_filers i 
   join
-    {REPO}_org_members o
+    {REPO_TABLE}_org_members o
   on
     i.author_login = o.member_login
   order by
     i.author_login
 );
 
-drop table if exists {REPO}_internal_issues;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_internal_issues');
-create table {REPO}_internal_issues as (
+drop table if exists {REPO_TABLE}_internal_issues;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_internal_issues');
+create table {REPO_TABLE}_internal_issues as (
   select 
     i.repository_full_name,
     lower(i.author_login) as author_login,
@@ -300,24 +318,24 @@ create table {REPO}_internal_issues as (
     i.title,
     i.tags
   from    
-    {REPO}_issues i
+    {REPO_TABLE}_issues i
   join
-    {REPO}_internal_issue_filers if
+    {REPO_TABLE}_internal_issue_filers if
   on
     i.author_login = if.author_login
     and i.repository_full_name = if.repository_full_name
   order by author_login
 );
 
-drop table if exists {REPO}_internal_issue_counts;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_internal_issue_counts');
-create table {REPO}_internal_issue_counts as (
+drop table if exists {REPO_TABLE}_internal_issue_counts;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_internal_issue_counts');
+create table {REPO_TABLE}_internal_issue_counts as (
   select 
     i.repository_full_name,
     i.author_login,
     count(*)
   from    
-    {REPO}_internal_issues i
+    {REPO_TABLE}_internal_issues i
   group by
     i.repository_full_name,
     i.author_login
@@ -325,21 +343,21 @@ create table {REPO}_internal_issue_counts as (
     count desc
 );
 
-drop table if exists {REPO}_external_issue_filers;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_issue_filers');
-create table {REPO}_external_issue_filers as (
+drop table if exists {REPO_TABLE}_external_issue_filers;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_issue_filers');
+create table {REPO_TABLE}_external_issue_filers as (
   with unfiltered as (
     select 
       *
     from    
-      {REPO}_issue_filers i 
-    -- use {REPO}_internal_committers as a proxy for {REPO}_internal_issue_filers, which
+      {REPO_TABLE}_issue_filers i 
+    -- use {REPO_TABLE}_internal_committers as a proxy for {REPO_TABLE}_internal_issue_filers, which
     -- would require 52K github_user calls (at 5K/hr)
     where not exists (
       select
         *
       from 
-        {REPO}_internal_committers c
+        {REPO_TABLE}_internal_committers c
       where
         c.author_login = i.author_login
     )
@@ -354,28 +372,28 @@ create table {REPO}_external_issue_filers as (
     not u.author_login = any ( array {EXCLUDE_FROM_EXTERNAL_ISSUES} )
 );
 
-drop table if exists {REPO}_external_issues;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_issues');
-create table {REPO}_external_issues as (
+drop table if exists {REPO_TABLE}_external_issues;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_issues');
+create table {REPO_TABLE}_external_issues as (
   select 
     *
   from    
-    {REPO}_issues i
+    {REPO_TABLE}_issues i
   join
-    {REPO}_external_issue_filers e
+    {REPO_TABLE}_external_issue_filers e
   using
     (repository_full_name, author_login)
 );
 
-drop table if exists {REPO}_external_issue_counts;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_issue_counts');
-create table {REPO}_external_issue_counts as (
+drop table if exists {REPO_TABLE}_external_issue_counts;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_issue_counts');
+create table {REPO_TABLE}_external_issue_counts as (
   select 
     e.repository_full_name,
     e.author_login,
     count(*)
   from    
-    {REPO}_external_issues e
+    {REPO_TABLE}_external_issues e
   group by
     e.repository_full_name,
     e.author_login
@@ -383,36 +401,36 @@ create table {REPO}_external_issue_counts as (
     count desc
 );
 
-drop table if exists {REPO}_external_contributors;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_contributors');
-create table {REPO}_external_contributors as (
+drop table if exists {REPO_TABLE}_external_contributors;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_contributors');
+create table {REPO_TABLE}_external_contributors as (
   select
     c.repository_full_name,
     c.author_login,
-    c.count as {REPO}_commits,
+    c.count as {REPO_TABLE}_commits,
     '{COMMIT_URL_STUB}' || c.author_login as commits_url,
-    i.count as {REPO}_issues,
+    i.count as {REPO_TABLE}_issues,
     '{ISSUE_URL_STUB}' || c.author_login as issues_url,
     cd.name,
     cd.company,
     cd.twitter_username
   from
-    {REPO}_external_commit_counts c
+    {REPO_TABLE}_external_commit_counts c
   full join
-    {REPO}_external_issue_counts i
+    {REPO_TABLE}_external_issue_counts i
   using
     (repository_full_name, author_login)
   join 
-    {REPO}_committer_details cd 
+    {REPO_TABLE}_committer_details cd 
   on 
     c.author_login = cd.login
   order by
     lower(c.author_login)
 );
 
-drop table if exists {REPO}_external_commit_timelines;
-insert into {REPO}_log(time, event) values (now(), '{REPO}_external_commit_timelines');
-create table {REPO}_external_commit_timelines as (
+drop table if exists {REPO_TABLE}_external_commit_timelines;
+insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_external_commit_timelines');
+create table {REPO_TABLE}_external_commit_timelines as (
   with data as (
     select
       e.repository_full_name,
@@ -420,9 +438,9 @@ create table {REPO}_external_commit_timelines as (
       min(c.author_date) as first,
       max(c.author_date) as last
     from
-      {REPO}_external_contributors e
+      {REPO_TABLE}_external_contributors e
     join 
-      {REPO}_commits c
+      {REPO_TABLE}_commits c
     using (repository_full_name, author_login)
     group by 
       e.repository_full_name, e.author_login
@@ -441,5 +459,5 @@ create table {REPO}_external_commit_timelines as (
 );
 """
 
-with open(f'{REPO}.sql', 'w') as f:
+with open(f'{REPO_TABLE}.sql', 'w') as f:
   f.write(sql())

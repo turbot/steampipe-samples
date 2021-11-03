@@ -1,4 +1,4 @@
-In [A Portrait of VSCode's external contributors]() we analyzed internal vs external contributors to VSCode using the `vscode.sql` script here. 
+In [A Portrait of VSCode's external contributors](https://steampipe.io/blog/vscode-analysis) we analyzed internal vs external contributors to VSCode using the `vscode.sql` script here. 
 
 You can run `build-the-script.py` with other settings to analyze another repo. The example provided is for TypeScript (`typescript.sql`), where we found:
 

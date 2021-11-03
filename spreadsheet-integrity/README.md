@@ -14,10 +14,10 @@ In [Writing custom controls to check spreadsheet integrity](https://steampipe.io
 
     - `select * from csv.sessions`
 
-4. steampipe check control.sessions_valid_in_session_table
+4. `steampipe check control.sessions_valid_in_session_table`
 
-5. steampipe check control.sessions_valid_in_people_table
+5. `steampipe check control.sessions_valid_in_people_table`
 
-6. steampipe check all
+6. `steampipe check all`
 
-7. steampipe check all --export event_planning.html
+7. `steampipe check all --export event_planning.html`

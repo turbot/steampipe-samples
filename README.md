@@ -8,4 +8,4 @@ Examples, samples, snippets and scripts to use with Steampipe.
 
 ## spreadsheet-integrity
 
-[This folder](./spreadsheet-integrity) has the ingredients we used to produce [Writing custom controls to check spreadsheet integrity](https://steampipe.io/blog/spreadsheet-integrity).
+[This folder](./spreadsheet-integrity) has the ingredients we used to produce [Using SQL to check spreadsheet integrity](https://steampipe.io/blog/spreadsheet-integrity).

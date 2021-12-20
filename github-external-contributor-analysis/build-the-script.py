@@ -19,14 +19,22 @@ REPO_TABLE = REPO.replace('-','_')
 COMPANY = 'amazon|aws'
 EXCLUDE_FROM_EXTERNAL_COMMITS = "['']"
 EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
+
+ORG_LOGIN = 'tensorflow'
+REPO = 'tensorflow'
+REPO_TABLE = REPO.replace('-','_')
+COMPANY = 'google'
+EXCLUDE_FROM_EXTERNAL_COMMITS = "['']"
+EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
 """
+
 
 # choose one set of vars from above
 
-ORG_LOGIN = 'aws'
-REPO = 'aws-cdk'
+ORG_LOGIN = 'tensorflow'
+REPO = 'tensorflow'
 REPO_TABLE = REPO.replace('-','_')
-COMPANY = 'amazon|aws'
+COMPANY = 'google'
 EXCLUDE_FROM_EXTERNAL_COMMITS = "['']"
 EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
 
@@ -93,6 +101,8 @@ create table {REPO_TABLE}_committers as (
     *
   from 
     unordered
+  where
+    author_login is not null
   order by
     lower(author_login)
 );

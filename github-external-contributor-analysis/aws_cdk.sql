@@ -45,6 +45,8 @@ create table aws_cdk_committers as (
     *
   from 
     unordered
+  where
+    author_login is not null
   order by
     lower(author_login)
 );

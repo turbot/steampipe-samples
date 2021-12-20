@@ -28,7 +28,6 @@ EXCLUDE_FROM_EXTERNAL_COMMITS = "['']"
 EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
 """
 
-
 # choose one set of vars from above
 
 ORG_LOGIN = 'tensorflow'

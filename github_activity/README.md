@@ -226,7 +226,7 @@ To create the function, paste that code into the Steampipe CLI (`steampipe query
 
 Now these queries are possible.
 
-### Issues for user `judell`, in repos matching `turbot`
+### Issues for user 'judell', in repos matching 'turbot'
 
 This does exactly what the above query does.
 
@@ -242,19 +242,19 @@ create materialized view my_github_activity as (
 ) with data;
 ```
 
-### Issues for user `judell` in any repo
+### Issues for user 'judell' in any repo
 
 ```sql
 select * from github_activity('judell','','')
 ```
 
-### Issues for user `rajlearner17` in any `steampipe-mod-*` repo
+### Issues for user 'rajlearner17' in any steampipe-mod repo
 
 ```sql
 select * from github_activity('rajlearner17','steampipe-mod','')
 ```
 
-### Issues matching `nil pointer' for user `kaidaguerre` in any turbot repo
+### Issues matching 'nil pointer' for user 'kaidaguerre' in any turbot repo
 
 ```sql
 select * from github_activity('kaidaguerre','turbot','nil pointer')

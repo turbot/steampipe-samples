@@ -231,7 +231,7 @@ Now these queries are possible.
 This does exactly what the above query does.
 
 ```sql
-select * from github_activity('judell','','')
+select * from github_activity('judell','turbot','')
 ```
 
 It can be cached like so.

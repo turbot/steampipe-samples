@@ -102,7 +102,7 @@ Here are three ways to refine the query:
 
 - Find issues for a different user
 
-- Find issues in repos whose name match a different pattern
+- Find issues in repos whose names match a different pattern
 
 - Find issues whose bodies match a search string 
 

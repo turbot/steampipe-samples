@@ -259,5 +259,7 @@ select * from github_activity('rajlearner17','steampipe-mod','')
 ```sql
 select * from github_activity('kaidaguerre','turbot','nil pointer')
 ```
+### See the examples
 
+![](./github-activity.gif)
 

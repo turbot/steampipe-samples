@@ -196,7 +196,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
 $$ language plpgsql;
 ```
 
-The SQL wrapped in this function uses Postgres [POSIX regular expression match operators](https://www.postgresql.org/docs/ current/functions-matching.html#FUNCTIONS-POSIX-REGEXP): `~` and it's case-insensitive counterpart `~*`. 
+The SQL wrapped in this function uses Postgres [POSIX regular expression match operators](https://www.postgresql.org/docs/current/functions-matching.html#FUNCTIONS-POSIX-REGEXP): `~` and it's case-insensitive counterpart `~*`. 
 
 When you use one of these operators to match a string and the empty string, the result is always true.
 

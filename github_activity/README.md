@@ -222,7 +222,7 @@ select null ~ '' as match;
 
 Anyway, since issue bodies can be null, the `filtered` CTE has to handle both cases. 
 
-To create the function, paste that code into the Steampipe CLI (`steampipe query`) or `psql'.
+To create the function, paste that code into the Steampipe CLI (`steampipe query`) or `psql`.
 
 Now these queries are possible.
 

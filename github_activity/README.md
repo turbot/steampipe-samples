@@ -238,7 +238,7 @@ It can be cached like so.
 
 ```sql
 create materialized view my_github_activity as (
-  select * from github_activity('judell','','')
+  select * from github_activity('judell','turbot','')
 ) with data;
 ```
 

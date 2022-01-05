@@ -12,4 +12,4 @@ Examples, samples, snippets and scripts to use with Steampipe.
 
 ## GitHub user activity
 
-[This folder](./github_activity) shows how the [github_search_issue](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_issue) table enables queries about a user's GitHub activity.
+[This page](./github_activity/README.md) shows how the [github_search_issue](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_issue) table enables queries about a user's GitHub activity.

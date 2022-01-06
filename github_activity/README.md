@@ -1,3 +1,5 @@
+# Using SQL to query GitHub activity
+
 Steampipe's [GitHub plugin](https://hub.steampipe.io/plugins/turbot/github) provides a table, [github_search_issue](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_issue), that leverages GitHub's powerful search syntax. Here are some ways to use it to explore a user's activity.
 
 ## Issues created by a user in a set of repos

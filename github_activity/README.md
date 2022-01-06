@@ -259,7 +259,14 @@ select * from github_activity('rajlearner17','steampipe-mod','')
 ```sql
 select * from github_activity('kaidaguerre','turbot','nil pointer')
 ```
+
 ### See the examples
 
 ![](./github-activity.gif)
+
+### See an example in Tableau
+
+If you connect a visualizer to Steampipe, you can wrap the function in an interactive view. Here's an example of that in Tableau.
+
+![](./in-tableau.gif)
 

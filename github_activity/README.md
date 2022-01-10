@@ -440,3 +440,10 @@ select * from github_activity('kaidaguerre','turbot','nil pointer')
 
 ![](./github-activity.gif)
 
+### Make the function's parameters interactive
+
+If you connect a visualizer to Steampipe, and if the visualizer supports UX for substitutable parameters, then you can make the function's parameters interactive. Here's an example in Tableau. 
+
+![](./in-tableau.gif)
+
+

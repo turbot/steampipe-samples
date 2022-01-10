@@ -68,7 +68,7 @@ with my_created_issues as (
       and html_url ~ 'turbot'
   ),
 
-  my_comments_issues as (
+  my_commenter_issues as (
     select
       html_url,
       title,
@@ -79,7 +79,7 @@ with my_created_issues as (
     from
       github_search_issue
     where
-      query = 'is:issue in:comments judell'
+      query = 'is:issue commenter:judell'
       and html_url ~ 'turbot'
   ),
 
@@ -128,7 +128,7 @@ with my_created_issues as (
       and html_url ~ 'turbot'
   ),
 
-  my_comments_pulls as (
+  my_commenter_pulls as (
     select
       html_url,
       title,
@@ -139,7 +139,7 @@ with my_created_issues as (
     from
       github_search_issue
     where
-      query = 'is:pr in:comments judell'
+      query = 'is:pr commenter:judell'
       and html_url ~ 'turbot'
   ),
 
@@ -150,7 +150,7 @@ with my_created_issues as (
     union
     select * from my_mentioned_issues
     union
-    select * from my_comments_issues
+    select * from my_commenter_issues
     union
     select * from my_created_pulls
     union
@@ -158,7 +158,7 @@ with my_created_issues as (
     union
     select * from my_mentioned_pulls
     union
-    select * from my_comments_pulls
+    select * from my_commenter_pulls
   )
 
   select distinct
@@ -201,7 +201,8 @@ create or replace function github_activity(match_user text, match_repo text, mat
     updated_at timestamptz,
     created_at timestamptz,
     closed_at timestamptz,
-    comments bigint
+    comments bigint,
+    body text
   ) as $$
   begin 
     return query
@@ -253,7 +254,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
             and i.html_url ~ match_repo
         ),
 
-        my_comments_issues as (
+        my_commenter_issues as (
           select
             i.html_url,
             i.title,
@@ -265,7 +266,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
           from
             github_search_issue i
           where
-            i.query = 'is:issue in:comments ' || match_user
+            i.query = 'is:issue commenter:' || match_user
             and i.html_url ~ match_repo
         ),
 
@@ -317,7 +318,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
             and p.html_url ~ match_repo
         ),
 
-        my_comments_pulls as (
+        my_commenter_pulls as (
           select
             p.html_url,
             p.title,
@@ -329,7 +330,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
           from
             github_search_pull_request p
           where
-            p.query = 'is:pr in:comments ' || match_user
+            p.query = 'is:pr commenter:' || match_user
             and p.html_url ~ match_repo
         ),
 
@@ -340,7 +341,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
           union
           select * from my_mentioned_issues
           union
-          select * from my_comments_issues
+          select * from my_commenter_issues
           union
           select * from my_created_pulls
           union
@@ -348,7 +349,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
           union
           select * from my_mentioned_pulls
           union
-          select * from my_comments_pulls
+          select * from my_commenter_pulls
         ),
 
         filtered as (
@@ -363,12 +364,7 @@ create or replace function github_activity(match_user text, match_repo text, mat
         )
 
       select 
-        f.html_url,
-        f.title,
-        f.updated_at,
-        f.created_at,
-        f.closed_at,
-        f.comments
+        *
       from
         filtered f
       order by

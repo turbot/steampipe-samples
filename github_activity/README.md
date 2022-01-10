@@ -1,6 +1,6 @@
 # Using SQL to query GitHub activity
 
-The [GitHub plugin](https://hub.steampipe.io/plugins/turbot/github) provides a table, [github_search_issue](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_issue), that leverages GitHub's powerful search syntax. Here are some ways to use it to explore a user's activity.
+The [GitHub plugin](https://hub.steampipe.io/plugins/turbot/github) provides tables, including [github_search_issue](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_issue) and [github_search_pull_request](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_pull_request), that leverage GitHub's powerful search syntax. Here are some ways to use it to explore a user's activity.
 
 ## Issues created by a user in a set of repos
 

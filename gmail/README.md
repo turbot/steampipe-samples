@@ -3,7 +3,11 @@
 
 https://user-images.githubusercontent.com/46509/152876596-259d1e1f-27f8-48e6-a8ac-e26ab7d1a8b4.mp4
 
+# Overview
 
+This demo uses [steampipe-plugin-googleworkspace](https://hub.steampipe.io/plugins/turbot/googleworkspace), specifically the [gmail_message](https://hub.steampipe.io/plugins/turbot/googleworkspace/tables/googleworkspace_gmail_message) table. As per the examples there, typical uses of the plugin rely on `query=` in the WHERE clause to leverage Gmail's advanced search syntax and thus limit results to what can be fetched quickly from the API. 
+
+It's also possible, as shown here, to load an archive of messages into Steampipe and use Postgres capabilities -- extra columns, indexes, convenience functions -- to enable SQL analysis of the archive.
 
 # Table
 

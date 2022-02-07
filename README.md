@@ -14,10 +14,6 @@ Examples, samples, snippets and scripts to use with Steampipe.
 
 [This page](./github_activity/README.md) shows how the [github_search_issue](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_issue) and [github_search_pull_request](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_pull_request) tables enable queries about a user's GitHub activity.
 
-## GitHub user activity
-
-[This page](./github_activity/README.md) shows how the [github_search_issue](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_issue) and [github_search_pull_request](https://hub.steampipe.io/plugins/turbot/github/tables/github_search_pull_request) tables enable queries about a user's GitHub activity.
-
 ## Querying Gmail
 
 The Google Workspace plugin,  [steampipe-plugin-googleworkspace](https://hub.steampipe.io/plugins/turbot/googleworkspace), includes the [gmail_message](https://hub.steampipe.io/plugins/turbot/googleworkspace/tables/googleworkspace_gmail_message) table. As per the examples there, typical uses of the plugin rely on `query=` in the WHERE clause to leverage Gmail's advanced search syntax and thus limit results to what can be fetched quickly from the API. 

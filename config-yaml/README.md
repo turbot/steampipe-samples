@@ -1,5 +1,8 @@
 Querying structured files has become another Steampipe superpower. First came [CSV](https://hub.steampipe.io/plugins/csv), then [Terraform](https://hub.steampipe.io/plugins/terraform), and now [Config](https://hub.steampipe.io/plugins/config) which enables queries of YAML/JSON/INI config files. This example shows how to query the [OpenAPI example definitions](https://github.com/OAI/OpenAPI-Specification).
 
+https://user-images.githubusercontent.com/46509/154373235-ccda2f1f-b1c0-431f-8cee-bbd6aad7c2d7.mp4
+
+
 ## Install the plugin
 
 ```

@@ -19,3 +19,6 @@ Examples, samples, snippets and scripts to use with Steampipe.
 The Google Workspace plugin,  [steampipe-plugin-googleworkspace](https://hub.steampipe.io/plugins/turbot/googleworkspace), includes the [gmail_message](https://hub.steampipe.io/plugins/turbot/googleworkspace/tables/googleworkspace_gmail_message) table. As per the examples there, typical uses of the plugin rely on `query=` in the WHERE clause to leverage Gmail's advanced search syntax and thus limit results to what can be fetched quickly from the API. 
 
 It's also possible, as shown [here](./gmail/README.md), to load an archive of messages into Steampipe and use Postgres capabilities -- extra columns, indexes, convenience functions -- to enable SQL analysis of the archive.
+## Steampipe introspection
+
+When launched in a directory that contains mod resources, Steampipe builds introspection tables including `steampipe_query`, `steampipe_benchmark`, and `steampipe_control`. [This page](./introspection/README.md) shows how to iterate over a list of mod names, git-clone of them, query those tables, and accumulate counts of those resources in a CSV file.

@@ -80,7 +80,7 @@ order by b.bucket;
 +-----------+-------+
 ```
 
-# Advanced: Using values provide by a function
+# Advanced: Using values provided by a function
 
 Suppose we instead want to bucket annotations by word count. We can repeat the above query with a different `values` CTE.
 
@@ -231,7 +231,7 @@ $$ language plpgsql;
 
 Things to note:
 
-- The other functions use Postgres' basic `sql` language. This one uses `plpgsl` which can dynamically build and run queries. 
+- The other functions use Postgres' basic `sql` language. This one uses `plpgsql` which can dynamically build and run queries. 
 
 - The function body is wrapped in a "dollar-quoted" chunk delimited by `$$`, as is typical. The argument to `format` is nested within the body using an alternate delimiter `$f$`. (It could also be, e.g., `$format$`.)
 

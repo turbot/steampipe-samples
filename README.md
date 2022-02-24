@@ -27,4 +27,8 @@ When launched in a directory that contains mod resources, Steampipe builds intro
 
 Querying structured files has become another Steampipe superpower. First [CSV](https://hub.steampipe.io/plugins/csv), then [Terraform](https://hub.steampipe.io/plugins/terraform), and now [Config](https://hub.steampipe.io/plugins/config) which enables queries of YAML/JSON/INI config files. [This example](./config-yaml/README.md) shows how to query the OpenAPI example definitions at [github.com/OAI/OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification).
 
+## Postgres+Steampipe histograms
+
+Postgres provides a couple of functions that you can  use in combination to [make histograms](https://tapoueh.org/blog/2014/02/postgresql-aggregates-and-histograms/). In [this example](./histogram/README.md) we adapt that approach to Steampipe.
+
 

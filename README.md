@@ -21,7 +21,7 @@ The Google Workspace plugin,  [steampipe-plugin-googleworkspace](https://hub.ste
 It's also possible, as shown [here](./gmail/README.md), to load an archive of messages into Steampipe and use Postgres capabilities -- extra columns, indexes, convenience functions -- to enable SQL analysis of the archive.
 ## Steampipe introspection
 
-When launched in a directory that contains mod resources, Steampipe builds introspection tables including `steampipe_query`, `steampipe_benchmark`, and `steampipe_control`. [This page](./introspection/README.md) shows how to iterate over a list of mod names, git-clone of them, query those tables, and accumulate counts of those resources in a CSV file.
+When launched in a directory that contains mod resources, Steampipe builds introspection tables including `steampipe_query`, `steampipe_benchmark`, and `steampipe_control`. [This page](./introspection/README.md) shows how to iterate over a list of mod names, git-clone one of them, query those tables, and accumulate counts of those resources in a CSV file.
 
 ## Querying OpenAPI definitions
 

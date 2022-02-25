@@ -2,6 +2,19 @@
 
 Examples, samples, snippets and scripts to use with Steampipe.
 
+## Table of Contents
+
+- [Joining CSV and API tables](#joining-csv-and-api-tables)
+- [GitHub external contributor analysis](#github-external-contributor-analysis)
+- [Spreadsheet integrity](#spreadsheet-integrity)
+- [GitHub user activity](#github-user-activity)
+- [Querying Gmail](#querying-gmail)
+- [Steampipe introspection](#steampipe-introspection)
+- [Querying OpenAPI definitions](#querying-openapi-definitions)
+- [Postgres+Steampipe histograms](#postgressteampipe-histograms)
+## Joining CSV and API tables
+
+The scenario: you have a list of service names and IP addresses in a CSV file. You'd like to join that list, on IP address, to AWS resources. [This example](./join-csv-and-api/README.md) shows how.
 ## GitHub external contributor analysis
 
 [This folder](./github-external-contributor-analysis/) has the SQL script we used to produce [A portrait of VSCode's external contributors](https://steampipe.io/blog/vscode-analysis), along with a tool that builds versions of that script for other GitHub repos. 

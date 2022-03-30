@@ -15,8 +15,9 @@ query "metasearch" {
           googleworkspace_gmail_message
         where
           user_id = 'judell@gmail.com'
-          and query = $1
-          limit 5
+          and $1 ~ 'gmail'
+          and query = $2
+          limit $3
       ),
       slack as (
         select
@@ -28,8 +29,9 @@ query "metasearch" {
         from
           slack_search
         where
-          query = 'in:#steampipe after:3/12/2022 ' || $1
-        limit 5
+          $1 ~ 'slack'
+          and query = 'in:#steampipe after:3/12/2022 ' || $2
+        limit $3
       ),
       github_issue as (
         select
@@ -41,8 +43,9 @@ query "metasearch" {
         from
           github_search_issue
         where
-          query = 'org:turbot in:body in:comments' || $1
-        limit 5
+          $1 ~ 'github_issue'
+          and query = 'org:turbot in:body in:comments' || $2
+        limit $3
       ),
       zendesk as (      
         select
@@ -55,8 +58,10 @@ query "metasearch" {
           result ->> 'subject' as content
         from 
           zendesk_search 
-        where query = $1
-        limit 5
+        where 
+          $1 ~ 'zendesk'
+          and query = $2
+        limit $3
       )
 
       select * from gmail
@@ -70,10 +75,22 @@ query "metasearch" {
       order by
         date desc
     EOQ
-    param "search_term" {}    
+    param "sources" {}
+    param "search_term" {}
+    param "max_per_source" {}
 }
 
 dashboard "metasearch" {
+
+  input "sources" {
+    title = "sources"
+    type = "multiselect"
+    width = 4
+    option "gmail" {}
+    option "slack" {}   
+    option "github_issue" {}
+    option "zendesk" {}
+  }  
 
   input "search_term" {
     type = "text"
@@ -81,11 +98,21 @@ dashboard "metasearch" {
     title = "search term"
   }
 
+  input "max_per_source" {
+    title = "max per source"
+    width = 2
+    option "5" {}
+    option "10" {}   
+    option "20" {}
+  }  
+
   table {
     title = "search gmail + slack + github + zendesk"
     query = query.metasearch
     args = {
-      "search_term" = self.input.search_term
+      "sources" = self.input.sources,
+      "search_term" = self.input.search_term,
+      "max_per_source" = self.input.max_per_source
     }
     column "source" {
       wrap = "all"

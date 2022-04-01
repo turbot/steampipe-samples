@@ -44,7 +44,7 @@ query "metasearch" {
           github_search_issue
         where
           $1 ~ 'github_issue'
-          and query = 'org:turbot in:body in:comments' || $2
+          and query = 'org:turbot in:body in:comments ' || $2
         limit $3
       ),
       zendesk as (      

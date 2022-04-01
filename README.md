@@ -10,7 +10,7 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [GitHub external contributor analysis](./all/github-external-contributor-analysis/)
 
 ## Joins
-- [Joining CSV and API tables](./all/joining-csv-and-api)
+- [Joining CSV and API tables](./all/join-csv-and-api)
 - [Querying Gmail](./all/gmail)
 
 ## Spreadsheets

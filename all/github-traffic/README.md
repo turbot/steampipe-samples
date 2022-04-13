@@ -1,6 +1,6 @@
 # GitHub traffic for a set of repos
 
-This dashboard reports data from [github_traffic_view_daily](https://hub.steampipe.io/plugins/turbot/github/tables/  github_traffic_view_daily) as a set of Tuftean [small multiples](https://www.juiceanalytics.com/writing/better-know-visualization-small-multiples) that summarize the last 14 days of GitHub traffic to Steampipe plugins and mods. 
+This dashboard reports data from [github_traffic_view_daily](https://hub.steampipe.io/plugins/turbot/github/tables/github_traffic_view_daily) as a set of Tuftean [small multiples](https://www.juiceanalytics.com/writing/better-know-visualization-small-multiples) that summarize the last 14 days of GitHub traffic to Steampipe plugins and mods. 
 
 - Repos with negligible traffic are excluded.
 

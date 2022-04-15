@@ -117,11 +117,11 @@ dashboard "metasearch" {
   table {
     title = "search gmail + slack + github + gdrive"
     query = query.metasearch
-    args = {
-      "sources" = self.input.sources,
-      "search_term" = self.input.search_term,
-      "max_per_source" = self.input.max_per_source
-    }
+    args = [
+      self.input.sources,
+      self.input.search_term,
+      self.input.max_per_source
+    ]
     column "source" {
       wrap = "all"
     }

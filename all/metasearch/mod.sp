@@ -78,7 +78,6 @@ query "metasearch" {
       union 
       select * from gdrive
 
-
       order by
         date desc
     EOQ

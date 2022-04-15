@@ -1,6 +1,14 @@
 mod "metasearch" {
 }
 
+locals {
+  config  = {
+    gmail_user = "judell@gmail.com"
+    slack_date = "01/01/2022"
+    github_org = "turbot"
+  }
+}
+
 query "metasearch" {
     sql = <<EOQ
       with gmail as (
@@ -14,7 +22,7 @@ query "metasearch" {
         from
           googleworkspace_gmail_message
         where
-          user_id = 'judell@gmail.com'
+          user_id = '${local.config.gmail_user}'
           and $1 ~ 'gmail'
           and query = $2
           limit $3
@@ -25,12 +33,12 @@ query "metasearch" {
           user_name || ' in #' || (channel ->> 'name')::text as source,
           to_char(timestamp, 'YYYY-MM-DD') as date,
           permalink as link,
-          text as content
+          substring(text from 1 for 200) as content
         from
           slack_search
         where
           $1 ~ 'slack'
-          and query = 'in:#steampipe after:3/12/2022 ' || $2
+          and query = 'in:#steampipe after:${local.config.slack_date} ' || $2
         limit $3
       ),
       github_issue as (
@@ -44,7 +52,21 @@ query "metasearch" {
           github_search_issue
         where
           $1 ~ 'github_issue'
-          and query = 'org:turbot in:body in:comments ' || $2
+          and query = ' in:body in:comments org:${local.config.github_org} ' || $2
+        limit $3
+      ),
+      gdrive as (
+        select
+          'gdrive' as type,
+          replace(mime_type,'application/vnd.google-apps.','') as source,
+          to_char(created_time, 'YYYY-MM-DD') as date,
+          'https://docs.google.com/document/d/' || id as link,
+          name as content
+        from
+          googleworkspace_drive_my_file
+        where
+          $1 ~ 'gdrive'
+          and query = 'fullText contains ' || '''' || $2 || ''''
         limit $3
       )
 
@@ -53,6 +75,9 @@ query "metasearch" {
       select * from slack
       union 
       select * from github_issue
+      union 
+      select * from gdrive
+
 
       order by
         date desc
@@ -71,6 +96,7 @@ dashboard "metasearch" {
     option "gmail" {}
     option "slack" {}   
     option "github_issue" {}
+    option "gdrive" {}
   }  
 
   input "search_term" {
@@ -82,13 +108,14 @@ dashboard "metasearch" {
   input "max_per_source" {
     title = "max per source"
     width = 2
+    option "2" {}
     option "5" {}
     option "10" {}   
     option "20" {}
   }  
 
   table {
-    title = "search gmail + slack + github"
+    title = "search gmail + slack + github + gdrive"
     query = query.metasearch
     args = {
       "sources" = self.input.sources,

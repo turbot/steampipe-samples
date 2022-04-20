@@ -48,12 +48,12 @@ dashboard "github_activity" {
     table {
       title = "my team's github activity"
       width = 12
-      args = {
-        "username"       = self.input.username.value
-        "repo_pattern"   = self.input.repo_pattern.value
-        "issue_or_pull"  = self.input.issue_or_pull.value
-        "open_or_closed" = self.input.open_or_closed.value
-      }
+      args = [
+        self.input.username.value,
+        self.input.repo_pattern.value,
+        self.input.issue_or_pull.value,
+        self.input.open_or_closed.value
+      ]
       sql = <<EOT
         select
             html_url,

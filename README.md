@@ -16,8 +16,9 @@ Examples, samples, snippets and scripts to use with Steampipe.
 ## Spreadsheets
 - [Spreadsheet integrity](./all/spreadsheet-integrity)
 
-## Steampipe
+## Steampipe introspection
 - [Steampipe introspection](./all/introspection)
+- [Dashboards + introspection](./all/controls-with-descriptions/)
 
 ## Visualization
 - [Postgres+Steampipe histograms](./all/histogram)

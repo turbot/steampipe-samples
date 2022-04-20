@@ -27,5 +27,6 @@ The `source_definition` column of `steampipe_control` has the Postgres type `tex
 Links back to the hub are accomplished using the [HCL href argument with a jq template](https://steampipe.io/docs/reference/mod-resources/table#jq-templates), in combination with HCL variable interpolation of a [local variable](https://steampipe.io/docs/reference/mod-resources/locals).
 
 
-https://user-images.githubusercontent.com/46509/164294598-a2cdd7b7-7666-4858-b47e-cd9c87f03c5a.mp4
+https://user-images.githubusercontent.com/46509/164295189-10413a09-409e-4186-bb58-c51df18fa413.mp4
+
 

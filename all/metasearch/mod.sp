@@ -13,7 +13,7 @@ query "metasearch" {
     sql = <<EOQ
       with gmail as (
         select
-          $1 as type,
+          'gmail' as type,
           sender_email as source,
           to_char(internal_date, 'YYYY-MM-DD') as date,
           'https://mail.google.com/mail/u/0/#search/%22' || (regexp_match(snippet, '(^.{20,20}[^\s]+)'))[1] || '%22' as link,
@@ -29,7 +29,7 @@ query "metasearch" {
       ),
       slack as (
         select
-          $1 as type,
+          'slack' as type,
           user_name || ' in #' || (channel ->> 'name')::text as source,
           to_char(timestamp, 'YYYY-MM-DD') as date,
           permalink as link,
@@ -43,7 +43,7 @@ query "metasearch" {
       ),
       github_issue as (
         select
-          $1 as type,
+          'github_issue' as type,
           repository_full_name || ' ' || title as source,
           to_char(created_at, 'YYYY-MM-DD') as date,
           html_url as link,
@@ -57,7 +57,7 @@ query "metasearch" {
       ),
       gdrive as (
         select
-          $1 as type,
+          'gdrive' as type,
           replace(mime_type,'application/vnd.google-apps.','') as source,
           to_char(created_time, 'YYYY-MM-DD') as date,
           'https://docs.google.com/document/d/' || id as link,

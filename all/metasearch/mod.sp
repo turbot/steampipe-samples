@@ -3,7 +3,6 @@ mod "metasearch" {
 
 locals {
   config  = {
-    gmail_user = "judell@gmail.com"
     slack_date = "01/01/2022"
     github_org = "turbot"
   }
@@ -11,23 +10,7 @@ locals {
 
 query "metasearch" {
     sql = <<EOQ
-      with gmail as (
-        select
-          'gmail' as type,
-          sender_email as source,
-          to_char(internal_date, 'YYYY-MM-DD') as date,
-          'https://mail.google.com/mail/u/0/#search/%22' || (regexp_match(snippet, '(^.{20,20}[^\s]+)'))[1] || '%22' as link,
-                --  still unhandled, e.g. "Here&#39;s the signing request"
-          snippet as content
-        from
-          googleworkspace_gmail_message
-        where
-          user_id = '${local.config.gmail_user}'
-          and $1 ~ 'gmail'
-          and query = $2
-          limit $3
-      ),
-      slack as (
+      with slack as (
         select
           'slack' as type,
           user_name || ' in #' || (channel ->> 'name')::text as source,
@@ -70,8 +53,6 @@ query "metasearch" {
         limit $3
       )
 
-      select * from gmail
-      union 
       select * from slack
       union 
       select * from github_issue
@@ -92,7 +73,6 @@ dashboard "metasearch" {
     title = "sources"
     type = "multiselect"
     width = 4
-    option "gmail" {}
     option "slack" {}   
     option "github_issue" {}
     option "gdrive" {}
@@ -114,7 +94,7 @@ dashboard "metasearch" {
   }  
 
   table {
-    title = "search gmail + slack + github + gdrive"
+    title = "search slack + github + gdrive"
     query = query.metasearch
     args = [
       self.input.sources,

@@ -74,8 +74,21 @@ dashboard "hcl_dashboard_patterns" {
       title = "parameterized query object"
       query = query.parameterized_query_object
       args = [
-          local.foo
+        local.foo
       ]
+ 
+      // When there is only one you can also do this.
+
+      // args = [ local.foo ]
+
+      // But when >1 it's like this:
+
+      // args = [
+      //   local.foo,
+      //   local.bar       
+      // ]
+
+
       // This is not an error, but has no effect.
       param "param" {} 
     }
@@ -101,9 +114,8 @@ dashboard "hcl_dashboard_patterns" {
       width = 4
       title = "use parameterized sql file"
       sql = query.parameterized_sql_file.sql
-      args = [
-        local.foo
-      ]
+      args = [ local.foo ]
+
       // This is not an error, but has no effect.
       param "param" {}
     }

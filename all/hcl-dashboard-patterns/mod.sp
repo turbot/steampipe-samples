@@ -104,6 +104,7 @@ dashboard "hcl_dashboard_patterns" {
       args = [
         local.foo
       ]
+      // This is not an error, but has no effect.
       param "param" {}
     }
 

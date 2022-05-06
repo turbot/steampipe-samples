@@ -1,0 +1,1 @@
+select 'plain sql file' as data

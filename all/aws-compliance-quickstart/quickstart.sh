@@ -1,0 +1,46 @@
+cd ~
+
+PS3='Choose a benchmark to run: '
+
+plugins=`steampipe plugin list`
+aws_plugin="turbot/aws"
+if [[ "$plugins" == *"$aws_plugin"* ]]; then
+  echo "The AWS plugin is installed"
+else
+  echo "Installing the AWS plugin"
+  steampipe plugin install aws
+fi
+
+aws_compliance_mod="steampipe-mod-aws-compliance"
+if test -e $aws_compliance_mod; then
+  echo "The AWS Compliance mod is installed"
+else
+  echo "Installing the AWS Compliance mod"
+  git clone https://github.com/turbot/$aws_compliance_mod
+fi
+
+cd ./$aws_compliance_mod
+
+
+options=(
+  audit_manager_control_tower
+  cis_v130
+  cis_v140
+  foundational_security
+  gdpr
+  hipaa
+  nist_800_53_rev_4
+  nist_csf
+  pci_v321
+  rbi_cyber_security
+  soc_2
+)
+
+select opt in "${options[@]}"
+
+do
+  steampipe check benchmark.$opt
+  exit
+done
+
+

@@ -16,10 +16,10 @@ if test -e $aws_compliance_mod; then
   echo "The AWS Compliance mod is installed"
 else
   echo "Installing the AWS Compliance mod"
-  git clone https://github.com/turbot/$aws_compliance_mod
+  git clone https://github.com/turbot/steampipe-mod-aws-compliance
 fi
 
-cd ./$aws_compliance_mod
+cd steampipe-mod-aws-compliance
 
 
 options=(
@@ -39,7 +39,7 @@ options=(
 select opt in "${options[@]}"
 
 do
-  steampipe check benchmark.$opt
+  steampipe check aws_compliance.benchmark.$opt
   exit
 done
 

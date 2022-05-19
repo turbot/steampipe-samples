@@ -6,7 +6,7 @@ This quickstart script will:
 
 2. Check if the AWS Compliance mod is installed, and if not, install it.
 
-3. Present a menu of 11 benchmarks you can run.
+3. Present a menu of 13 benchmarks you can run.
 
 ```
 ./quickstart.sh

@@ -26,6 +26,8 @@ options=(
   audit_manager_control_tower
   cis_v130
   cis_v140
+  fedramp_low_rev_4
+  fedramp_moderate_rev_4
   foundational_security
   gdpr
   hipaa

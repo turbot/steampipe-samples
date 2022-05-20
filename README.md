@@ -6,6 +6,7 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [AWS Compliance Quickstart](./all/aws-compliance-quickstart)
 
 ## Dashboards
+- [Avatars](./all/github-avatars)
 - [HCL patterns](./all/hcl-dashboard-patterns)
 
 ## Files to Tables

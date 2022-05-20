@@ -2,6 +2,12 @@
 
 Examples, samples, snippets and scripts to use with Steampipe.
 
+## Benchmarks
+- [AWS Compliance Quickstart](./all/aws-compliance-quickstart)
+
+## Dashboards
+- [HCL patterns](./all/hcl-dashboard-patterns)
+
 ## Files to Tables
 - [Querying OpenAPI definitions](./all/config-yaml)
 

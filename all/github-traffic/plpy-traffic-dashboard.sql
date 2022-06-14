@@ -9,6 +9,8 @@ create or replace procedure traffic() as $$
       query = 'steampipe in:name -org:turbotio -org:turbothq '
     and
       full_name ~ 'turbot/steampipe-(plugin|mod)'
+    and
+      not full_name ~ 'reddit'
     """
   rows = plpy.execute(sql)
 

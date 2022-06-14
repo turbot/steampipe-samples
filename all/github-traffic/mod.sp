@@ -12,7 +12,7 @@
 	        title = "turbot/aws"
 	        axes {
 	          y {
-	              max = 25
+	              max = 69
 	            }
 	          }
 	        sql = <<EOT
@@ -30,10 +30,31 @@
 	    
 	      chart {
 	        width = 2
+	        title = "turbot/panos"
+	        axes {
+	          y {
+	              max = 69
+	            }
+	          }
+	        sql = <<EOT
+	          select
+	            to_char(timestamp, 'MM-DD'),
+	            uniques
+	          from
+	            github_traffic_view_daily
+	          where
+	            repository_full_name = 'turbot/steampipe-plugin-panos'
+	          order by
+	            timestamp;    
+	        EOT
+	      }
+	    
+	      chart {
+	        width = 2
 	        title = "turbot/azure"
 	        axes {
 	          y {
-	              max = 25
+	              max = 69
 	            }
 	          }
 	        sql = <<EOT
@@ -51,10 +72,52 @@
 	    
 	      chart {
 	        width = 2
+	        title = "turbot/github"
+	        axes {
+	          y {
+	              max = 69
+	            }
+	          }
+	        sql = <<EOT
+	          select
+	            to_char(timestamp, 'MM-DD'),
+	            uniques
+	          from
+	            github_traffic_view_daily
+	          where
+	            repository_full_name = 'turbot/steampipe-plugin-github'
+	          order by
+	            timestamp;    
+	        EOT
+	      }
+	    
+	      chart {
+	        width = 2
+	        title = "turbot/kubernetes"
+	        axes {
+	          y {
+	              max = 69
+	            }
+	          }
+	        sql = <<EOT
+	          select
+	            to_char(timestamp, 'MM-DD'),
+	            uniques
+	          from
+	            github_traffic_view_daily
+	          where
+	            repository_full_name = 'turbot/steampipe-plugin-kubernetes'
+	          order by
+	            timestamp;    
+	        EOT
+	      }
+	    
+	      chart {
+	        width = 2
 	        title = "turbot/oci"
 	        axes {
 	          y {
-	              max = 25
+	              max = 69
 	            }
 	          }
 	        sql = <<EOT
@@ -75,7 +138,7 @@
 	        title = "turbot/sdk"
 	        axes {
 	          y {
-	              max = 25
+	              max = 69
 	            }
 	          }
 	        sql = <<EOT
@@ -93,52 +156,10 @@
 	    
 	      chart {
 	        width = 2
-	        title = "turbot/alicloud"
-	        axes {
-	          y {
-	              max = 25
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-plugin-alicloud'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/github"
-	        axes {
-	          y {
-	              max = 25
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-plugin-github'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
 	        title = "turbot/gcp"
 	        axes {
 	          y {
-	              max = 25
+	              max = 69
 	            }
 	          }
 	        sql = <<EOT
@@ -156,10 +177,10 @@
 	    
 	      chart {
 	        width = 2
-	        title = "turbot/snowflake"
+	        title = "turbot/terraform"
 	        axes {
 	          y {
-	              max = 25
+	              max = 69
 	            }
 	          }
 	        sql = <<EOT
@@ -169,112 +190,7 @@
 	          from
 	            github_traffic_view_daily
 	          where
-	            repository_full_name = 'turbot/steampipe-plugin-snowflake'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/net"
-	        axes {
-	          y {
-	              max = 25
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-plugin-net'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/csv"
-	        axes {
-	          y {
-	              max = 25
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-plugin-csv'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/kubernetes"
-	        axes {
-	          y {
-	              max = 25
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-plugin-kubernetes'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/azuread"
-	        axes {
-	          y {
-	              max = 25
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-plugin-azuread'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/slack"
-	        axes {
-	          y {
-	              max = 25
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-plugin-slack'
+	            repository_full_name = 'turbot/steampipe-plugin-terraform'
 	          order by
 	            timestamp;    
 	        EOT
@@ -290,7 +206,7 @@
 	        title = "turbot/aws-compliance"
 	        axes {
 	          y {
-	              max = 23
+	              max = 20
 	            }
 	          }
 	        sql = <<EOT
@@ -311,7 +227,7 @@
 	        title = "turbot/aws-insights"
 	        axes {
 	          y {
-	              max = 23
+	              max = 20
 	            }
 	          }
 	        sql = <<EOT
@@ -329,31 +245,10 @@
 	    
 	      chart {
 	        width = 2
-	        title = "turbot/azure-compliance"
-	        axes {
-	          y {
-	              max = 23
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-mod-azure-compliance'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
 	        title = "turbot/aws-thrifty"
 	        axes {
 	          y {
-	              max = 23
+	              max = 20
 	            }
 	          }
 	        sql = <<EOT
@@ -371,10 +266,10 @@
 	    
 	      chart {
 	        width = 2
-	        title = "turbot/alicloud-insights"
+	        title = "turbot/kubernetes-insights"
 	        axes {
 	          y {
-	              max = 23
+	              max = 20
 	            }
 	          }
 	        sql = <<EOT
@@ -384,7 +279,7 @@
 	          from
 	            github_traffic_view_daily
 	          where
-	            repository_full_name = 'turbot/steampipe-mod-alicloud-insights'
+	            repository_full_name = 'turbot/steampipe-mod-kubernetes-insights'
 	          order by
 	            timestamp;    
 	        EOT
@@ -392,10 +287,10 @@
 	    
 	      chart {
 	        width = 2
-	        title = "turbot/azure-insights"
+	        title = "turbot/azure-compliance"
 	        axes {
 	          y {
-	              max = 23
+	              max = 20
 	            }
 	          }
 	        sql = <<EOT
@@ -405,7 +300,49 @@
 	          from
 	            github_traffic_view_daily
 	          where
-	            repository_full_name = 'turbot/steampipe-mod-azure-insights'
+	            repository_full_name = 'turbot/steampipe-mod-azure-compliance'
+	          order by
+	            timestamp;    
+	        EOT
+	      }
+	    
+	      chart {
+	        width = 2
+	        title = "turbot/terraform-oci-compliance"
+	        axes {
+	          y {
+	              max = 20
+	            }
+	          }
+	        sql = <<EOT
+	          select
+	            to_char(timestamp, 'MM-DD'),
+	            uniques
+	          from
+	            github_traffic_view_daily
+	          where
+	            repository_full_name = 'turbot/steampipe-mod-terraform-oci-compliance'
+	          order by
+	            timestamp;    
+	        EOT
+	      }
+	    
+	      chart {
+	        width = 2
+	        title = "turbot/oci-compliance"
+	        axes {
+	          y {
+	              max = 20
+	            }
+	          }
+	        sql = <<EOT
+	          select
+	            to_char(timestamp, 'MM-DD'),
+	            uniques
+	          from
+	            github_traffic_view_daily
+	          where
+	            repository_full_name = 'turbot/steampipe-mod-oci-compliance'
 	          order by
 	            timestamp;    
 	        EOT
@@ -416,7 +353,7 @@
 	        title = "turbot/gcp-compliance"
 	        axes {
 	          y {
-	              max = 23
+	              max = 20
 	            }
 	          }
 	        sql = <<EOT
@@ -434,10 +371,10 @@
 	    
 	      chart {
 	        width = 2
-	        title = "turbot/snowflake-compliance"
+	        title = "turbot/ibm-insights"
 	        axes {
 	          y {
-	              max = 23
+	              max = 20
 	            }
 	          }
 	        sql = <<EOT
@@ -447,49 +384,7 @@
 	          from
 	            github_traffic_view_daily
 	          where
-	            repository_full_name = 'turbot/steampipe-mod-snowflake-compliance'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/gcp-insights"
-	        axes {
-	          y {
-	              max = 23
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-mod-gcp-insights'
-	          order by
-	            timestamp;    
-	        EOT
-	      }
-	    
-	      chart {
-	        width = 2
-	        title = "turbot/net-insights"
-	        axes {
-	          y {
-	              max = 23
-	            }
-	          }
-	        sql = <<EOT
-	          select
-	            to_char(timestamp, 'MM-DD'),
-	            uniques
-	          from
-	            github_traffic_view_daily
-	          where
-	            repository_full_name = 'turbot/steampipe-mod-net-insights'
+	            repository_full_name = 'turbot/steampipe-mod-ibm-insights'
 	          order by
 	            timestamp;    
 	        EOT

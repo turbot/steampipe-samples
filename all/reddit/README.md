@@ -13,5 +13,7 @@ This mod defines two dashboards.
 3. `steampipe dashboard`
 4. Visit localhost:9194
 
+# Demo
 
+https://user-images.githubusercontent.com/46509/173660378-c5f629c7-345e-4b75-9495-08d103faa70c.mp4
 

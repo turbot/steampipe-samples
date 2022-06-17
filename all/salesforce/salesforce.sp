@@ -103,7 +103,46 @@ dashboard "salesforce" {
     
   }
 
-  // https://turbothqindiaprivateltd-dev-ed.lightning.force.com/lightning/r/Event/00U5j00000FkDt6EAF/view
+  container {
+
+    title = "Leads"
+
+    chart {
+      width = 6
+      type = "donut"
+      title = "by status"
+      sql = <<EOQ
+        select
+          status,
+          count(*)
+        from 
+          salesforce_lead
+        group by
+          status
+      EOQ
+    }
+
+    table {
+      width = 6
+      title = "hot"
+      sql = <<EOQ
+        select
+          name,
+          '${local.lightning}r/Lead/' || id || '/view' as link
+        from 
+          salesforce_lead
+        where 
+          status = 'Working - Contacted'
+          and rating = 'Hot'
+      EOQ
+      column "link" {
+       wrap = "all"
+      }
+    }
+
+    
+  }
+
 
   container {
     title = "Today's Events"

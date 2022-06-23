@@ -33,6 +33,10 @@ dashboard "salesforce" {
       EOQ
     }
 
+  }
+
+  container {
+
     card {
       width = 2
       sql = <<EOQ
@@ -86,17 +90,17 @@ dashboard "salesforce" {
     chart {
       width = 5
       type = "donut"
-      title = "by lead title"
+      title = "by lead department"
       sql = <<EOQ
         select
-          title,
+          department,
           count(*)
         from 
           salesforce_contact
         where 
-          title is not null
+          department is not null
         group by
-          title
+          department
       EOQ
     }
 
@@ -165,8 +169,8 @@ dashboard "salesforce" {
           salesforce_contact c on e.who_id = c.id
         join
           salesforce_user u on e.owner_id = u.id
-        where
-          e.start_date_time::date = current_date
+        --where
+          --e.start_date_time::date = current_date
         order by 
           e.start_date_time desc
       EOQ
@@ -175,7 +179,21 @@ dashboard "salesforce" {
       }
     }
 
+  }
+
+  container {
+    title = "Products"
+
+    table {
+      sql = <<EOQ
+        select 
+          *
+        from
+          salesforce_product
+      EOQ
+    }
 
   }
+
 
 }

@@ -1,4 +1,4 @@
-# Sales dashboards
+# Salesforce dashboards
 
 This mod defines one dashboard that includes:
 

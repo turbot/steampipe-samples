@@ -1,3 +1,7 @@
+locals {
+  lightning = "https://turbothqindiaprivateltd-dev-ed.lightning.force.com/lightning/"
+}
+
 dashboard "salesforce" {
 
   tags = {
@@ -5,6 +9,8 @@ dashboard "salesforce" {
   }
 
   container {
+
+    title = "Quick facts"
 
     card {
       width = 2
@@ -27,15 +33,47 @@ dashboard "salesforce" {
       EOQ
     }
 
-    
   }
 
   container {
 
+    card {
+      width = 2
+      sql = <<EOQ
+        select count(*)  as "Q1 opportunities"
+
+        from
+          salesforce_opportunity
+        where
+          not is_won 
+          and forecast_category = 'Pipeline'
+          and fiscal_year::text = to_char(now(), 'YYYY')
+      EOQ
+    }
+
+    card {
+      width = 2
+      sql = <<EOQ
+        select count(*) as "Q1 wins"
+        from
+          salesforce_opportunity
+        where
+          is_won
+          and fiscal_year::text = to_char(now(), 'YYYY')
+          and fiscal_quarter = 1
+      EOQ
+    }
+
+  }
+
+  container {
+
+    title = "Contacts"
+
     chart {
-      width = 4
+      width = 5
       type = "donut"
-      title = "contacts by lead source"
+      title = "by lead source"
       sql = <<EOQ
         select
           lead_source,
@@ -49,89 +87,113 @@ dashboard "salesforce" {
       EOQ
     }
 
-    container {
-      width = 8
+    chart {
+      width = 5
+      type = "donut"
+      title = "by lead department"
+      sql = <<EOQ
+        select
+          department,
+          count(*)
+        from 
+          salesforce_contact
+        where 
+          department is not null
+        group by
+          department
+      EOQ
+    }
 
-      input "search_name" {
-        title = "search names"
-        width = 3
-        type = "text"
-        placeholder = "Any"
+    
+  }
+
+  container {
+
+    title = "Leads"
+
+    chart {
+      width = 6
+      type = "donut"
+      title = "by status"
+      sql = <<EOQ
+        select
+          status,
+          count(*)
+        from 
+          salesforce_lead
+        group by
+          status
+      EOQ
+    }
+
+    table {
+      width = 6
+      title = "hot"
+      sql = <<EOQ
+        select
+          name,
+          '${local.lightning}r/Lead/' || id || '/view' as link
+        from 
+          salesforce_lead
+        where 
+          status = 'Working - Contacted'
+          and rating = 'Hot'
+      EOQ
+      column "link" {
+       wrap = "all"
       }
+    }
 
-      input "lead_source" {
-        title = "by lead_source"
-        width = 3
-        type = "select"
-        sql = <<EOQ
-          with data as (
-            select 
-              lead_source,
-              count(*)
-            from
-              salesforce_contact
-            where
-              lead_source is not null
-            group by
-              lead_source
-          )
-          select
-            'All (' || (select count(*) from data) || ')' as label,
-            'All' as value
-          union
-          select
-            lead_source || ' (' || count || ')' as label,
-            lead_source as value
-          from 
-            data
-          order by label
-        EOQ
+    
+  }
+
+
+  container {
+    title = "Today's Events"
+
+    table {
+      sql = <<EOQ
+        select 
+          '${local.lightning}r/Event/' || e.id || '/view' as link,
+          e.start_date_time,
+          e.subject,
+          e.location,
+          u.name as owner_name,
+          a.name as account_name,
+          c.name as contact_name
+        from
+          salesforce_event e
+        join
+          salesforce_account a on e.account_id = a.id
+        join
+          salesforce_contact c on e.who_id = c.id
+        join
+          salesforce_user u on e.owner_id = u.id
+        --where
+          --e.start_date_time::date = current_date
+        order by 
+          e.start_date_time desc
+      EOQ
+      column "link" {
+        wrap = "all"
       }
-
-      table {
-        args = [
-          self.input.lead_source
-        ]
-        sql = <<EOQ
-          select 
-            name,
-            title,
-            lead_source,
-            created_date
-          from
-            salesforce_contact
-          where
-            lead_source = 
-              case 
-                when $1 ~ '^All' then ''
-                else $1
-              end
-          order by 
-            created_date desc
-        EOQ
-      }
-
     }
 
   }
 
+  container {
+    title = "Products"
 
-  table {
-    sql = <<EOQ
-      select * from salesforce_product
-    EOQ
+    table {
+      sql = <<EOQ
+        select 
+          *
+        from
+          salesforce_product
+      EOQ
+    }
+
   }
 
-  table {
-    sql = <<EOQ
-      select * from salesforce_user
-    EOQ
-  }
-
-  table {
-    sql = <<EOQ
-      select * from salesforce_user
-    EOQ
-  }
 
 }

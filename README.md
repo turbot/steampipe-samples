@@ -10,6 +10,7 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [HCL patterns](./all/hcl-dashboard-patterns)
 - [Hypothesis dashboards](/./all/hypothesis/)
 - [Reddit dashboards](./all/reddit/)
+- [Salesforce dashboard](./all/salesforce/)
 
 ## Files to Tables
 - [Querying OpenAPI definitions](./all/config-yaml)

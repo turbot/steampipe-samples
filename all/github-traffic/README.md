@@ -32,3 +32,7 @@ sudo -u root psql -d steampipe -h localhost -p 9193
 ```
 
 (https://stackoverflow.com/questions/2848704/postgresql-running-python-stored-procedures-as-a-normal-user)
+
+# Demo
+
+![](./repo-traffic-small-multiples.png)

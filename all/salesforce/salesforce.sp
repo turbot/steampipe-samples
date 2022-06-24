@@ -68,6 +68,46 @@ dashboard "salesforce" {
 
   container {
 
+    title = "Leads"
+
+    chart {
+      width = 5
+      type = "donut"
+      title = "by status"
+      sql = <<EOQ
+        select
+          status,
+          count(*)
+        from 
+          salesforce_lead
+        group by
+          status
+      EOQ
+    }
+
+    table {
+      width = 7
+      title = "hot"
+      sql = <<EOQ
+        select
+          name,
+          id as link
+        from 
+          salesforce_lead
+        where 
+          status = 'Working - Contacted'
+          and rating = 'Hot'
+      EOQ
+      column "link" {
+         wrap = "all"
+         href = "${local.lightning}r/Lead/{{.'link'}}"
+      }
+    }
+    
+  }
+
+  container {
+
     title = "Contacts"
 
     chart {
@@ -76,14 +116,14 @@ dashboard "salesforce" {
       title = "by lead source"
       sql = <<EOQ
         select
-          lead_source,
+          title,
           count(*)
         from 
           salesforce_contact
         where
-          lead_source is not null
+          title is not null
         group by
-          lead_source
+          title
       EOQ
     }
 
@@ -104,47 +144,41 @@ dashboard "salesforce" {
       EOQ
     }
 
-    
-  }
-
-  container {
-
-    title = "Leads"
-
-    chart {
+    table {
       width = 6
-      type = "donut"
-      title = "by status"
+      title = "recent tweets"
       sql = <<EOQ
+        with base as (
+          select 
+            name,
+            (regexp_matches(description, 'twitter: (\w+)'))[1] as twitter_handle
+          from 
+            salesforce_contact
+          where
+            description is not null 
+            and description ~ 'twitter'
+        )
         select
-          status,
-          count(*)
+          b.name,
+          b.twitter_handle,
+          (select user_id from twitter_user where username = b.twitter_handle) as twitter_id
         from 
-          salesforce_lead
-        group by
-          status
+          base b
+        join 
+          twitter_user t 
+        on 
+          b.twitter_handle = t.username
       EOQ
-    }
+    }  
 
     table {
       width = 6
-      title = "hot"
+      title = "recent commits"
       sql = <<EOQ
-        select
-          name,
-          '${local.lightning}r/Lead/' || id || '/view' as link
-        from 
-          salesforce_lead
-        where 
-          status = 'Working - Contacted'
-          and rating = 'Hot'
       EOQ
-      column "link" {
-       wrap = "all"
-      }
-    }
+    }  
 
-    
+
   }
 
 

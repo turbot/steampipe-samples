@@ -23,4 +23,5 @@ As shown in the demo, it is fast and easy to rewire these widgets.
 
 # Demo
 
+https://user-images.githubusercontent.com/46509/175434651-8bb8bc5c-7acc-40ed-8845-e2b06bb1558f.mp4
 

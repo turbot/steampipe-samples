@@ -2,8 +2,74 @@ mod "hackernews" {
   title = "hackernews"
 }
 
+locals {
+  companies = [ 
+    "Amazon",
+    "AMD",
+    "Apple",
+    "CloudFlare",
+    "Facebook",
+    "Google",
+    "Intel",
+    "Microsoft",
+    "Netflix",
+    "Tesla",
+    "Toshiba",
+    "Twitter",
+    "SpaceX",
+    "Sony",
+    "Stripe"  
+  ]
+  languages = [
+      "C#",
+      "C\\+\\+",
+      "CSS",
+      "Erlang",
+      "golang",
+      "Haskell",
+      "HTML",
+      "Java ",
+      "JavaScript",
+      "JSON",
+      "PHP",
+      "Python",
+      "Rust",
+      "SQL",
+      "Swift",
+      "TypeScript",
+      "WebAssembly|WASM",
+      "XML"
+  ]
+  operating_systems = [
+    "Android",
+    "iOS",
+    "Linux",
+    "macOS",
+    "Windows"
+  ]
+  clouds = [
+    "AWS",
+    "Azure",
+    "Google Cloud|GCP"  
+  ]
+  dbs = [
+    "DB2",
+    "Citus",
+    "CouchDB",
+    "MongoDB",
+    "MySQL|MariaDB",
+    "Oracle",
+    "Postgres",
+    "Redis",
+    "SQL Server",
+    "Timescale",
+    "SQLite",
+    "Yugabyte"
+  ]
+}
+
 chart "companies_base" {
-  series "company_mentions" {
+  series "mentions" {
     point "Amazon" {
       color = "Purple"
     }
@@ -53,7 +119,7 @@ chart "companies_base" {
 }
 
 chart "languages_base" {
-  series "language_mentions" {
+  series "mentions" {
     point "C#" {
       color = "#823085"
     }
@@ -112,7 +178,7 @@ chart "languages_base" {
 }
 
 chart "os_base" {
-  series "os_mentions" {
+  series "mentions" {
     point "Android" {
       color = "green"
     }
@@ -132,7 +198,7 @@ chart "os_base" {
 }
 
 chart "cloud_base" {
-  series "cloud_mentions" {
+  series "mentions" {
     point "AWS" {
       color = "brown"
     }
@@ -146,7 +212,7 @@ chart "cloud_base" {
 }
 
 chart "db_base" {
-  series "db_mentions" {
+  series "mentions" {
     point "DB2" {
       color = "brown"
     }
@@ -191,8 +257,8 @@ dashboard "animated_company_mentions" {
       width = 8
       type = "donut"
       title = "companies mentioned: 24 to 12 hours ago" // companies
-      query = query.hn_companies_mentioned
-      args = [ 1440, 720 ] // companies
+      query = query.mentions
+      args = [ local.companies, 1440, 720 ] // companies
     }
 
     text {
@@ -459,8 +525,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "companies mentioned: last 4 hours"
-      query = query.hn_companies_mentioned
-      args = [ 240, 0 ]
+      query = query.mentions
+      args = [ local.companies, 240, 0 ]
     }
 
     chart {
@@ -468,8 +534,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "companies mentioned: last 24 hours"
-      query = query.hn_companies_mentioned
-      args = [ 1440, 0 ]
+      query = query.mentions
+      args = [ local.companies, 1440, 0 ]
     }
 
     chart {
@@ -477,8 +543,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "companies mentioned: last 7 days"
-      query = query.hn_companies_mentioned
-      args = [ 10080, 0 ] 
+      query = query.mentions
+      args = [ local.companies, 10080, 0 ] 
     }
 
   }
@@ -490,8 +556,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "languages mentioned: last 4 hours"
-      query = query.hn_languages_mentioned
-      args = [ 240, 0 ]
+      query = query.mentions
+      args = [ local.languages, 240, 0 ]
     }
 
     chart {
@@ -499,8 +565,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "languages mentioned: last 24 hours"
-      query = query.hn_languages_mentioned
-      args = [ 1440, 0 ]
+      query = query.mentions
+      args = [ local.languages, 1440, 0 ]
     }
 
     chart {
@@ -508,8 +574,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "languages mentioned: last 7 days"
-      query = query.hn_languages_mentioned
-      args = [ 10080, 0 ]
+      query = query.mentions
+      args = [ local.languages, 10080, 0 ]
     }
 
   }
@@ -521,8 +587,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "os mentions: last 4 hours"
-      query = query.os_mentions
-      args = [ 240, 0 ]
+      query = query.mentions
+      args = [ local.operating_systems, 240, 0 ]
     }
 
     chart {
@@ -530,8 +596,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "os mentions: last 24 hours"
-      query = query.os_mentions
-      args = [ 1440, 0 ]
+      query = query.mentions
+      args = [ local.operating_systems, 1440, 0 ]
     }
 
     chart {
@@ -539,8 +605,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "os mentions: last 7 days"
-      query = query.os_mentions
-      args = [ 10080, 0 ]
+      query = query.mentions
+      args = [ local.operating_systems, 10080, 0 ]
     }
 
   }
@@ -552,8 +618,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "clouds mentioned: last 4 hours"
-      query = query.cloud_mentions
-      args = [ 240, 0 ]
+      query = query.mentions
+      args = [ local.clouds, 240, 0 ]
     }
 
     chart {
@@ -561,8 +627,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "clouds mentioned: last 24 hours"
-      query = query.cloud_mentions
-      args = [ 1440, 0 ]
+      query = query.mentions
+      args = [ local.clouds, 1440, 0 ]
     }
 
     chart {
@@ -570,8 +636,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "clouds mentioned: last 7 days"
-      query = query.cloud_mentions
-      args = [ 10080, 0 ] 
+      query = query.mentions
+      args = [ local.clouds, 10080, 0 ] 
     }
 
   }
@@ -582,9 +648,9 @@ dashboard "all_hackernews_stats" {
       base = chart.db_base
       width = 4
       type = "donut"
-      title = "dbss mentioned: last 4 hours"
-      query = query.db_mentions
-      args = [ 240, 0 ]
+      title = "dbs mentioned: last 4 hours"
+      query = query.mentions
+      args = [ local.dbs, 240, 0 ]
     }
 
     chart {
@@ -592,8 +658,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "dbs mentioned: last 24 hours"
-      query = query.db_mentions
-      args = [ 1440, 0 ]
+      query = query.mentions
+      args = [ local.dbs, 1440, 0 ]
     }
 
     chart {
@@ -601,8 +667,8 @@ dashboard "all_hackernews_stats" {
       width = 4
       type = "donut"
       title = "dbs mentioned: last 7 days"
-      query = query.db_mentions
-      args = [ 10080, 0 ] 
+      query = query.mentions
+      args = [ local.dbs, 10080, 0 ] 
     }
 
   }
@@ -706,27 +772,11 @@ dashboard "all_hackernews_stats" {
 
 }
 
-query "hn_companies_mentioned" {
+query "mentions" {
   sql = <<EOQ
     with names as (
       select
-        unnest( array[
-          'Amazon',
-          'AMD',
-          'Apple',
-          'CloudFlare',
-          'Facebook',
-          'Google',
-          'Intel',
-          'Microsoft',
-          'Netflix',
-          'Tesla',
-          'Toshiba',
-          'Twitter',
-          'SpaceX',
-          'Sony',
-          'Stripe'
-        ] ) as name
+        unnest( $1::text[] ) as name
     ),
     counts as (
       select
@@ -738,199 +788,22 @@ query "hn_companies_mentioned" {
             hn_items_all
           where
             title ~* name
-            and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $1 and $2
-        ) as company_mentions
+            and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $2 and $3
+        ) as mentions
         from
           names
     )
     select
-      *
+      replace(name, '\', '') as name,
+      mentions
     from
       counts
     where
-      company_mentions > 0
+      mentions > 0
     order by 
       lower(name)
   EOQ
+  param "names" {}
   param "min_minutes_ago" {}
   param "max_minutes_ago" {}
 }
-
-query "hn_languages_mentioned" {
-  sql = <<EOQ
-    with names as (
-      select
-        unnest( array [
-          'C#',
-          'C\+\+',
-          'CSS',
-          'Erlang',
-          'golang',
-          'Haskell',
-          'HTML',
-          'Java ',
-          'JavaScript',
-          'JSON',
-          'PHP',
-          'Python',
-          'Rust',
-          'SQL',
-          'Swift',
-          'TypeScript',
-          'WebAssembly|WASM',
-          'XML'
-          ] ) as name
-        ),
-        counts as (
-          select
-            replace(name,'\','') as name,
-            (
-              select
-                count(*)
-              from
-                hn_items_all
-              where
-                title ~* name
-                and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $1 and $2
-            ) as language_mentions
-            from
-              names
-        )
-        select
-          *
-        from
-          counts
-        where
-          language_mentions > 0
-        order by 
-          lower(name)
-  EOQ
-  param "min_minutes_ago" {}
-  param "max_minutes_ago" {}
-}
-
-query "os_mentions" {
-  sql = <<EOQ
-    with names as (
-      select
-        unnest( array [
-          'Android',
-          'iOS',
-          'Linux',
-          'macOS',
-          'Windows'
-          ] ) as name
-        ),
-        counts as (
-          select
-            name,
-            (
-              select
-                count(*)
-              from
-                hn_items_all
-              where
-                title ~* name
-                and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $1 and $2
-            ) as os_mentions
-            from
-              names
-        )
-        select
-          *
-        from
-          counts
-        where
-          os_mentions > 0
-        order by 
-          lower(name)
-  EOQ
-  param "min_minutes_ago" {}
-  param "max_minutes_ago" {}
-}
-
-query "cloud_mentions" {
-  sql = <<EOQ
-    with names as (
-      select
-        unnest( array [
-          'AWS',
-          'Azure',
-          'Google Cloud|GCP'
-          ] ) as name
-        ),
-        counts as (
-          select
-            name,
-            (
-              select
-                count(*)
-              from
-                hn_items_all
-              where
-                title ~* name
-                and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $1 and $2
-            ) as cloud_mentions
-            from
-              names
-        )
-        select
-          *
-        from
-          counts
-        where
-          cloud_mentions > 0
-        order by 
-          lower(name)
-  EOQ
-  param "min_minutes_ago" {}
-  param "max_minutes_ago" {}
-}
-
-query "db_mentions" {
-  sql = <<EOQ
-    with names as (
-      select
-        unnest( array [
-          'DB2',
-          'Citus',
-          'CouchDB',
-          'MongoDB',
-          'MySQL|MariaDB',
-          'Oracle',
-          'Postgres',
-          'Redis',
-          'SQL Server',
-          'Timescale',
-          'SQLite',
-          'Yugabyte'
-          ] ) as name
-        ),
-        counts as (
-          select
-            name,
-            (
-              select
-                count(*)
-              from
-                hn_items_all
-              where
-                title ~* name
-                and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $1 and $2
-            ) as db_mentions
-            from
-              names
-        )
-        select
-          *
-        from
-          counts
-        where
-          db_mentions > 0
-        order by 
-          lower(name)
-  EOQ
-  param "min_minutes_ago" {}
-  param "max_minutes_ago" {}
-}
-

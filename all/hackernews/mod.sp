@@ -679,7 +679,7 @@ dashboard "all_hackernews_stats" {
   container {
 
     table {
-      width = 4
+      width = 5
       title = "top-rated stories"
       sql = <<EOQ
         select 
@@ -687,7 +687,8 @@ dashboard "all_hackernews_stats" {
           to_char(time::timestamptz, 'MM-DD hHH24') as time,
           title || ' (' || by || ')' as title_author,
           score::int,
-          descendants::int as comments
+          descendants::int as comments,
+          url
         from
           hn_items_all
         where 
@@ -703,10 +704,14 @@ dashboard "all_hackernews_stats" {
       column "title_author" {
         wrap = "all"
       }
+      column "title_author" {
+        wrap = "all"
+      }
+
     }
 
     table {
-      width = 8
+      width = 7
       title = "github and twitter info for hn users with scores > 20"
       sql = <<EOQ
         with data as (
@@ -766,6 +771,9 @@ dashboard "all_hackernews_stats" {
       }
       column "github" {
         href = "https://github.com/{{.'github'}}"
+      }
+      column "github_name" {
+        wrap = "all"
       }
     }
   }

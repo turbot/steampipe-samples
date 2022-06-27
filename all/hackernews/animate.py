@@ -1,6 +1,6 @@
 import re, time
 
-arg_pattern = r'(args = )(\[ )(\d+)(, )(\d+)( ] // companies)'
+arg_pattern = r'(args = )(\[[^\d]+)(\d+)(, )(\d+)( ] // companies)'
 
 title_pattern = r'("companies mentioned: )(\d+)( to )(\d+)( hours ago" // companies)'
 

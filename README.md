@@ -9,8 +9,8 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [Avatars](./all/github-avatars)
 - [HCL patterns](./all/hcl-dashboard-patterns)
 - [Hackernews](./all/hackernews)
-- [Hypothesis dashboards](/./all/hypothesis/)
-- [Reddit dashboards](./all/reddit/)
+- [Hypothesis](/./all/hypothesis/)
+- [Reddit](./all/reddit/)
 - [Salesforce dashboard](./all/salesforce/)
 
 ## Files to Tables

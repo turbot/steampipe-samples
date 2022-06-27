@@ -1,0 +1,74 @@
+name: "fetch hackernews items"
+
+defaults:
+  run:
+    working-directory: ./all/hackernews
+
+on:
+  schedule:
+    - cron:  '15 * * * *'
+
+  push:
+    branches: 
+      - main
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v3
+
+#    actions are not compatible with working-directory
+#
+#    - uses: francois2metz/setup-steampipe@v1
+#      with:
+#        steampipe-version: 'latest'
+#        steampipe-plugins: |
+#          {
+#            "hackernews": {}
+#          }
+#
+#    so install steampipe this way
+
+    - name: install steampipe
+      run: sudo /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/turbot/steampipe/main/install.sh)"
+
+    - name: install hackernews
+      run: steampipe plugin install hackernews
+
+    - name: pwd
+      run: pwd
+
+    - name: ls
+      run: ls
+
+    - name: run query1
+      run: STEAMPIPE_LOG=trace steampipe query "select * from hackernews_new where time > now() - interval '1 hour'" --output csv >> ./csv/hn_`date +%s`.csv
+
+    - name: run query2
+      run: STEAMPIPE_LOG=trace steampipe query "select count(*) as stories from hackernews_new where time > now() - interval '1 hour'" --output csv > ./logs/count.txt
+
+    - name: setup git 
+      run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+
+    - name: add
+      run: |
+        git add ./csv
+        cp ~/.steampipe/logs/p*.log ./logs
+        git add ./csv ./logs
+
+    - name: commit
+      run:
+        git commit -m "update hn" ./csv ./logs
+
+    - name: push
+      run:
+        git push origin main
+
+    - name: Exit
+      if: ${{ steps.checks.outcome == 'failure' }}
+      run: exit 1
+      

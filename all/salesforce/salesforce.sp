@@ -145,39 +145,45 @@ dashboard "salesforce" {
     }
 
     table {
-      width = 6
-      title = "recent tweets"
+      width = 8
+      title = "twitter activity"
       sql = <<EOQ
         with base as (
           select 
             name,
-            (regexp_matches(description, 'twitter: (\w+)'))[1] as twitter_handle
+            (regexp_matches(description, 'twitter: (\w+)'))[1] as twitter_username
           from 
             salesforce_contact
           where
             description is not null 
             and description ~ 'twitter'
+        ),
+        expanded as (
+          select
+            b.name as salesforce_name,
+            b.twitter_username,
+            (select id from twitter_user where username = b.twitter_username) as twitter_id
+          from 
+            base b
+          join 
+            twitter_user t 
+          on 
+            b.twitter_username = t.username
         )
-        select
-          b.name,
-          b.twitter_handle,
-          (select user_id from twitter_user where username = b.twitter_handle) as twitter_id
+        select 
+          salesforce_name,
+          'https://twitter.com/' || twitter_username as twitter,
+          (select public_metrics->>'tweet_count' as tweets from twitter_user where id = twitter_id), 
+          (select public_metrics->>'followers_count' as followers from twitter_user where id = twitter_id),
+          (select description from twitter_user where id = twitter_id) 
+
         from 
-          base b
-        join 
-          twitter_user t 
-        on 
-          b.twitter_handle = t.username
+          expanded e 
       EOQ
+      column "description" {
+        wrap = "all"
+      }
     }  
-
-    table {
-      width = 6
-      title = "recent commits"
-      sql = <<EOQ
-      EOQ
-    }  
-
 
   }
 

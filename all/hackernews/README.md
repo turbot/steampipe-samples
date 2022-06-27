@@ -37,8 +37,7 @@ This dashboard is driven by a picklist of distinct HN users. For the selected us
 # Setup
 
 1. Install [Steampipe](https://steampipe.io/downloads)
-2. Install [the Hackernews plugin](https://hub.steampipe.io/plugins/turbot/csv) (no authentication needed)
-3. Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) and configure its `~/.steampipe/config/hackernews.spc` with a path that includes `~/csv/*.csv` (e.g. `paths = [ "/home/jon/csv/*.csv" ]`
+3. Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) and configure its `~/.steampipe/config/csv.spc` with a path that includes `~/csv/*.csv` (e.g. `paths = [ "/home/jon/csv/*.csv" ]`
 4. Run `./update.sh`
 4. Visit localhost:9194
 

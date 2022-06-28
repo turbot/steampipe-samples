@@ -203,10 +203,10 @@ chart "cloud_base" {
       color = "brown"
     }
     point "Azure" {
-      color = "green"
+      color = "blue"
     }
-    point "Google Cloud" {
-      color = "red"
+    point "Google Cloud|GCP" {
+      color = "#F4B400"
     }
   }
 }

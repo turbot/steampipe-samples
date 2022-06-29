@@ -33,10 +33,6 @@ dashboard "salesforce" {
       EOQ
     }
 
-  }
-
-  container {
-
     card {
       width = 2
       sql = <<EOQ
@@ -100,7 +96,7 @@ dashboard "salesforce" {
       EOQ
       column "link" {
          wrap = "all"
-         href = "${local.lightning}r/Lead/{{.'link'}}"
+         href = "${local.lightning}r/Lead/{{.'link'}}/view"
       }
     }
     
@@ -113,14 +109,14 @@ dashboard "salesforce" {
     chart {
       width = 5
       type = "donut"
-      title = "by lead source"
+      title = "by lead title"
       sql = <<EOQ
         select
           title,
           count(*)
         from 
           salesforce_contact
-        where
+        where 
           title is not null
         group by
           title
@@ -130,59 +126,48 @@ dashboard "salesforce" {
     chart {
       width = 5
       type = "donut"
-      title = "by lead department"
+      title = "by lead source"
       sql = <<EOQ
         select
-          department,
+          lead_source,
           count(*)
         from 
           salesforce_contact
-        where 
-          department is not null
+        where
+          lead_source is not null
         group by
-          department
+          lead_source
       EOQ
     }
 
     table {
       width = 8
-      title = "twitter activity"
+      title = "Twitter Activity"
       sql = <<EOQ
-        with base as (
-          select 
+        with salesforce_info as (
+          select
+            id,
             name,
-            (regexp_matches(description, 'twitter: (\w+)'))[1] as twitter_username
+            twitter_username__c as twitter_username
           from 
             salesforce_contact
           where
-            description is not null 
-            and description ~ 'twitter'
-        ),
-        expanded as (
-          select
-            b.name as salesforce_name,
-            b.twitter_username,
-            (select id from twitter_user where username = b.twitter_username) as twitter_id
-          from 
-            base b
-          join 
-            twitter_user t 
-          on 
-            b.twitter_username = t.username
+            twitter_username__c is not null
+          order by
+            id
         )
-        select 
-          salesforce_name,
-          'https://twitter.com/' || twitter_username as twitter,
-          (select public_metrics->>'tweet_count' as tweets from twitter_user where id = twitter_id), 
-          (select public_metrics->>'followers_count' as followers from twitter_user where id = twitter_id),
-          (select description from twitter_user where id = twitter_id) 
-
+        select
+          s.name,
+          'https://twitter.com/' || s.twitter_username as twitter_url,
+          t.public_metrics->>'tweet_count' as tweets,
+          t.public_metrics->>'followers_count' as followers
         from 
-          expanded e 
+          salesforce_info s
+        join
+          twitter_user t
+        on 
+          s.twitter_username = t.username
       EOQ
-      column "description" {
-        wrap = "all"
-      }
     }  
 
   }
@@ -194,7 +179,6 @@ dashboard "salesforce" {
     table {
       sql = <<EOQ
         select 
-          '${local.lightning}r/Event/' || e.id || '/view' as link,
           e.start_date_time,
           e.subject,
           e.location,

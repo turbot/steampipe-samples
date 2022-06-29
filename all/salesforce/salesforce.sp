@@ -109,17 +109,17 @@ dashboard "salesforce" {
     chart {
       width = 5
       type = "donut"
-      title = "by lead title"
+      title = "by lead department"
       sql = <<EOQ
         select
-          title,
+          department,
           count(*)
         from 
           salesforce_contact
         where 
-          title is not null
+          department is not null
         group by
-          title
+          department
       EOQ
     }
 

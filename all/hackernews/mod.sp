@@ -542,9 +542,9 @@ dashboard "all_hackernews_stats" {
       base = chart.companies_base
       width = 4
       type = "donut"
-      title = "companies mentioned: last 7 days"
+      title = "companies mentioned: last 14 days"
       query = query.mentions
-      args = [ local.companies, 10080, 0 ] 
+      args = [ local.companies, 20160, 0 ] 
     }
 
   }
@@ -573,9 +573,9 @@ dashboard "all_hackernews_stats" {
       base = chart.languages_base
       width = 4
       type = "donut"
-      title = "languages mentioned: last 7 days"
+      title = "languages mentioned: last 14 days"
       query = query.mentions
-      args = [ local.languages, 10080, 0 ]
+      args = [ local.languages, 20160, 0 ]
     }
 
   }
@@ -604,9 +604,9 @@ dashboard "all_hackernews_stats" {
       base = chart.os_base
       width = 4
       type = "donut"
-      title = "os mentions: last 7 days"
+      title = "os mentions: last 14 days"
       query = query.mentions
-      args = [ local.operating_systems, 10080, 0 ]
+      args = [ local.operating_systems, 20160, 0 ]
     }
 
   }
@@ -635,9 +635,9 @@ dashboard "all_hackernews_stats" {
       base = chart.cloud_base
       width = 4
       type = "donut"
-      title = "clouds mentioned: last 7 days"
+      title = "clouds mentioned: last 14 days"
       query = query.mentions
-      args = [ local.clouds, 10080, 0 ] 
+      args = [ local.clouds, 20160, 0 ] 
     }
 
   }
@@ -666,9 +666,9 @@ dashboard "all_hackernews_stats" {
       base = chart.db_base
       width = 4
       type = "donut"
-      title = "dbs mentioned: last 7 days"
+      title = "dbs mentioned: last 14 days"
       query = query.mentions
-      args = [ local.dbs, 10080, 0 ] 
+      args = [ local.dbs, 20160, 0 ] 
     }
 
   }

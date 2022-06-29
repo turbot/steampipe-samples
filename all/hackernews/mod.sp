@@ -284,9 +284,49 @@ dashboard "sources" {
   }
 
   table {
-    width = 6
+    width = 4
     query = query.domains
+    column "detail" {
+      wrap = "all"
+      href = "http://localhost:9194/hackernews.dashboard.sources?input.domain={{.'detail'}}"
+    }    
   }
+
+  container {
+    width = 8
+
+    container  {
+
+      input "domain" {
+        width = 3
+        sql = <<EOQ
+          with domains as (
+            select distinct
+              substring(url from 'http[s]*://([^/$]+)') as domain
+            from
+              hn_items_all
+          )
+          select
+            domain as label,
+            domain as value
+          from
+            domains
+          order by
+            domain
+        EOQ    
+      }
+
+      chart {
+        args = [
+          self.input.domain
+        ]
+        query = query.domain_detail
+      }
+
+    }
+
+  }
+
 
 }
 
@@ -916,17 +956,49 @@ query "domains" {
       hn_items_all
     where
       url != '<null>'
+    ),
+    counted as (
+      select 
+        domain as detail,
+        count(*)
+      from 
+        domains
+      group by
+        domain
+      order by
+        count desc
+    )
+    select
+      *
+    from
+      counted
+    where
+      count > 5
+  EOQ
+}
+
+query "domain_detail" {
+  sql = <<EOQ
+    with items_by_day as (
+      select
+        to_char(time::timestamptz, 'MM-DD') as day,
+        substring(url from 'http[s]*://([^/$]+)') as domain
+    from 
+      hn_items_all
+    where
+      substring(url from 'http[s]*://([^/$]+)') = $1
     )
     select 
-      domain as source,
+      day,
       count(*)
     from 
-      domains
+      items_by_day
     group by
-      domain
+      day
     order by
-      count desc
+      day
   EOQ
+  param "domain" {}
 }
 
 

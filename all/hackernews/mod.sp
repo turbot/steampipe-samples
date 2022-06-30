@@ -673,13 +673,10 @@ dashboard "all_hackernews_stats" {
 
   }
 
-
-
-
   container {
 
     table {
-      width = 5
+      width = 6
       title = "top-rated stories"
       sql = <<EOQ
         select 
@@ -687,7 +684,7 @@ dashboard "all_hackernews_stats" {
           to_char(time::timestamptz, 'MM-DD hHH24') as time,
           title || ' (' || by || ')' as title_author,
           score::int,
-          descendants::int as comments,
+          descendants::int as cmnts,
           url
         from
           hn_items_all
@@ -707,11 +704,14 @@ dashboard "all_hackernews_stats" {
       column "title_author" {
         wrap = "all"
       }
+      column "url" {
+        wrap = "all"
+      }
 
     }
 
     table {
-      width = 7
+      width = 6
       title = "github and twitter info for hn users with scores > 20"
       sql = <<EOQ
         with data as (
@@ -723,8 +723,8 @@ dashboard "all_hackernews_stats" {
             case 
               when g.name is null then ''
               else g.name
-            end as github_name,
-            followers::int as gh_followers,
+            end as gh_name,
+            followers::int as gh_follwrs,
             case 
               when g.twitter_username is null then ''
               else g.twitter_username
@@ -742,7 +742,7 @@ dashboard "all_hackernews_stats" {
           select
             u.karma,
             d.*,
-            ( select (public_metrics->>'followers_count')::int as tw_followers from twitter_user where d.twitter != '' and username = d.twitter )
+            ( select (public_metrics->>'followers_count')::int as tw_follwrs from twitter_user where d.twitter != '' and username = d.twitter )
           from 
             data d
           join
@@ -754,12 +754,12 @@ dashboard "all_hackernews_stats" {
           by as all_hn_stories,
           karma,
           stories,
-          comments,
+          comments as cmnts,
           github,
-          github_name,
-          gh_followers,
+          gh_name,
+          gh_follwrs,
           twitter,
-          tw_followers
+          tw_follwrs
         from
           expanded
       EOQ
@@ -772,7 +772,7 @@ dashboard "all_hackernews_stats" {
       column "github" {
         href = "https://github.com/{{.'github'}}"
       }
-      column "github_name" {
+      column "gh_name" {
         wrap = "all"
       }
     }

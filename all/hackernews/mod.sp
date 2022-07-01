@@ -64,6 +64,7 @@ locals {
     "SQL Server",
     "Timescale",
     "SQLite",
+    "Steampipe",
     "Supabase",
     "Yugabyte"
   ]
@@ -231,6 +232,9 @@ chart "db_base" {
     }
     point "Postgres" {
       color = "lightblue"
+    }
+    point "Steampipe" {
+      color = "black"
     }
     point "Supabase" {
       color = "yellow"

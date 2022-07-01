@@ -264,15 +264,28 @@ dashboard "animated_company_mentions" {
       base = chart.companies_base
       width = 8
       type = "donut"
-      title = "companies mentioned: 24 to 12 hours ago" // companies
+      title = "companies mentioned: 96 to 84 hours ago" // companies
       query = query.mentions
-      args = [ local.companies, 1440, 720 ] // companies
+      args = [ local.companies, 5760, 5040 ] // companies
     }
 
     text {
       width = 8
       value = "run *python animate.py* to start the animation"
     }
+  }
+
+}
+
+dashboard "sources" {
+
+  tags = {
+    service = "Hackernews"
+  }
+
+  table {
+    width = 6
+    query = query.domains
   }
 
 }
@@ -892,4 +905,28 @@ query "submission_days" {
   param "hn_user" {}
   param "since_days_ago" {}
 }
+
+query "domains" {
+  sql = <<EOQ
+    with domains as (
+      select
+        url,
+        substring(url from 'http[s]*://([^/$]+)') as domain
+    from 
+      hn_items_all
+    where
+      url != '<null>'
+    )
+    select 
+      domain as source,
+      count(*)
+    from 
+      domains
+    group by
+      domain
+    order by
+      count desc
+  EOQ
+}
+
 

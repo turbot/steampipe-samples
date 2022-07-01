@@ -275,44 +275,73 @@ dashboard "submissions" {
     service = "Hackernews"
   }
 
-  input "hn_user" {
-    width = 4
-    type = "select"
-    sql = <<EOQ
-      select distinct
-        h.by as label,
-        h.by as value
-      from
-        hn_items_all h
-      order by
-        by
-    EOQ    
-  }
-
   container {
+    width = 6
+
+    input "hn_user" {
+      width = 4
+      title = "hn user"
+      type = "select"
+      sql = <<EOQ
+        select distinct
+          h.by as label,
+          h.by as value
+        from
+          hn_items_all h
+        order by
+          by
+      EOQ    
+    }
 
     table  {
       args = [
-        self.input.hn_user.value
+        self.input.hn_user.value,
+        self.input.since_days_ago
       ]
-      sql = <<EOQ
-        select
-          id as link,
-          title,
-          url,
-          time,
-          descendants as comments
-        from 
-          hn_items_all
-        where
-          by = $1
-        order by
-          time desc
-      EOQ
-      column "link" {
-        href = "https://news.ycombinator.com/item?id={{.'link'}}"
+      query = query.submission_times
+      column "title" {
+        wrap = "all"
+      }
+      column "url" {
+        wrap = "all"
       }
     }
+
+  }
+
+  container {
+    width = 6
+
+    input "since_days_ago" {
+      width = 4
+      title = "since days ago"
+      option "7" {}
+      option "14" {}
+      option "30" {}
+      option "60" {}
+    }
+
+
+    chart  {
+      args = [
+        self.input.hn_user.value,
+        self.input.since_days_ago
+      ]
+      axes {
+        x {
+          title {
+            value = "days"
+          }
+        }
+        y {
+          title {
+            value = "submissions"
+          }
+        }
+      }
+      query = query.submission_days
+    }
+
   }
 
 }
@@ -350,7 +379,7 @@ dashboard "all_hackernews_stats" {
       width = 2
       sql = <<EOQ
         select
-          count( distinct( to_char( time::timestamptz, 'MM-DD' ) ) ) as days
+          count( distinct( to_char( time::timestamp, 'MM-DD' ) ) ) as days
         from
           hn_items_all
       EOQ
@@ -359,14 +388,14 @@ dashboard "all_hackernews_stats" {
     card {
       width = 2
       sql = <<EOQ
-        select to_char(min(time::timestamptz), 'MM-DD hHH24') as "oldest" from hn_items_all
+        select to_char(min(time::timestamp), 'MM-DD hHH24') as "oldest" from hn_items_all
       EOQ
     }
 
     card {
       width = 2
       sql = <<EOQ
-        select to_char(max(time::timestamptz), 'MM-DD hHH24') as "newest" from hn_items_all
+        select to_char(max(time::timestamp), 'MM-DD hHH24') as "newest" from hn_items_all
       EOQ
     }
   }
@@ -463,7 +492,7 @@ dashboard "all_hackernews_stats" {
       sql = <<EOQ
         with data as (
           select
-            time::timestamptz
+            time::timestamp
           from
             hn_items_all
         )
@@ -485,7 +514,7 @@ dashboard "all_hackernews_stats" {
       sql = <<EOQ
         with ask_hn as (
           select
-            to_char(time::timestamptz,'MM:DD HH24') as hour
+            to_char(time::timestamp,'MM:DD HH24') as hour
           from
             hn_items_all
           where
@@ -493,7 +522,7 @@ dashboard "all_hackernews_stats" {
         ),
         show_hn as (
           select
-            to_char(time::timestamptz,'MM:DD HH24') as hour
+            to_char(time::timestamp,'MM:DD HH24') as hour
           from
             hn_items_all
           where
@@ -681,7 +710,7 @@ dashboard "all_hackernews_stats" {
       sql = <<EOQ
         select 
           id as link,
-          to_char(time::timestamptz, 'MM-DD hHH24') as time,
+          to_char(time::timestamp, 'MM-DD hHH24') as time,
           title || ' (' || by || ')' as title_author,
           score::int,
           descendants::int as cmnts,
@@ -751,7 +780,7 @@ dashboard "all_hackernews_stats" {
             u.id = d.by
         )
         select
-          by as all_hn_stories,
+          by as details,
           karma,
           stories,
           comments as cmnts,
@@ -763,8 +792,8 @@ dashboard "all_hackernews_stats" {
         from
           expanded
       EOQ
-      column "all_hn_stories" {
-        href = "http://localhost:9194/hackernews.dashboard.submissions?input.hn_user={{.'all_hn_stories'}}"
+      column "details" {
+        href = "http://localhost:9194/hackernews.dashboard.submissions?input.hn_user={{.'details'}}"
       }
       column "twitter" {
         href = "https://twitter.com/{{.'twitter'}}"
@@ -796,7 +825,7 @@ query "mentions" {
             hn_items_all
           where
             title ~* name
-            and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $2 and $3
+            and (extract(epoch from now() - time::timestamp) / 60)::int between symmetric $2 and $3
         ) as mentions
         from
           names
@@ -815,3 +844,44 @@ query "mentions" {
   param "min_minutes_ago" {}
   param "max_minutes_ago" {}
 }
+
+query "submission_times" {
+  sql = <<EOQ
+    select
+      to_char(time::timestamp, 'MM-DD hHH24') as time,
+      title,
+      url,
+      case
+        when descendants = '<null>' then ''
+        else descendants
+      end as cmts
+    from 
+      hn_items_all
+    where
+      by = $1
+    order by
+      time desc
+  EOQ
+  param "hn_user" {}
+
+}
+
+query "submission_days" {
+  sql = <<EOQ
+    select
+      to_char(time::timestamp, 'MM-DD') as day,
+      count(to_char(time::timestamp, 'MM-DD'))
+    from 
+      hn_items_all
+    where
+      by = $1
+      and time::timestamp > now() - ($2 || ' day')::interval
+    group by 
+      day
+    order by
+      day
+  EOQ
+  param "hn_user" {}
+  param "since_days_ago" {}
+}
+

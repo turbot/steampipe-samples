@@ -2,7 +2,7 @@
 
 This mod defines three dashboards.
 
-## all hackernews stats
+## All hackernews stats
 
 - `infocards`: A set of cards that count items (All/Ask HN/Show HN), the span of days they cover, max and average scores.
 
@@ -34,6 +34,10 @@ An experimental animation that rewrites the `mod.sp` file to animate the compani
 
 This dashboard is driven by a picklist of distinct HN users. For the selected user it charts all their HN submissions and provides links to each item.
 
+## Sources
+
+This dashboard reports the number of HN items by target domain (e.g. www.nytimes.com), with a drilldown chart showing the timeline of items referring to each domain.
+
 # Setup
 
 1. Install [Steampipe](https://steampipe.io/downloads)
@@ -49,7 +53,9 @@ You can add to or alter the existing dashboards, create new ones, or just use th
 
 # Demo
 
+https://user-images.githubusercontent.com/46509/176952020-48ef30b1-740b-4b70-9b84-e418c6047cf0.mp4
 
-https://user-images.githubusercontent.com/46509/175995740-974a3ea1-0570-45b8-9566-a37746f12a59.mp4
+
+
 
 

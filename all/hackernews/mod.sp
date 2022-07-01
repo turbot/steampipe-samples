@@ -387,7 +387,7 @@ dashboard "all_hackernews_stats" {
       width = 2
       sql = <<EOQ
         select
-          count( distinct( to_char( time::timestamp, 'MM-DD' ) ) ) as days
+          count( distinct( to_char( time::timestamptz, 'MM-DD' ) ) ) as days
         from
           hn_items_all
       EOQ
@@ -396,14 +396,14 @@ dashboard "all_hackernews_stats" {
     card {
       width = 2
       sql = <<EOQ
-        select to_char(min(time::timestamp), 'MM-DD hHH24') as "oldest" from hn_items_all
+        select to_char(min(time::timestamptz), 'MM-DD hHH24') as "oldest" from hn_items_all
       EOQ
     }
 
     card {
       width = 2
       sql = <<EOQ
-        select to_char(max(time::timestamp), 'MM-DD hHH24') as "newest" from hn_items_all
+        select to_char(max(time::timestamptz), 'MM-DD hHH24') as "newest" from hn_items_all
       EOQ
     }
   }
@@ -500,7 +500,7 @@ dashboard "all_hackernews_stats" {
       sql = <<EOQ
         with data as (
           select
-            time::timestamp
+            time::timestamptz
           from
             hn_items_all
         )
@@ -522,7 +522,7 @@ dashboard "all_hackernews_stats" {
       sql = <<EOQ
         with ask_hn as (
           select
-            to_char(time::timestamp,'MM:DD HH24') as hour
+            to_char(time::timestamptz,'MM:DD HH24') as hour
           from
             hn_items_all
           where
@@ -530,7 +530,7 @@ dashboard "all_hackernews_stats" {
         ),
         show_hn as (
           select
-            to_char(time::timestamp,'MM:DD HH24') as hour
+            to_char(time::timestamptz,'MM:DD HH24') as hour
           from
             hn_items_all
           where
@@ -718,7 +718,7 @@ dashboard "all_hackernews_stats" {
       sql = <<EOQ
         select 
           id as link,
-          to_char(time::timestamp, 'MM-DD hHH24') as time,
+          to_char(time::timestamptz, 'MM-DD hHH24') as time,
           title || ' (' || by || ')' as title_author,
           score::int,
           descendants::int as cmnts,
@@ -833,7 +833,7 @@ query "mentions" {
             hn_items_all
           where
             title ~* name
-            and (extract(epoch from now() - time::timestamp) / 60)::int between symmetric $2 and $3
+            and (extract(epoch from now() - time::timestamptz) / 60)::int between symmetric $2 and $3
         ) as mentions
         from
           names
@@ -856,7 +856,7 @@ query "mentions" {
 query "submission_times" {
   sql = <<EOQ
     select
-      to_char(time::timestamp, 'MM-DD hHH24') as time,
+      to_char(time::timestamptz, 'MM-DD hHH24') as time,
       title,
       url,
       case
@@ -877,13 +877,13 @@ query "submission_times" {
 query "submission_days" {
   sql = <<EOQ
     select
-      to_char(time::timestamp, 'MM-DD') as day,
-      count(to_char(time::timestamp, 'MM-DD'))
+      to_char(time::timestamptz, 'MM-DD') as day,
+      count(to_char(time::timestamptz, 'MM-DD'))
     from 
       hn_items_all
     where
       by = $1
-      and time::timestamp > now() - ($2 || ' day')::interval
+      and time::timestamptz > now() - ($2 || ' day')::interval
     group by 
       day
     order by

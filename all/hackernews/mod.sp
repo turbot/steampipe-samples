@@ -774,7 +774,8 @@ dashboard "all_hackernews_stats" {
         select 
           id as link,
           to_char(time::timestamptz, 'MM-DD hHH24') as time,
-          title || ' (' || by || ')' as title_author,
+          title,
+          by,
           score::int,
           descendants::int as cmnts,
           url
@@ -790,10 +791,11 @@ dashboard "all_hackernews_stats" {
       column "link" {
         href = "https://news.ycombinator.com/item?id={{.'link'}}"
       }
-      column "title_author" {
+      column "title" {
         wrap = "all"
       }
-      column "title_author" {
+      column "by" {
+        href = "http://localhost:9194/hackernews.dashboard.submissions?input.hn_user={{.'by'}}"
         wrap = "all"
       }
       column "url" {
@@ -843,7 +845,7 @@ dashboard "all_hackernews_stats" {
             u.id = d.by
         )
         select
-          by as details,
+          by,
           karma,
           stories,
           comments as cmnts,
@@ -855,8 +857,8 @@ dashboard "all_hackernews_stats" {
         from
           expanded
       EOQ
-      column "details" {
-        href = "http://localhost:9194/hackernews.dashboard.submissions?input.hn_user={{.'details'}}"
+      column "by" {
+        href = "http://localhost:9194/hackernews.dashboard.submissions?input.hn_user={{.'by'}}"
       }
       column "twitter" {
         href = "https://twitter.com/{{.'twitter'}}"

@@ -356,10 +356,12 @@ dashboard "submissions" {
 
     table  {
       args = [
-        self.input.hn_user.value,
-        self.input.since_days_ago
+        self.input.hn_user.value
       ]
       query = query.submission_times
+      column "id" {
+        href = "https://news.ycombinator.com/item?id={{.'id'}}"
+      }
       column "title" {
         wrap = "all"
       }
@@ -909,6 +911,7 @@ query "mentions" {
 query "submission_times" {
   sql = <<EOQ
     select
+      id,
       to_char(time::timestamptz, 'MM-DD hHH24') as time,
       title,
       url,

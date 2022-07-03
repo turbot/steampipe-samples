@@ -286,9 +286,9 @@ dashboard "sources" {
   table {
     width = 4
     query = query.domains
-    column "detail" {
+    column "domain" {
       wrap = "all"
-      href = "http://localhost:9194/hackernews.dashboard.sources?input.domain={{.'detail'}}"
+      href = "http://localhost:9194/hackernews.dashboard.sources?input.domain={{.'domain'}}"
     }    
   }
 
@@ -321,6 +321,31 @@ dashboard "sources" {
           self.input.domain
         ]
         query = query.domain_detail
+      }
+
+      table {
+        args = [
+          self.input.domain
+        ]
+        sql = <<EOQ
+          select
+            score,
+            url,
+            title
+          from
+            hn_items_all 
+          where 
+            url ~ $1
+          order by
+            score::int desc
+          limit 40
+        EOQ
+        column "url" {
+          wrap = "all"
+        } 
+        column "title" {
+          wrap = "all"
+        } 
       }
 
     }
@@ -964,7 +989,7 @@ query "domains" {
     ),
     counted as (
       select 
-        domain as detail,
+        domain,
         count(*)
       from 
         domains

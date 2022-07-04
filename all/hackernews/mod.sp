@@ -329,6 +329,7 @@ dashboard "sources" {
         ]
         sql = <<EOQ
           select
+            id as link,
             score,
             url,
             title
@@ -340,6 +341,9 @@ dashboard "sources" {
             score::int desc
           limit 40
         EOQ
+        column "link" {
+          href = "https://news.ycombinator.com/item?id={{.'link'}}"
+        }
         column "url" {
           wrap = "all"
         } 
@@ -831,7 +835,7 @@ dashboard "all_hackernews_stats" {
 
     table {
       width = 6
-      title = "github and twitter info for hn users with scores > 30"
+      title = "github and twitter info for hn users with scores > 25"
       sql = <<EOQ
         with data as (
           select distinct
@@ -855,7 +859,7 @@ dashboard "all_hackernews_stats" {
           on 
             h.by = g.login
           where
-            h.score::int > 30
+            h.score::int > 25
         ),
         expanded as (
           select

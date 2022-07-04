@@ -264,9 +264,9 @@ dashboard "animated_company_mentions" {
       base = chart.companies_base
       width = 8
       type = "donut"
-      title = "companies mentioned: 96 to 84 hours ago" // companies
+      title = "companies mentioned: 72 to 60 hours ago" // companies
       query = query.mentions
-      args = [ local.companies, 5760, 5040 ] // companies
+      args = [ local.companies, 4320, 3600 ] // companies
     }
 
     text {
@@ -831,7 +831,7 @@ dashboard "all_hackernews_stats" {
 
     table {
       width = 6
-      title = "github and twitter info for hn users with scores > 20"
+      title = "github and twitter info for hn users with scores > 30"
       sql = <<EOQ
         with data as (
           select distinct
@@ -855,7 +855,7 @@ dashboard "all_hackernews_stats" {
           on 
             h.by = g.login
           where
-            h.score::int > 20
+            h.score::int > 30
         ),
         expanded as (
           select
@@ -883,12 +883,15 @@ dashboard "all_hackernews_stats" {
           expanded
       EOQ
       column "by" {
+        wrap = "all"
         href = "http://localhost:9194/hackernews.dashboard.submissions?input.hn_user={{.'by'}}"
       }
       column "twitter" {
+        wrap = "all"
         href = "https://twitter.com/{{.'twitter'}}"
       }
       column "github" {
+        wrap = "all"
         href = "https://github.com/{{.'github'}}"
       }
       column "gh_name" {

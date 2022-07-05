@@ -994,6 +994,16 @@ query "domains" {
     where
       url != '<null>'
     ),
+    avg_and_max as (
+      select
+        substring(url from 'http[s]*://([^/$]+)') as domain,
+        avg(score::int) as avg_score,
+        max(score::int) as max_score
+      from
+        hn_items_all
+      group by
+        substring(url from 'http[s]*://([^/$]+)')
+    ),
     counted as (
       select 
         domain,
@@ -1006,11 +1016,20 @@ query "domains" {
         count desc
     )
     select
-      *
+      a.domain,
+      c.count,
+      a.max_score,
+      round(a.avg_score, 1) as avg_score
     from
-      counted
+      avg_and_max a
+    join
+      counted c 
+    using 
+      (domain)
     where
-      count > 5
+      c.count > 5
+    order by
+      c.count desc
   EOQ
 }
 

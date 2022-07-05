@@ -1,208 +1,208 @@
-2022-07-05 03:02:39.388 UTC [INFO]  starting plugin manager
-2022-07-05 03:02:39.388 UTC [TRACE] loaded config map: hackernews
-2022-07-05 03:02:39.388 UTC [INFO]  starting connection watcher
-2022-07-05 03:02:39.388 UTC [INFO]  created ConnectionWatcher
-2022-07-05 03:02:39.388 UTC [TRACE] about to serve
-2022-07-05 03:02:39.453 UTC [TRACE] PluginManager Get, connections: '[]'
-2022-07-05 03:02:39.453 UTC [TRACE] PluginManager Get returning
-2022-07-05 03:02:39.455 UTC [TRACE] PluginManager Get, connections: '[]'
-2022-07-05 03:02:39.455 UTC [TRACE] PluginManager Get returning
-2022-07-05 03:02:39.490 UTC [TRACE] handleFileWatcherEvent ignoring first event
-2022-07-05 03:02:39.646 UTC [TRACE] PluginManager Get, connections: '[hackernews]'
-2022-07-05 03:02:39.646 UTC [TRACE] PluginManager getPlugin connection 'hackernews'
-2022-07-05 03:02:39.646 UTC [TRACE] PluginManager 0xc000412b40 'hackernews' NOT found in map  - starting
-2022-07-05 03:02:39.646 UTC [TRACE] ************ start plugin hackernews ********************
-2022-07-05 03:02:39.646 UTC [DEBUG] starting plugin: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin args=["/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin"]
-2022-07-05 03:02:39.646 UTC [DEBUG] plugin started: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1756
-2022-07-05 03:02:39.646 UTC [DEBUG] waiting for RPC address: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin
-2022-07-05 03:02:39.652 UTC [DEBUG] steampipe-plugin-hackernews.plugin: 2022/07/05 03:02:39 [TRACE] Plugin Initialise creating connection manager
-2022-07-05 03:02:39.656 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] Setting Ulimit: ulimit=2560
-2022-07-05 03:02:39.657 UTC [DEBUG] steampipe-plugin-hackernews.plugin: plugin address: address=/tmp/plugin4047090462 network=unix timestamp=2022-07-05T03:02:39.657Z
-2022-07-05 03:02:39.657 UTC [DEBUG] using plugin: version=0
-2022-07-05 03:02:39.657 UTC [TRACE] PluginManager getPlugin complete, returning reattach config with PID: 1756
-2022-07-05 03:02:39.657 UTC [TRACE] PluginManager Get returning reattach_map:{key:"hackernews" value:{protocol:"grpc" addr:{Network:"unix" Address:"/tmp/plugin4047090462"} pid:1756}}
-2022-07-05 03:02:39.659 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] validate plugin steampipe-plugin-hackernews, required columns []
-2022-07-05 03:02:39.661 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  query cache created
-2022-07-05 03:02:39.661 UTC [DEBUG] steampipe-plugin-hackernews.plugin: [DEBUG] SetConnectionConfig finished
-2022-07-05 03:02:39.663 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] EXECUTE callId: 1656990159667 table: hackernews_new cols: id,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx
-2022-07-05 03:02:39.664 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: Execute : connection=hackernews table=hackernews_new
-2022-07-05 03:02:39.664 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: Got query context: table=hackernews_new cols=[id, title, time, by, score, dead, deleted, descendants, kids, parent, parts, poll, text, type, url, _ctx]
-2022-07-05 03:02:39.664 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: setFetchType map[time:quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656986559  nanos:628314000}}}]
-2022-07-05 03:02:39.664 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: getMatchingQuals column:'id' operator: =
-2022-07-05 03:02:39.664 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: getMatchingQuals returning false - qualMap does not contain any quals for column id
-2022-07-05 03:02:39.666 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: GetUnsatisfiedKeyColumns for columns column:'id' operator: =
-2022-07-05 03:02:39.667 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: key column NOT satisfied column:'id' operator: =
-2022-07-05 03:02:39.667 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: satisfied: map[any_of: optional: required:]
-2022-07-05 03:02:39.668 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: unsatisfied: map[any_of: optional: required:column:'id' operator: =]
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: unsatisfied required KeyColumns: column:'id' operator: =
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: Set fetchType to fetchTypeList
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: Equals key column quals:
-2022-07-05 03:02:39.669 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: All key column quals:
-2022-07-05 03:02:39.669 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: calling fetchItems: table=hackernews_new matrixItem=[] limit=<nil>
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: Cache ENABLED callId: 1656990159667
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: QueryCache Get - indexBucketKey index__hackernewshackernews_new, quals
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656986559  nanos:628314000}}}
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: EXCLUDING COLUMN
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: QueryCache getCachedResult - index bucket key: index__hackernewshackernews_new ttlSeconds 300
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: getCachedResult - no index bucket
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: getPendingResultItem indexBucketKey index__hackernewshackernews_new, columns [id title time by score dead deleted descendants kids parent parts poll text type url _ctx], limit -1
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: no pending index item - add pending result
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: addPendingResult indexBucketKey index__hackernewshackernews_new, columns [id title time by score dead deleted descendants kids parent parts poll text type url _ctx], limit -1
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: no index bucket found - creating one
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: pendingIndexItem Lock count before 0
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: getPendingResultItem returning <nil>
-2022-07-05 03:02:39.669 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: CACHE MISS
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: fetch items callId: 1656990159667
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: buildRows callId: 1656990159667
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: streamRows callId: 1656990159667
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: executeListCall
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: GetUnsatisfiedKeyColumns for columns
-2022-07-05 03:02:39.669 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: doList: no matrix item
-2022-07-05 03:02:39.834 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: rowData chan select - channel CLOSED
-2022-07-05 03:02:39.834 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: wait for rows
-2022-07-05 03:02:40.417 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: rowWg complete - CLOSING ROW CHANNEL
-2022-07-05 03:02:40.417 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: row chan closed, stop streaming
-2022-07-05 03:02:40.418 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: ------------------------------------
-2022-07-05 03:02:40.418 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: Concurrency Summary
-2022-07-05 03:02:40.418 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: ------------------------------------
-2022-07-05 03:02:40.418 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: getItem                       : 200
-2022-07-05 03:02:40.418 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: ------------------------------------
-2022-07-05 03:02:40.418 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: Total                         : 200
-2022-07-05 03:02:40.418 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656990159667: ------------------------------------
-2022-07-05 03:02:40.418 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: queryCache.Set callId: 1656990159667
-2022-07-05 03:02:40.418 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656986559  nanos:628314000}}}
-2022-07-05 03:02:40.418 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: EXCLUDING COLUMN
-2022-07-05 03:02:40.418 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: QueryCache Set - connectionName: hackernews, table: hackernews_new, columns: [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
-2022-07-05 03:02:40.418 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: cache item cost = 64000 (500 rows, 16 columns)
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: ------------------------------------
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: Cache Metrics
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: ------------------------------------
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: MaxCost: 1073741824
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: KeysAdded: 2
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: CostAdded: 64113
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: KeysEvicted: 0
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: CostEvicted: 0
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: ------------------------------------
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: QueryCache Set() DONE
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: pendingItemComplete indexBucketKey index__hackernewshackernews_new, columns [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: got pending index bucket, len 1
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: SatisfiesLimit limit -1, no item limit - satisfied
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: found pending index item to satisfy columns _ctx,by,dead,deleted,descendants,id,kids,parent,parts,poll,score,text,time,title,type,url, limit -1
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: got pending item hackernewshackernews_newid,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx-1 - removing from map as it is complete
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: pendingIndexItem Unlock count before 1
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: deleted from pending, len 0
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: pending bucket now empty - deleting key index__hackernewshackernews_new
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: pendingItemComplete done
-2022-07-05 03:02:40.429 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656990159667: Execute complete callId: 1656990159667 table: hackernews_new
-2022-07-05 03:02:40.497 UTC [TRACE] PluginManager Shutdown map[hackernews:0xc000127c80]
-2022-07-05 03:02:40.497 UTC [TRACE] killing plugin hackernews (1756)
-2022-07-05 03:02:40.500 UTC [TRACE] stdio: waiting for stdio data
-2022-07-05 03:02:40.501 UTC [DEBUG] stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
-2022-07-05 03:02:40.505 UTC [INFO]  plugin process exited: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1756
-2022-07-05 03:02:40.505 UTC [DEBUG] plugin exited
-2022-07-05 03:02:40.922 UTC [INFO]  starting plugin manager
-2022-07-05 03:02:40.922 UTC [TRACE] loaded config map: hackernews
-2022-07-05 03:02:40.922 UTC [INFO]  starting connection watcher
-2022-07-05 03:02:40.923 UTC [INFO]  created ConnectionWatcher
-2022-07-05 03:02:40.923 UTC [TRACE] about to serve
-2022-07-05 03:02:40.986 UTC [TRACE] PluginManager Get, connections: '[]'
-2022-07-05 03:02:40.986 UTC [TRACE] PluginManager Get returning
-2022-07-05 03:02:40.988 UTC [TRACE] PluginManager Get, connections: '[]'
-2022-07-05 03:02:40.988 UTC [TRACE] PluginManager Get returning
-2022-07-05 03:02:41.024 UTC [TRACE] handleFileWatcherEvent ignoring first event
-2022-07-05 03:02:41.182 UTC [TRACE] PluginManager Get, connections: '[hackernews]'
-2022-07-05 03:02:41.182 UTC [TRACE] PluginManager getPlugin connection 'hackernews'
-2022-07-05 03:02:41.182 UTC [TRACE] PluginManager 0xc000307980 'hackernews' NOT found in map  - starting
-2022-07-05 03:02:41.182 UTC [TRACE] ************ start plugin hackernews ********************
-2022-07-05 03:02:41.182 UTC [DEBUG] starting plugin: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin args=["/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin"]
-2022-07-05 03:02:41.183 UTC [DEBUG] plugin started: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1820
-2022-07-05 03:02:41.183 UTC [DEBUG] waiting for RPC address: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin
-2022-07-05 03:02:41.188 UTC [DEBUG] steampipe-plugin-hackernews.plugin: 2022/07/05 03:02:41 [TRACE] Plugin Initialise creating connection manager
-2022-07-05 03:02:41.191 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] Setting Ulimit: ulimit=2560
-2022-07-05 03:02:41.192 UTC [DEBUG] steampipe-plugin-hackernews.plugin: plugin address: address=/tmp/plugin3700049130 network=unix timestamp=2022-07-05T03:02:41.192Z
-2022-07-05 03:02:41.192 UTC [DEBUG] using plugin: version=0
-2022-07-05 03:02:41.192 UTC [TRACE] PluginManager getPlugin complete, returning reattach config with PID: 1820
-2022-07-05 03:02:41.192 UTC [TRACE] PluginManager Get returning reattach_map:{key:"hackernews" value:{protocol:"grpc" addr:{Network:"unix" Address:"/tmp/plugin3700049130"} pid:1820}}
-2022-07-05 03:02:41.193 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] validate plugin steampipe-plugin-hackernews, required columns []
-2022-07-05 03:02:41.196 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  query cache created
-2022-07-05 03:02:41.196 UTC [DEBUG] steampipe-plugin-hackernews.plugin: [DEBUG] SetConnectionConfig finished
-2022-07-05 03:02:41.199 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] EXECUTE callId: 165699016137 table: hackernews_new cols: time
-2022-07-05 03:02:41.199 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: Execute : connection=hackernews table=hackernews_new
-2022-07-05 03:02:41.199 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: Got query context: table=hackernews_new cols=[time]
-2022-07-05 03:02:41.199 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: setFetchType map[time:quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656986561  nanos:165118000}}}]
-2022-07-05 03:02:41.199 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: getMatchingQuals column:'id' operator: =
-2022-07-05 03:02:41.199 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: getMatchingQuals returning false - qualMap does not contain any quals for column id
-2022-07-05 03:02:41.200 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: GetUnsatisfiedKeyColumns for columns column:'id' operator: =
-2022-07-05 03:02:41.201 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: key column NOT satisfied column:'id' operator: =
-2022-07-05 03:02:41.201 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: satisfied: map[any_of: optional: required:]
-2022-07-05 03:02:41.203 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: unsatisfied: map[any_of: optional: required:column:'id' operator: =]
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: unsatisfied required KeyColumns: column:'id' operator: =
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: Set fetchType to fetchTypeList
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: Equals key column quals:
-2022-07-05 03:02:41.204 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: All key column quals:
-2022-07-05 03:02:41.204 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: calling fetchItems: table=hackernews_new matrixItem=[] limit=<nil>
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: Cache ENABLED callId: 165699016137
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: QueryCache Get - indexBucketKey index__hackernewshackernews_new, quals
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656986561  nanos:165118000}}}
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: EXCLUDING COLUMN
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: QueryCache getCachedResult - index bucket key: index__hackernewshackernews_new ttlSeconds 300
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: getCachedResult - no index bucket
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: getPendingResultItem indexBucketKey index__hackernewshackernews_new, columns [time], limit -1
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: no pending index item - add pending result
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: addPendingResult indexBucketKey index__hackernewshackernews_new, columns [time], limit -1
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: no index bucket found - creating one
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: pendingIndexItem Lock count before 0
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: getPendingResultItem returning <nil>
-2022-07-05 03:02:41.204 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: CACHE MISS
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: fetch items callId: 165699016137
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: buildRows callId: 165699016137
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: streamRows callId: 165699016137
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: executeListCall
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: GetUnsatisfiedKeyColumns for columns
-2022-07-05 03:02:41.204 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: doList: no matrix item
-2022-07-05 03:02:41.316 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: rowData chan select - channel CLOSED
-2022-07-05 03:02:41.316 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: wait for rows
-2022-07-05 03:02:41.861 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: rowWg complete - CLOSING ROW CHANNEL
-2022-07-05 03:02:41.861 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: row chan closed, stop streaming
-2022-07-05 03:02:41.861 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: ------------------------------------
-2022-07-05 03:02:41.861 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: Concurrency Summary
-2022-07-05 03:02:41.861 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: ------------------------------------
-2022-07-05 03:02:41.861 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: getItem                       : 200
-2022-07-05 03:02:41.862 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: ------------------------------------
-2022-07-05 03:02:41.862 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: Total                         : 200
-2022-07-05 03:02:41.862 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  165699016137: ------------------------------------
-2022-07-05 03:02:41.862 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: queryCache.Set callId: 165699016137
-2022-07-05 03:02:41.862 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656986561  nanos:165118000}}}
-2022-07-05 03:02:41.862 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: EXCLUDING COLUMN
-2022-07-05 03:02:41.862 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: QueryCache Set - connectionName: hackernews, table: hackernews_new, columns: [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
-2022-07-05 03:02:41.862 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: cache item cost = 64000 (500 rows, 16 columns)
-2022-07-05 03:02:41.872 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: ------------------------------------
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: Cache Metrics
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: ------------------------------------
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: MaxCost: 1073741824
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: KeysAdded: 2
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: CostAdded: 64113
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: KeysEvicted: 0
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: CostEvicted: 0
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: ------------------------------------
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: QueryCache Set() DONE
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: pendingItemComplete indexBucketKey index__hackernewshackernews_new, columns [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: got pending index bucket, len 1
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: SatisfiesLimit limit -1, no item limit - satisfied
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: found pending index item to satisfy columns _ctx,by,dead,deleted,descendants,id,kids,parent,parts,poll,score,text,time,title,type,url, limit -1
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: got pending item hackernewshackernews_newtime-1 - removing from map as it is complete
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: pendingIndexItem Unlock count before 1
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: deleted from pending, len 0
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: pending bucket now empty - deleting key index__hackernewshackernews_new
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: pendingItemComplete done
-2022-07-05 03:02:41.873 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 165699016137: Execute complete callId: 165699016137 table: hackernews_new
-2022-07-05 03:02:41.937 UTC [TRACE] PluginManager Shutdown map[hackernews:0xc000289728]
-2022-07-05 03:02:41.937 UTC [TRACE] killing plugin hackernews (1820)
-2022-07-05 03:02:41.938 UTC [TRACE] stdio: waiting for stdio data
-2022-07-05 03:02:41.938 UTC [DEBUG] stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
-2022-07-05 03:02:41.940 UTC [INFO]  plugin process exited: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1820
-2022-07-05 03:02:41.940 UTC [DEBUG] plugin exited
+2022-07-05 03:48:38.164 UTC [INFO]  starting plugin manager
+2022-07-05 03:48:38.165 UTC [TRACE] loaded config map: hackernews
+2022-07-05 03:48:38.165 UTC [INFO]  starting connection watcher
+2022-07-05 03:48:38.165 UTC [INFO]  created ConnectionWatcher
+2022-07-05 03:48:38.165 UTC [TRACE] about to serve
+2022-07-05 03:48:38.227 UTC [TRACE] PluginManager Get, connections: '[]'
+2022-07-05 03:48:38.227 UTC [TRACE] PluginManager Get returning
+2022-07-05 03:48:38.229 UTC [TRACE] PluginManager Get, connections: '[]'
+2022-07-05 03:48:38.229 UTC [TRACE] PluginManager Get returning
+2022-07-05 03:48:38.266 UTC [TRACE] handleFileWatcherEvent ignoring first event
+2022-07-05 03:48:38.409 UTC [TRACE] PluginManager Get, connections: '[hackernews]'
+2022-07-05 03:48:38.409 UTC [TRACE] PluginManager getPlugin connection 'hackernews'
+2022-07-05 03:48:38.409 UTC [TRACE] PluginManager 0xc0004461b0 'hackernews' NOT found in map  - starting
+2022-07-05 03:48:38.409 UTC [TRACE] ************ start plugin hackernews ********************
+2022-07-05 03:48:38.409 UTC [DEBUG] starting plugin: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin args=["/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin"]
+2022-07-05 03:48:38.410 UTC [DEBUG] plugin started: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1761
+2022-07-05 03:48:38.410 UTC [DEBUG] waiting for RPC address: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin
+2022-07-05 03:48:38.415 UTC [DEBUG] steampipe-plugin-hackernews.plugin: 2022/07/05 03:48:38 [TRACE] Plugin Initialise creating connection manager
+2022-07-05 03:48:38.419 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] Setting Ulimit: ulimit=2560
+2022-07-05 03:48:38.420 UTC [DEBUG] steampipe-plugin-hackernews.plugin: plugin address: address=/tmp/plugin1855655241 network=unix timestamp=2022-07-05T03:48:38.419Z
+2022-07-05 03:48:38.420 UTC [DEBUG] using plugin: version=0
+2022-07-05 03:48:38.420 UTC [TRACE] PluginManager getPlugin complete, returning reattach config with PID: 1761
+2022-07-05 03:48:38.420 UTC [TRACE] PluginManager Get returning reattach_map:{key:"hackernews" value:{protocol:"grpc" addr:{Network:"unix" Address:"/tmp/plugin1855655241"} pid:1761}}
+2022-07-05 03:48:38.421 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] validate plugin steampipe-plugin-hackernews, required columns []
+2022-07-05 03:48:38.423 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  query cache created
+2022-07-05 03:48:38.423 UTC [DEBUG] steampipe-plugin-hackernews.plugin: [DEBUG] SetConnectionConfig finished
+2022-07-05 03:48:38.425 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] EXECUTE callId: 1656992918793 table: hackernews_new cols: id,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx
+2022-07-05 03:48:38.425 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: Execute : connection=hackernews table=hackernews_new
+2022-07-05 03:48:38.425 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: Got query context: table=hackernews_new cols=[id, title, time, by, score, dead, deleted, descendants, kids, parent, parts, poll, text, type, url, _ctx]
+2022-07-05 03:48:38.425 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: setFetchType map[time:quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656989318  nanos:390991000}}}]
+2022-07-05 03:48:38.426 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: getMatchingQuals column:'id' operator: =
+2022-07-05 03:48:38.426 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: getMatchingQuals returning false - qualMap does not contain any quals for column id
+2022-07-05 03:48:38.427 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: GetUnsatisfiedKeyColumns for columns column:'id' operator: =
+2022-07-05 03:48:38.427 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: key column NOT satisfied column:'id' operator: =
+2022-07-05 03:48:38.427 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: satisfied: map[any_of: optional: required:]
+2022-07-05 03:48:38.428 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: unsatisfied: map[any_of: optional: required:column:'id' operator: =]
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: unsatisfied required KeyColumns: column:'id' operator: =
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: Set fetchType to fetchTypeList
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: Equals key column quals:
+2022-07-05 03:48:38.436 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: All key column quals:
+2022-07-05 03:48:38.436 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: calling fetchItems: table=hackernews_new matrixItem=[] limit=<nil>
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: Cache ENABLED callId: 1656992918793
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: QueryCache Get - indexBucketKey index__hackernewshackernews_new, quals
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656989318  nanos:390991000}}}
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: EXCLUDING COLUMN
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: QueryCache getCachedResult - index bucket key: index__hackernewshackernews_new ttlSeconds 300
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: getCachedResult - no index bucket
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: getPendingResultItem indexBucketKey index__hackernewshackernews_new, columns [id title time by score dead deleted descendants kids parent parts poll text type url _ctx], limit -1
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: no pending index item - add pending result
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: addPendingResult indexBucketKey index__hackernewshackernews_new, columns [id title time by score dead deleted descendants kids parent parts poll text type url _ctx], limit -1
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: no index bucket found - creating one
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: pendingIndexItem Lock count before 0
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: getPendingResultItem returning <nil>
+2022-07-05 03:48:38.436 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: CACHE MISS
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: fetch items callId: 1656992918793
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: buildRows callId: 1656992918793
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: streamRows callId: 1656992918793
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: executeListCall
+2022-07-05 03:48:38.436 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: GetUnsatisfiedKeyColumns for columns
+2022-07-05 03:48:38.437 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: doList: no matrix item
+2022-07-05 03:48:38.550 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: rowData chan select - channel CLOSED
+2022-07-05 03:48:38.550 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: wait for rows
+2022-07-05 03:48:38.943 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: rowWg complete - CLOSING ROW CHANNEL
+2022-07-05 03:48:38.943 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: row chan closed, stop streaming
+2022-07-05 03:48:38.943 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: ------------------------------------
+2022-07-05 03:48:38.943 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: Concurrency Summary
+2022-07-05 03:48:38.943 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: ------------------------------------
+2022-07-05 03:48:38.943 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: getItem                       : 200
+2022-07-05 03:48:38.943 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: ------------------------------------
+2022-07-05 03:48:38.943 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: Total                         : 200
+2022-07-05 03:48:38.943 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992918793: ------------------------------------
+2022-07-05 03:48:38.943 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: queryCache.Set callId: 1656992918793
+2022-07-05 03:48:38.943 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656989318  nanos:390991000}}}
+2022-07-05 03:48:38.943 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: EXCLUDING COLUMN
+2022-07-05 03:48:38.943 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: QueryCache Set - connectionName: hackernews, table: hackernews_new, columns: [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
+2022-07-05 03:48:38.943 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: cache item cost = 64000 (500 rows, 16 columns)
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: ------------------------------------
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: Cache Metrics
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: ------------------------------------
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: MaxCost: 1073741824
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: KeysAdded: 2
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: CostAdded: 64113
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: KeysEvicted: 0
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: CostEvicted: 0
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: ------------------------------------
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: QueryCache Set() DONE
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: pendingItemComplete indexBucketKey index__hackernewshackernews_new, columns [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: got pending index bucket, len 1
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: SatisfiesLimit limit -1, no item limit - satisfied
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: found pending index item to satisfy columns _ctx,by,dead,deleted,descendants,id,kids,parent,parts,poll,score,text,time,title,type,url, limit -1
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: got pending item hackernewshackernews_newid,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx-1 - removing from map as it is complete
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: pendingIndexItem Unlock count before 1
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: deleted from pending, len 0
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: pending bucket now empty - deleting key index__hackernewshackernews_new
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: pendingItemComplete done
+2022-07-05 03:48:38.954 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992918793: Execute complete callId: 1656992918793 table: hackernews_new
+2022-07-05 03:48:39.017 UTC [TRACE] PluginManager Shutdown map[hackernews:0xc00000dab8]
+2022-07-05 03:48:39.017 UTC [TRACE] killing plugin hackernews (1761)
+2022-07-05 03:48:39.018 UTC [TRACE] stdio: waiting for stdio data
+2022-07-05 03:48:39.020 UTC [INFO]  plugin process exited: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1761
+2022-07-05 03:48:39.020 UTC [DEBUG] plugin exited
+2022-07-05 03:48:39.020 UTC [DEBUG] stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2022-07-05 03:48:39.410 UTC [INFO]  starting plugin manager
+2022-07-05 03:48:39.411 UTC [TRACE] loaded config map: hackernews
+2022-07-05 03:48:39.411 UTC [INFO]  starting connection watcher
+2022-07-05 03:48:39.411 UTC [INFO]  created ConnectionWatcher
+2022-07-05 03:48:39.411 UTC [TRACE] about to serve
+2022-07-05 03:48:39.473 UTC [TRACE] PluginManager Get, connections: '[]'
+2022-07-05 03:48:39.473 UTC [TRACE] PluginManager Get returning
+2022-07-05 03:48:39.488 UTC [TRACE] PluginManager Get, connections: '[]'
+2022-07-05 03:48:39.489 UTC [TRACE] PluginManager Get returning
+2022-07-05 03:48:39.513 UTC [TRACE] handleFileWatcherEvent ignoring first event
+2022-07-05 03:48:39.666 UTC [TRACE] PluginManager Get, connections: '[hackernews]'
+2022-07-05 03:48:39.666 UTC [TRACE] PluginManager getPlugin connection 'hackernews'
+2022-07-05 03:48:39.666 UTC [TRACE] PluginManager 0xc0003019b0 'hackernews' NOT found in map  - starting
+2022-07-05 03:48:39.666 UTC [TRACE] ************ start plugin hackernews ********************
+2022-07-05 03:48:39.666 UTC [DEBUG] starting plugin: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin args=["/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin"]
+2022-07-05 03:48:39.666 UTC [DEBUG] plugin started: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1823
+2022-07-05 03:48:39.666 UTC [DEBUG] waiting for RPC address: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin
+2022-07-05 03:48:39.671 UTC [DEBUG] steampipe-plugin-hackernews.plugin: 2022/07/05 03:48:39 [TRACE] Plugin Initialise creating connection manager
+2022-07-05 03:48:39.674 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] Setting Ulimit: ulimit=2560
+2022-07-05 03:48:39.675 UTC [DEBUG] steampipe-plugin-hackernews.plugin: plugin address: network=unix address=/tmp/plugin586338574 timestamp=2022-07-05T03:48:39.675Z
+2022-07-05 03:48:39.675 UTC [DEBUG] using plugin: version=0
+2022-07-05 03:48:39.675 UTC [TRACE] PluginManager getPlugin complete, returning reattach config with PID: 1823
+2022-07-05 03:48:39.675 UTC [TRACE] PluginManager Get returning reattach_map:{key:"hackernews" value:{protocol:"grpc" addr:{Network:"unix" Address:"/tmp/plugin586338574"} pid:1823}}
+2022-07-05 03:48:39.678 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] validate plugin steampipe-plugin-hackernews, required columns []
+2022-07-05 03:48:39.687 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  query cache created
+2022-07-05 03:48:39.687 UTC [DEBUG] steampipe-plugin-hackernews.plugin: [DEBUG] SetConnectionConfig finished
+2022-07-05 03:48:39.689 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] EXECUTE callId: 1656992919374 table: hackernews_new cols: time
+2022-07-05 03:48:39.689 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: Execute : connection=hackernews table=hackernews_new
+2022-07-05 03:48:39.689 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: Got query context: table=hackernews_new cols=[time]
+2022-07-05 03:48:39.689 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: setFetchType map[time:quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656989319  nanos:651254000}}}]
+2022-07-05 03:48:39.689 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: getMatchingQuals column:'id' operator: =
+2022-07-05 03:48:39.689 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: getMatchingQuals returning false - qualMap does not contain any quals for column id
+2022-07-05 03:48:39.690 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: GetUnsatisfiedKeyColumns for columns column:'id' operator: =
+2022-07-05 03:48:39.691 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: key column NOT satisfied column:'id' operator: =
+2022-07-05 03:48:39.691 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: satisfied: map[any_of: optional: required:]
+2022-07-05 03:48:39.692 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: unsatisfied: map[any_of: optional: required:column:'id' operator: =]
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: unsatisfied required KeyColumns: column:'id' operator: =
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: Set fetchType to fetchTypeList
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: Equals key column quals:
+2022-07-05 03:48:39.693 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: All key column quals:
+2022-07-05 03:48:39.693 UTC [DEBUG] steampipe-plugin-hackernews.plugin: {}
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: calling fetchItems: table=hackernews_new matrixItem=[] limit=<nil>
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: Cache ENABLED callId: 1656992919374
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: QueryCache Get - indexBucketKey index__hackernewshackernews_new, quals
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656989319  nanos:651254000}}}
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: EXCLUDING COLUMN
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: QueryCache getCachedResult - index bucket key: index__hackernewshackernews_new ttlSeconds 300
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: getCachedResult - no index bucket
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: getPendingResultItem indexBucketKey index__hackernewshackernews_new, columns [time], limit -1
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: no pending index item - add pending result
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: addPendingResult indexBucketKey index__hackernewshackernews_new, columns [time], limit -1
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: no index bucket found - creating one
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: pendingIndexItem Lock count before 0
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: getPendingResultItem returning <nil>
+2022-07-05 03:48:39.693 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: CACHE MISS
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: fetch items callId: 1656992919374
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: buildRows callId: 1656992919374
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: streamRows callId: 1656992919374
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: executeListCall
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: GetUnsatisfiedKeyColumns for columns
+2022-07-05 03:48:39.693 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: doList: no matrix item
+2022-07-05 03:48:39.773 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: rowData chan select - channel CLOSED
+2022-07-05 03:48:39.773 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: wait for rows
+2022-07-05 03:48:40.183 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: rowWg complete - CLOSING ROW CHANNEL
+2022-07-05 03:48:40.184 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: row chan closed, stop streaming
+2022-07-05 03:48:40.184 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: ------------------------------------
+2022-07-05 03:48:40.184 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: Concurrency Summary
+2022-07-05 03:48:40.184 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: ------------------------------------
+2022-07-05 03:48:40.184 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: getItem                       : 200
+2022-07-05 03:48:40.184 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: ------------------------------------
+2022-07-05 03:48:40.184 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: Total                         : 200
+2022-07-05 03:48:40.184 UTC [INFO]  steampipe-plugin-hackernews.plugin: [INFO]  1656992919374: ------------------------------------
+2022-07-05 03:48:40.184 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: queryCache.Set callId: 1656992919374
+2022-07-05 03:48:40.184 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: buildCacheQualMap col time, quals quals:{fieldName:"time"  string_value:">"  value:{timestamp_value:{seconds:1656989319  nanos:651254000}}}
+2022-07-05 03:48:40.184 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: EXCLUDING COLUMN
+2022-07-05 03:48:40.184 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: QueryCache Set - connectionName: hackernews, table: hackernews_new, columns: [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
+2022-07-05 03:48:40.184 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: cache item cost = 64000 (500 rows, 16 columns)
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: ------------------------------------
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: Cache Metrics
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: ------------------------------------
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: MaxCost: 1073741824
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: KeysAdded: 2
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: CostAdded: 64113
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: KeysEvicted: 0
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: CostEvicted: 0
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: ------------------------------------
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: QueryCache Set() DONE
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: pendingItemComplete indexBucketKey index__hackernewshackernews_new, columns [_ctx by dead deleted descendants id kids parent parts poll score text time title type url], limit -1
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: got pending index bucket, len 1
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: SatisfiesLimit limit -1, no item limit - satisfied
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: found pending index item to satisfy columns _ctx,by,dead,deleted,descendants,id,kids,parent,parts,poll,score,text,time,title,type,url, limit -1
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: got pending item hackernewshackernews_newtime-1 - removing from map as it is complete
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: pendingIndexItem Unlock count before 1
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: deleted from pending, len 0
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: pending bucket now empty - deleting key index__hackernewshackernews_new
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: pendingItemComplete done
+2022-07-05 03:48:40.194 UTC [TRACE] steampipe-plugin-hackernews.plugin: [TRACE] 1656992919374: Execute complete callId: 1656992919374 table: hackernews_new
+2022-07-05 03:48:40.257 UTC [TRACE] PluginManager Shutdown map[hackernews:0xc00000d998]
+2022-07-05 03:48:40.257 UTC [TRACE] killing plugin hackernews (1823)
+2022-07-05 03:48:40.258 UTC [TRACE] stdio: waiting for stdio data
+2022-07-05 03:48:40.260 UTC [DEBUG] stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2022-07-05 03:48:40.260 UTC [INFO]  plugin process exited: path=/home/runner/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin pid=1823
+2022-07-05 03:48:40.260 UTC [DEBUG] plugin exited

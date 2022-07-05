@@ -950,6 +950,7 @@ query "submission_times" {
       to_char(time::timestamptz, 'MM-DD hHH24') as time,
       title,
       url,
+      score,
       case
         when descendants = '<null>' then ''
         else descendants

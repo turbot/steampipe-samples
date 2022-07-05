@@ -329,17 +329,18 @@ dashboard "sources" {
         ]
         sql = <<EOQ
           select
-            id as link,
-            score,
-            url,
-            title
+            h.id as link,
+            to_char(h.time::timestamptz, 'MM-DD hHH24') as time,
+            h.score,
+            h.url,
+            ( select count(*) from hn_items_all where url = h.url ) as occurrences,
+            h.title
           from
-            hn_items_all 
+            hn_items_all h
           where 
-            url ~ $1
+            h.url ~ $1
           order by
-            score::int desc
-          limit 40
+            h.score::int desc
         EOQ
         column "link" {
           href = "https://news.ycombinator.com/item?id={{.'link'}}"

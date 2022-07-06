@@ -530,7 +530,7 @@ dashboard "all_hackernews_stats" {
     width = 12
     
     chart {
-      title = "users with > 5 posts"
+      title = "users with > 50 posts"
       width = 6
       sql = <<EOQ
         with data as (
@@ -549,14 +549,14 @@ dashboard "all_hackernews_stats" {
         from
           data
         where
-          posts > 5
+          posts > 50
         limit
           25
       EOQ
     }
 
     chart {
-      title = "users with max scores > 3"
+      title = "users with scores > 500"
       width = 6
       sql = <<EOQ
         select
@@ -565,7 +565,7 @@ dashboard "all_hackernews_stats" {
         from
           hn_items_all
         where
-          score::int > 3
+          score::int > 500
         group by 
           by
         order by

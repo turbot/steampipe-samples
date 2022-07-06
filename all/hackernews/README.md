@@ -2,11 +2,12 @@
 
 ## Setup
 
-1. Install [Steampipe](https://steampipe.io/downloads)
-2. Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) and configure its `~/.steampipe/config/csv.spc` with a path that includes `~/csv/*.csv` (e.g. `paths = [ "/home/jon/csv/*.csv" ]`
-3. Clone this repo and visit `steampipe-samples/all/hackernews`
-4. Run `./update.sh`
-4. Open localhost:9194
+- Install [Steampipe](https://steampipe.io/downloads)
+- Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) and configure its `~/.steampipe/config/csv.spc` with a path that includes `~/csv/*.csv` (e.g. `paths = [ "/home/jon/csv/*.csv" ]`
+- Clone this repo and visit `steampipe-samples/all/hackernews`
+- Run `./update.sh`
+- Run `steampipe dashboard`
+- Open localhost:9194
 
 ## Dashboard: All hackernews stats
 

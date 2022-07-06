@@ -9,7 +9,7 @@
 - Run `steampipe dashboard`
 - Open localhost:9194
 
-## Dashboard: All hackernews stats
+## Dashboard: Everything
 
 - `infocards`: A set of cards that count items (All/Ask HN/Show HN), the span of days they cover, max and average scores.
 
@@ -33,13 +33,9 @@
 
 - `gitHub and twitter info for hn users`: A Hackernews username will often match a GitHub username, and sometimes also a Twitter username. When those matches occur, this table links to HN users' GitHub and Twitter accounts, and reports follower counts for both. The Hackernews username in column 1 of the chart links to the `Submissions` dashboard and selects that user.
 
-## Dashboad: Animated company mentions
-
-An experimental animation that rewrites the `mod.sp` file to animate the companies chart. To run it: `python animate.py`.
-
 ## Dashboard: Submissions
 
-The `by` columns in `All hackernews stats` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
+The `by` columns in the `Everything` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
 
 ## Dashboard: Sources
 

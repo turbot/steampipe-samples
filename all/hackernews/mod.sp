@@ -284,7 +284,7 @@ dashboard "sources" {
   }
 
   table {
-    width = 4
+    width = 6
     query = query.domains
     column "domain" {
       wrap = "all"
@@ -293,7 +293,7 @@ dashboard "sources" {
   }
 
   container {
-    width = 8
+    width = 6
 
     container  {
 
@@ -1000,7 +1000,9 @@ query "domains" {
       select
         substring(url from 'http[s]*://([^/$]+)') as domain,
         avg(score::int) as avg_score,
-        max(score::int) as max_score
+        max(score::int) as max_score,
+        avg(descendants::int) as avg_comments,
+        max(descendants::int) as max_comments
       from
         hn_items_all
       group by
@@ -1021,7 +1023,9 @@ query "domains" {
       a.domain,
       c.count,
       a.max_score,
-      round(a.avg_score, 1) as avg_score
+      round(a.avg_score, 1) as avg_score,
+      a.max_comments,
+      round(a.avg_comments, 1) as avg_comments
     from
       avg_and_max a
     join

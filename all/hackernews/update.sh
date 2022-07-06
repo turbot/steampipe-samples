@@ -1,6 +1,10 @@
+echo 'clone repo'
+
 git pull
 
 cat hn_header.txt > hn.csv
+
+echo 'combine csv files'
 
 for file in ./csv/hn_*.csv; do
   tail -n +2 $file >> hn.csv
@@ -8,9 +12,15 @@ done
 
 mv hn.csv ~/csv
 
+echo 'create table hn_items_all'
+
 steampipe query "drop table if exists public.hn_items_all"
 
 steampipe query "create table public.hn_items_all as select distinct on (id) * from csv.hn"
+
+steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
+
+echo 'update scores and comments'
 
 steampipe query "drop table if exists hn_scores_and_comments"
 

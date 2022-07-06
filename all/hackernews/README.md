@@ -38,7 +38,7 @@ An experimental animation that rewrites the `mod.sp` file to animate the compani
 
 ## Dashboard: Submissions
 
-The `by` column in the `All hackernews stats` dashboard also here. For a selected user, this dashboard charts all their HN submissions and provides links to each item. 
+The `by` columns in `All hackernews stats` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
 
 ## Dashboard: Sources
 

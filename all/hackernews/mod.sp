@@ -252,6 +252,7 @@ chart "db_base" {
   }
 }
 
+/*
 dashboard "animated_company_mentions" {
 
   tags = {
@@ -276,6 +277,7 @@ dashboard "animated_company_mentions" {
   }
 
 }
+*/
 
 dashboard "sources" {
 

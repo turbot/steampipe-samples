@@ -153,3 +153,22 @@ query "domain_detail" {
   EOQ
   param "domain" {}
 }
+
+query "source_detail" {
+  sql = <<EOQ
+    select
+      h.id as link,
+      to_char(h.time::timestamptz, 'MM-DD hHH24') as time,
+      h.score,
+      h.url,
+      ( select count(*) from hn_items_all where url = h.url ) as occurrences,
+      h.title
+    from
+      hn_items_all h
+    where 
+      h.url ~ $1
+    order by
+      h.score::int desc
+  EOQ
+  param "source_domain" {}
+}

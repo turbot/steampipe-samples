@@ -11,3 +11,7 @@ For a specified subset of your repos, this dashboard explores how long issues re
 - Run `steampipe dashboard`
 - Open localhost:9194
 
+# Demo
+
+https://user-images.githubusercontent.com/46509/178044297-7083aee2-053e-46c7-a8b8-2a3c1973d02d.mp4
+

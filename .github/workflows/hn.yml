@@ -43,8 +43,11 @@ jobs:
     - name: ls
       run: ls
 
-    - name: clock
+    - name: clock1
       run: echo `date`
+
+    - name: clock2
+      run: echo `date` >> ./times.txt
 
     - name: run query1
       run: STEAMPIPE_LOG=trace steampipe query "select * from hackernews_new where time > now() - interval '1 hour'" --output csv >> ./csv/hn_`date +%s`.csv

@@ -123,6 +123,36 @@ dashboard "GitHub_issue_duration" {
     EOQ
   }
 
+  table {
+    sql = <<EOQ
+      with repos as (
+        select
+          full_name
+        from
+        github_my_repository
+      where
+        full_name ~ '${local.repo_pattern}'
+      order by
+        full_name
+      ),
+      data as (
+        select
+          full_name,
+          ( select pct_closed_in_interval as "pct closed in a week" from pct_issues_open_for_repo_by_interval(full_name, interval '7 day') ),
+          ( select pct_closed_in_interval as "pct closed in a month" from pct_issues_open_for_repo_by_interval(full_name, interval '1 month') ),
+          ( select pct_closed_in_interval as "pct closed in 6 months" from pct_issues_open_for_repo_by_interval(full_name, interval '6 month') )
+        from
+          repos
+      ) 
+      select 
+        *
+      from 
+        data
+      where
+        "pct closed in 6 months" != '0'
+    EOQ
+  }
+
 
 }
 

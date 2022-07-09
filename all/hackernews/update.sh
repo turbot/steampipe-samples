@@ -24,6 +24,9 @@ steampipe query "drop table if exists public.hn_items_all"
 echo 'create table hn_items_all'
 steampipe query "create table public.hn_items_all as select distinct on (id) * from hn_items_tmp"
 
+echo 'create indexes'
+steampipe query "create index idx_hn_items_all_by on public.hn_items_all(by)"
+
 echo 'set null comments to 0'
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 

@@ -1,4 +1,4 @@
 connection "csv" {
   plugin = "csv"
-  paths = [ "./csv/*.csv" ]
+  paths = [ "/home/runner/work/steampipe-samples/steampipe-samples/all/hackernews/csv/*.csv" ]
 }

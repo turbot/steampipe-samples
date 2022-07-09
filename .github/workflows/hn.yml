@@ -90,7 +90,7 @@ jobs:
     - name: create hn_scores_and_comments
       run: |
         cat hn_scores_and_comments.txt > hn
-        steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 5 order by time desc )"
+        steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 10 order by time desc )"
 
     - name: check hn_scores_and_comments
       run: steampipe query "select * from hn_scores_and_comments limit 3"

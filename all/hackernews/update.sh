@@ -26,6 +26,9 @@ steampipe query "create table public.hn_items_all as select distinct on (id) * f
 
 echo 'create indexes'
 steampipe query "create index idx_hn_items_all_by on public.hn_items_all(by)"
+steampipe query "create index idx_hn_items_all_url on public.hn_items_all(url)"
+steampipe query "create index idx_hn_items_all_score on public.hn_items_all(score)"
+steampipe query "create index idx_hn_items_all_descendants on public.hn_items_all(descendants)"
 
 echo 'set null comments to 0'
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"

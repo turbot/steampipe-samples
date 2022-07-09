@@ -95,12 +95,12 @@ jobs:
     - name: check hn_scores_and_comments
       run: steampipe query "select * from hn_scores_and_comments limit 3"
 
-    - name: update hn_scores_and_comments
-      run: steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc )    
-        update hn_scores_and_comments sc set score = n.new_score::text, descendants = n.new_comments::text from new_scores_and_comments n where sc.id = n.id::text"
+#    - name: update hn_scores_and_comments
+#      run: steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc )    
+#        update hn_scores_and_comments sc set score = n.new_score::text, descendants = n.new_comments::text from new_scores_and_comments n where sc.id = n.id::text"
 
-    - name: export hn_scores_and_comments
-      run: steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv"
+#    - name: export hn_scores_and_comments
+#      run: steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv"
 
     - name: setup git 
       run: |

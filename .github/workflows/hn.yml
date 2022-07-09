@@ -31,11 +31,11 @@ jobs:
 #
 #    so install steampipe this way
 
-    - name: install steampipe
-      run: sudo /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/turbot/steampipe/main/install.sh)"
+    - name: echo ~
+      run: echo ~
 
-    - name: install hackernews
-      run: steampipe plugin install hackernews
+    - name: ls ~
+      run: ls ~
 
     - name: pwd
       run: pwd
@@ -48,6 +48,20 @@ jobs:
 
     - name: clock2
       run: echo `date` >> ./times.txt
+    - name: install steampipe
+      run: sudo /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/turbot/steampipe/main/install.sh)"
+
+    - name: install hackernews
+      run: steampipe plugin install hackernews
+
+    - name: install csv
+      run: steampipe plugin install csv
+
+    - name: configure csv
+      run: cp ./csv.spc ~/.steampipe/config/csv.spc
+
+    - name: test csv 
+      run: steampipe query "select * from csv.hn_1655794293 limit 10"
 
     - name: run query1
       run: STEAMPIPE_LOG=trace steampipe query "select * from hackernews_new where time > now() - interval '1 hour'" --output csv >> ./csv/hn_`date +%s`.csv

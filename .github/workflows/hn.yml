@@ -63,8 +63,27 @@ jobs:
     - name: check config
       run: more ~/.steampipe/config/csv.spc
 
-    - name: test csv 
-      run: steampipe query "select * from csv.hn_1655794293 limit 10"
+    - name: combine files into hn_items_all, update scores and comments, export to hn_scores_and_comments.csv
+      run: |
+        cat hn_header.txt > hn.csv
+
+        for file in ./csv/hn_*.csv; do
+          tail -n +2 $file >> hn.csv
+        done
+
+        steampipe query "create table hn_items_tmp as select * from csv.hn"
+
+        steampipe query "create table hn_items_all as select distinct on (id) * from hn_items_tmp"
+
+        steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
+
+        steampipe query "create table public.hn_scores_and_comments as ( select id::bigint, score, descendants as comments from hn_items_all where 
+        score::int > 10 order by time desc )"
+
+        steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc )    
+        update hn_items_all a set score = n.new_score::text, descendants = n.new_comments::text from new_scores_and_comments n where a.id = n.id::text"
+
+        steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv"
 
     - name: run query1
       run: STEAMPIPE_LOG=trace steampipe query "select * from hackernews_new where time > now() - interval '1 hour'" --output csv >> ./csv/hn_`date +%s`.csv
@@ -81,11 +100,11 @@ jobs:
       run: |
         git add ./csv
         cp ~/.steampipe/logs/p*.log ./logs
-        git add ./csv ./logs
+        git add ./csv ./logs 
 
     - name: commit
       run:
-        git commit -m "update hn" ./csv ./logs ./times.txt
+        git commit -m "update hn" ./csv ./logs ./times.txt ./hn_scores_and_comments.csv
 
     - name: push
       run:

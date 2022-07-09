@@ -1,4 +1,4 @@
-echo 'clone repo'
+echo 'git pull'
 
 git pull
 
@@ -12,16 +12,22 @@ done
 
 mv hn.csv ~/csv
 
-echo 'drop table hn_items_all'
+echo 'drop table if exists hn_items_tmp'
+steampipe query "drop table if exists public.hn_items_tmp"
+
+echo 'create table hn_items_tmp'
+steampipe query "create table public.hn_items_tmp as select * from csv.hn"
+
+echo 'drop table if exists hn_items_all'
 steampipe query "drop table if exists public.hn_items_all"
 
 echo 'create table hn_items_all'
-steampipe query "create table public.hn_items_all as select distinct on (id) * from csv.hn"
+steampipe query "create table public.hn_items_all as select distinct on (id) * from hn_items_tmp"
 
 echo 'set null comments to 0'
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 
-echo 'drop table hn_scores_and_comments'
+echo 'drop table if exists hn_scores_and_comments'
 steampipe query "drop table if exists hn_scores_and_comments"
 
 echo 'create table hn_scores_and_comments'
@@ -29,5 +35,6 @@ steampipe query "create table public.hn_scores_and_comments as ( select id::bigi
 
 echo 'update hn_items_all with new scores and comments'
 steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc ) update hn_items_all a set score = n.new_score::text, descendants = n.new_comments::text from new_scores_and_comments n where a.id = n.id::text"
+
 
 

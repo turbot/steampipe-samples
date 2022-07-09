@@ -60,6 +60,9 @@ jobs:
     - name: configure csv
       run: cp ./csv.spc ~/.steampipe/config/csv.spc
 
+    - name: check config
+      run: more ~/.steampipe/config/csv.spc
+
     - name: test csv 
       run: steampipe query "select * from csv.hn_1655794293 limit 10"
 

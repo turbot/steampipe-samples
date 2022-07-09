@@ -1,0 +1,68 @@
+id,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx
+32030553,Ask HN: What programming languages distinguish between “old” and “new” values?,2022-07-09T01:54:30Z,aappleby,1,false,false,<null>,<null>,<null>,<null>,<null>,"Suppose I have this trivial C++ program:<p><pre><code>  #include &lt;stdio.h&gt;
+
+  int a = 0;
+  int b = 0;
+
+  void update_state() {
+    a = b + 1;
+    b = a + 1;
+  }
+
+  int main() {
+    for (int i = 0; i &lt; 3; i++) {
+      update_state();
+      printf(&quot;%d %d\n&quot;, a, b);  
+    }
+    return 0;
+  }
+</code></pre>
+This will print<p><pre><code>  1 2
+  3 4
+  5 6
+</code></pre>
+which shouldn&#x27;t be too surprising. What it does _not_ print is:<p><pre><code>  1 1
+  2 2
+  3 3
+</code></pre>
+because &quot;b = a + 1&quot; is reading the &quot;new&quot; value of A, not the &quot;old&quot; value as you might expect if you were a new programmer just skimming through the source. If we wanted that behavior we could write<p><pre><code>  void update() {
+    int a_old = a;
+    int b_old = b;
+    a = b_old + 1;
+    b = a_old + 1;
+  }
+</code></pre>
+or<p><pre><code>  void update() {
+    int a_new = b + 1;
+    int b_new = a + 1;
+    a = a_new;
+    b = b_new;
+  }
+</code></pre>
+but in both cases we have to introduce new temporary variables to hold a copy of either the &quot;old&quot; or &quot;new&quot; state so we don&#x27;t clobber one of them. If we could annotate our variable names with &quot;oldness&quot; and &quot;newness&quot; we could write something like this:<p><pre><code>  void update() {
+    a_new = b_old + 1;
+    b_new = a_old + 1;
+  }
+</code></pre>
+But that won&#x27;t work in plain C because &quot;_old&quot; and &quot;_new&quot; aren&#x27;t meaningful suffixes. More importantly, we can&#x27;t realistically implement <i>any</i> way of explicitly distinguishing between old and new values in C++ at all - classes and templates don&#x27;t quite give us enough flexibility to do so.<p>In this trivial example it&#x27;s easy to see why the different update() methods produce different results, but in large systems it&#x27;s surprisingly easy to introduce subtle bugs by changing the order of function calls : ClassA expects to read some &quot;new&quot; state from ClassB, code gets refactored, ClassA now inadvertently reads &quot;old&quot; state from ClassB, everything appears to work fine until one day a timing issue causes ClassA and ClassB to get out of sync and everything blows up.<p>After looking around at existing programming languages (and some CS papers from Google Scholar), it doesn&#x27;t appear that any major programming languages support this sort of annotation. The closest you can get is the &quot;&lt;=&quot; operator in Verilog, which means something like &quot;assign the RHS to the LHS, but don&#x27;t do it yet - do it after the current simulation step is done running&quot;.<p>I feel like this is probably a thoroughly covered topic already, but my research skills are failing to turn up anything relevant. Is there some computer sciencey term I&#x27;m unaware of to describe languages that allow for these sorts of old&#x2F;new distinctions?",story,<null>,"{""connection_name"":""hackernews""}"
+32030455,New Artificial Photosynthesis Method Grows Food with No Sunshine,2022-07-09T01:40:33Z,cpeterso,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://singularityhub.com/2022/07/01/new-artificial-photosynthesis-method-grows-food-with-no-sunshine/,"{""connection_name"":""hackernews""}"
+32030552,Startup probably can’t measure performance correctly,2022-07-09T01:54:29Z,ironmagma,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://medium.com/@pc.peterso/your-startup-probably-cant-measure-performance-correctly-b16c8fc6c03f,"{""connection_name"":""hackernews""}"
+32030348,Looking Glass might have just invented the GIF’s 3D successor,2022-07-09T01:26:25Z,LordNibbler,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.theverge.com/23132875/looking-glass-blocks-3d-vr-sharable-image,"{""connection_name"":""hackernews""}"
+32030437,"The World Needs Uncles, Too",2022-07-09T01:38:07Z,memorable,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.esquire.com/lifestyle/a40515434/isaac-fitzgerald-uncle/,"{""connection_name"":""hackernews""}"
+32030211,MOND – Modified Newtonian Dynamics,2022-07-09T01:06:24Z,nonsapreiche,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://phys.org/news/2022-07-dark-ditch-favor-theory-gravity.html,"{""connection_name"":""hackernews""}"
+32030385,A new corridor for India-Russia trade via Iran is almost ready,2022-07-09T01:31:55Z,rguiscard,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://qz.com/india/2186296/a-new-corridor-for-india-russia-trade-via-iran-is-almost-ready/,"{""connection_name"":""hackernews""}"
+32030510,Comments on the Third Review of Canada’s Directive on Automated Decision-Making [pdf],2022-07-09T01:47:24Z,walterbell,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://aifortherestofus.ca/wp-content/uploads/2022/07/Comments-on-the-third-review-of-Canadas-Directive-on-ADM.pdf,"{""connection_name"":""hackernews""}"
+32030277,What a New Kind of Environmentalism Could Look Like,2022-07-09T01:17:19Z,dredmorbius,1,false,false,<null>,"[32030284,32030278]",<null>,<null>,<null>,<null>,story,https://medium.com/climate-conscious/the-book-about-nature-everyone-should-read-d064a140a4dd,"{""connection_name"":""hackernews""}"
+32030305,What I Mean When I Say 'Ban Cars',2022-07-09T01:20:43Z,jonchang,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://jalopnik.com/what-i-mean-when-i-say-ban-cars-1849122955,"{""connection_name"":""hackernews""}"
+32030463,Exposing Fake Primitive Technologies Videos,2022-07-09T01:41:58Z,memorable,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://blog.adafruit.com/2022/07/08/exposing-fake-primitive-technologies-videos/,"{""connection_name"":""hackernews""}"
+32030402,Covid learning loss has been a global disaster,2022-07-09T01:33:26Z,MuchoMaas,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.economist.com/international/2022/07/07/covid-learning-loss-has-been-a-global-disaster,"{""connection_name"":""hackernews""}"
+32030504,Dev Template – Build your entire project with one command,2022-07-09T01:46:43Z,Theryston,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://dtemplate.org,"{""connection_name"":""hackernews""}"
+32030434,Tehran’s Red-Light District,2022-07-09T01:37:43Z,memorable,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://failedarchitecture.com/the-hidden-history-of-tehrans-red-light-district/,"{""connection_name"":""hackernews""}"
+32030335,Ask HN: How do I properly secure a windows server machine using FOSS tools?,2022-07-09T01:24:26Z,shekhar101,1,false,false,<null>,<null>,<null>,<null>,<null>,"I manage a windows server machine for a small business. I do it part time for my brother&#x27;s business. I&#x27;ve enabled usual protection suggested by Microsoft like regular scan, backup, write protection in certain folders with whitelist etc. Are there FOSS tools that I can use to manage, monitor and secure Windows machine. His office also has 7-8 windows laptops connecting to this &quot;server&quot; which is just a powerful AMD desktops class machine with good storage and memory. How can I manage this small fleet and secure them also?",story,<null>,"{""connection_name"":""hackernews""}"
+32030221,Elon vs. Twitter: The updated flow chart,2022-07-09T01:07:47Z,cwwc,3,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.axios.com/2022/07/08/elon-musk-twitter-deal-delaware-court-lawsuit,"{""connection_name"":""hackernews""}"
+32030227,Einstein-Bohr debate settled once and for all,2022-07-09T01:09:05Z,nsoonhui,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://scottaaronson.blog/?p=6541,"{""connection_name"":""hackernews""}"
+32030400,HN Moved from M5 to AWS,2022-07-09T01:33:16Z,1vuio0pswjnm7,15,false,false,4,"[32030542,32030473,32030472]",<null>,<null>,<null>,"Ater many years of remaining static, HN&#x27;s IP address changed.<p>Old: 209.216.230.240<p>New: 50.112.136.166<p>Perhaps this is temporary.<p>Little known fact: HN is also available through Cloudflare.  Unlike CF, AWS does not support TLS1.3.  The CF access is not working while HN uses the AWS IP.",story,<null>,"{""connection_name"":""hackernews""}"
+32030258,Elon Musk officially tries to bail on buying Twitter,2022-07-09T01:14:24Z,prawn,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.theverge.com/2022/7/8/23200961/elon-musk-files-back-out-twitter-deal-breach-of-contract,"{""connection_name"":""hackernews""}"
+32030229,Arizona makes it illegal for bystanders to record cops at close range,2022-07-09T01:09:14Z,arunbahl,25,false,false,2,"[32030456,32030343]",<null>,<null>,<null>,<null>,story,https://arstechnica.com/tech-policy/2022/07/arizona-makes-it-illegal-for-bystanders-to-record-cops-at-close-range/,"{""connection_name"":""hackernews""}"
+32030280,Spack – A flexible package manager that supports multiple versions,2022-07-09T01:17:35Z,smasher164,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://spack.readthedocs.io/en/latest/,"{""connection_name"":""hackernews""}"
+

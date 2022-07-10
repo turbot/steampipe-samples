@@ -90,9 +90,7 @@ jobs:
         steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 
     - name: create hn_scores_and_comments
-      run: |
-        cat hn_scores_and_comments.txt > hn
-        steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 10 order by time desc )"
+      run: steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 10 order by time desc )"
 
     - name: check hn_scores_and_comments
       run: steampipe query "select * from hn_scores_and_comments limit 3"
@@ -101,9 +99,14 @@ jobs:
       run: STEAMPIPE_LOG=trace steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc )    
         update hn_scores_and_comments sc set score = n.new_score::text, descendants = n.new_comments::text from new_scores_and_comments n where sc.id = n.id::text"
 
+    - name: recheck hn_scores_and_comments
+      run: steampipe query "select * from hn_scores_and_comments limit 3"
+
     - name: export hn_scores_and_comments
       continue-on-error: true
-      run: steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv"
+      run: |
+        cat hn_scores_and_comments.txt > ./hn_scores_and_comments.csv
+        steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv"
 
     - name: setup git 
       run: |

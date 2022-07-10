@@ -103,8 +103,9 @@ jobs:
       run: steampipe query "select * from hn_scores_and_comments limit 3"
 
     - name: export hn_scores_and_comments
-      continue-on-error: true
-      run: steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv"
+      run: |
+        cat hn_scores_and_comments.txt > ./hn_scores_and_comments.csv
+        steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv
 
     - name: setup git 
       run: |

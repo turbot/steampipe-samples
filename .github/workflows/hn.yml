@@ -94,7 +94,7 @@ jobs:
         steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 
     - name: create hn_scores_and_comments
-      run: steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 1 order by time desc )"
+      run: steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 5 order by time desc )"
 
     - name: check hn_scores_and_comments
       run: |

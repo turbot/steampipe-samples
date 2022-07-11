@@ -101,8 +101,7 @@ jobs:
 
     - name: update hn_scores_and_comments
       continue-on-error: true
-      run: STEAMPIPE_LOG=trace steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc )    
-        update hn_scores_and_comments sc set score = n.new_score::text, descendants = n.new_comments::text from new_scores_and_comments n where sc.id = n.id::text"
+      run: STEAMPIPE_LOG=trace steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc ) update hn_scores_and_comments sc set score = n.new_score::text, comments = n.new_comments::text from new_scores_and_comments n where sc.id = n.id"
 
     - name: recheck hn_scores_and_comments
       run: |

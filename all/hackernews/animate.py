@@ -36,7 +36,7 @@ def shift():
     t_group2 = f'{t0}{int(a2/60)}{t2}{int(a4/60)}{t4}'
     s = s.replace(t_group, t_group2)
 
-  with open('everything.sp', 'w') as f2:
+  with open('animation.sp', 'w') as f2:
     f2.write(s)
 
 while True:

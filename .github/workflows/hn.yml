@@ -15,7 +15,6 @@ on:
 jobs:
   cron:
     runs-on: ubuntu-latest
-
     steps:
 
     - uses: actions/checkout@v3
@@ -55,10 +54,12 @@ jobs:
     - name: install hackernews
       run: |
         steampipe plugin install hackernews
-        cp steampipe-plugin-hackernews.plugin ~/.steampipe/plugins/hub.steampipe.io/plugins/turbot/hackernews@latest/steampipe-plugin-hackernews.plugin
 
     - name: install csv
       run: steampipe plugin install csv
+
+    - name: install net
+      run: steampipe plugin install net
 
     - name: configure csv
       run: cp ./csv.spc ~/.steampipe/config/csv.spc

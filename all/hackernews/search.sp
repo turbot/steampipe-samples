@@ -6,11 +6,15 @@ dashboard "Search" {
 
   container  {
 
+
     input "search_term" {
       width = 2
-      placeholder = "search_term"
+      placeholder = "search_term (found in urls or titles, can be regex)"
       type = "text"
     }
+
+  }
+
 
     table {
       args = [
@@ -44,8 +48,6 @@ dashboard "Search" {
       column "by" {
         href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
       }
-
-    }
 
   }
 

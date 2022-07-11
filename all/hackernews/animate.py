@@ -1,15 +1,16 @@
 import re, time
 
-arg_pattern = r'(args = )(\[[^\d]+)(\d+)(, )(\d+)( ] // companies)'
+arg_pattern = r'(args = )([^d]+)(\d+)(, )(\d+)( ] // companies)'
 
-title_pattern = r'("companies mentioned: )(\d+)( to )(\d+)( hours ago" // companies)'
+
+title_pattern = r'(company mentions: )(\d+)( to )(\d+)( hours ago)'
 
 max = 60 * 24 * 5
 
 hours_ago = 12
 
 def shift():
-  with open('mod.sp', 'r') as f1:
+  with open('animation.sp', 'r') as f1:
     s = f1.read()
     a_group = re.search(arg_pattern, s).group()
     a_groups = re.search(arg_pattern, s).groups()
@@ -35,7 +36,7 @@ def shift():
     t_group2 = f'{t0}{int(a2/60)}{t2}{int(a4/60)}{t4}'
     s = s.replace(t_group, t_group2)
 
-  with open('mod.sp', 'w') as f2:
+  with open('everything.sp', 'w') as f2:
     f2.write(s)
 
 while True:

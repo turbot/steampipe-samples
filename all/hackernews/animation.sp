@@ -11,7 +11,7 @@ dashboard "AnimatedCompanyMentions" {
       base = chart.companies_base
       width = 8
       type = "donut"
-      title = "companies mentioned: 72 to 60 hours ago" // companies
+      title = "company mentions: 72 to 60 hours ago" // companies
       query = query.mentions
       args = [ local.companies, 4320, 3600 ] // companies
     }

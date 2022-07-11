@@ -395,7 +395,7 @@ dashboard "Everything" {
 
     table {
       width = 6
-      title = "github and twitter info for hn users with scores > 50"
+      title = "github and twitter info for hn users with scores > 200"
       sql = <<EOQ
         with data as (
           select distinct
@@ -419,7 +419,7 @@ dashboard "Everything" {
           on 
             h.by = g.login
           where
-            h.score::int > 50
+            h.score::int > 200
         ),
         expanded as (
           select

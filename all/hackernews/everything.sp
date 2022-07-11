@@ -205,7 +205,7 @@ dashboard "Everything" {
       base = chart.companies_base
       width = 4
       type = "donut"
-      title = "companies mentioned: last 4 hours"
+      title = "company mentions: last 4 hours"
       query = query.mentions
       args = [ local.companies, 240, 0 ]
     }
@@ -214,7 +214,7 @@ dashboard "Everything" {
       base = chart.companies_base
       width = 4
       type = "donut"
-      title = "companies mentioned: last 24 hours"
+      title = "company mentions: last 24 hours"
       query = query.mentions
       args = [ local.companies, 1440, 0 ]
     }
@@ -223,7 +223,7 @@ dashboard "Everything" {
       base = chart.companies_base
       width = 4
       type = "donut"
-      title = "companies mentioned: last 14 days"
+      title = "company mentions: last 14 days"
       query = query.mentions
       args = [ local.companies, 20160, 0 ] 
     }
@@ -236,7 +236,7 @@ dashboard "Everything" {
       base = chart.languages_base
       width = 4
       type = "donut"
-      title = "languages mentioned: last 4 hours"
+      title = "language mentions: last 4 hours"
       query = query.mentions
       args = [ local.languages, 240, 0 ]
     }
@@ -245,7 +245,7 @@ dashboard "Everything" {
       base = chart.languages_base
       width = 4
       type = "donut"
-      title = "languages mentioned: last 24 hours"
+      title = "language mentions: last 24 hours"
       query = query.mentions
       args = [ local.languages, 1440, 0 ]
     }
@@ -254,7 +254,7 @@ dashboard "Everything" {
       base = chart.languages_base
       width = 4
       type = "donut"
-      title = "languages mentioned: last 14 days"
+      title = "language mentions: last 14 days"
       query = query.mentions
       args = [ local.languages, 20160, 0 ]
     }
@@ -298,7 +298,7 @@ dashboard "Everything" {
       base = chart.cloud_base
       width = 4
       type = "donut"
-      title = "clouds mentioned: last 4 hours"
+      title = "cloud mentions: last 4 hours"
       query = query.mentions
       args = [ local.clouds, 240, 0 ]
     }
@@ -307,7 +307,7 @@ dashboard "Everything" {
       base = chart.cloud_base
       width = 4
       type = "donut"
-      title = "clouds mentioned: last 24 hours"
+      title = "cloud mentions: last 24 hours"
       query = query.mentions
       args = [ local.clouds, 1440, 0 ]
     }
@@ -316,7 +316,7 @@ dashboard "Everything" {
       base = chart.cloud_base
       width = 4
       type = "donut"
-      title = "clouds mentioned: last 14 days"
+      title = "cloud mentions: last 14 days"
       query = query.mentions
       args = [ local.clouds, 20160, 0 ] 
     }
@@ -329,7 +329,7 @@ dashboard "Everything" {
       base = chart.db_base
       width = 4
       type = "donut"
-      title = "dbs mentioned: last 4 hours"
+      title = "db mentions: last 4 hours"
       query = query.mentions
       args = [ local.dbs, 240, 0 ]
     }
@@ -338,7 +338,7 @@ dashboard "Everything" {
       base = chart.db_base
       width = 4
       type = "donut"
-      title = "dbs mentioned: last 24 hours"
+      title = "db mentions: last 24 hours"
       query = query.mentions
       args = [ local.dbs, 1440, 0 ]
     }
@@ -347,7 +347,7 @@ dashboard "Everything" {
       base = chart.db_base
       width = 4
       type = "donut"
-      title = "dbs mentioned: last 14 days"
+      title = "db mentions: last 14 days"
       query = query.mentions
       args = [ local.dbs, 20160, 0 ] 
     }

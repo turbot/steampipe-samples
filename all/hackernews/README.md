@@ -17,11 +17,11 @@
 
 - `stories by hour`: Chart of story counts over time.
 
-- `ask and ahow by hour`: Chart of Ask and Show counts over time.
+- `ask and show by hour`: Chart of Ask and Show counts over time.
 
-- `companies mentioned`: Charts of companies mentioned in time, as a series of donut charts covering different time spans.
+- `company mentions`: A series of donut charts covering different time spans.
 
-- `languages mentioned`: Same for programming languages.
+- `language mentions`: Same for programming languages.
 
 - `os mentions`: Same for operating systems.
 

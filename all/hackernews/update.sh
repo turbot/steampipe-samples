@@ -53,7 +53,7 @@ EOQ
 
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 
-steampipe query "update hn_items_all set scores = 0::text where scores = '<null>'"
+steampipe query "update hn_items_all set score = 0::text where score = '<null>'"
 
 
  

@@ -115,7 +115,7 @@ dashboard "Everything" {
     }
 
     chart {
-      title = "users with scores > 500"
+      title = "users with scores > 50"
       width = 6
       sql = <<EOQ
         select
@@ -124,7 +124,7 @@ dashboard "Everything" {
         from
           hn_items_all
         where
-          score::int > 500
+          score::int > 50
         group by 
           by
         order by
@@ -395,7 +395,7 @@ dashboard "Everything" {
 
     table {
       width = 6
-      title = "github and twitter info for hn users with scores > 500"
+      title = "github and twitter info for hn users with scores > 20"
       sql = <<EOQ
         with data as (
           select distinct
@@ -419,7 +419,7 @@ dashboard "Everything" {
           on 
             h.by = g.login
           where
-            h.score::int > 500
+            h.score::int > 20
         ),
         expanded as (
           select

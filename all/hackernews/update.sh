@@ -37,6 +37,7 @@ echo 'create table hn_scores_and_comments'
 steampipe query "drop table if exists hn_scores_and_comments"
 cp ./hn_scores_and_comments.csv ~/csv
 steampipe query "create table public.hn_scores_and_comments as select * from csv.hn_scores_and_comments"
+steampipe query "create index idx_hn_scores_and_comments_id on public.hn_scores_and_comments(id)"
 
 echo 'update hn_items_all from hn_scores_and_comments'
 steampipe query "with scores_and_comments as ( select *, score, descendants from hn_scores_and_comments ) update hn_items_all a set score = sc.score, descendants = sc.descendants from hn_scores_and_comments sc where sc.id = a.id"

@@ -83,7 +83,7 @@ jobs:
       run: |
         steampipe query "create table hn_items_tmp as select * from csv.hn"
 
-        steampipe query "select count(*) from from csv.hn"
+        steampipe query "select count(*) from csv.hn"
 
         steampipe query "create table hn_items_all as select distinct on (id) * from hn_items_tmp"
 

@@ -30,7 +30,7 @@ dashboard "Search" {
         where
            title ~* $1 or url ~* $1
         order by
-          time desc
+          score::int desc
       EOQ
       column "title" {
         wrap = "all"

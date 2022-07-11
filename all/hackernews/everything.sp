@@ -445,6 +445,8 @@ dashboard "Everything" {
           tw_follwrs
         from
           expanded
+        order by
+          karma desc
       EOQ
       column "by" {
         wrap = "all"

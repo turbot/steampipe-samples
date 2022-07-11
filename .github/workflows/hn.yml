@@ -97,7 +97,7 @@ jobs:
     - name: check hn_scores_and_comments
       run: |
         steampipe query "select count(*) from hn_scores_and_comments"
-        steampipe query "select * from hn_scores_and_comments order by id limit 3"
+        steampipe query "select * from hn_scores_and_comments order by id limit 5"
 
     - name: update hn_scores_and_comments
       continue-on-error: true
@@ -107,7 +107,7 @@ jobs:
     - name: recheck hn_scores_and_comments
       run: |
         steampipe query "select count(*) from hn_scores_and_comments"
-        steampipe query "select * from hn_scores_and_comments order by id limit 3"
+        steampipe query "select * from hn_scores_and_comments order by id limit 5"
 
     - name: export hn_scores_and_comments
       run: |

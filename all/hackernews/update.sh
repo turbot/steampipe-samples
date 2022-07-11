@@ -33,14 +33,12 @@ steampipe query "create index idx_hn_items_all_descendants on public.hn_items_al
 echo 'set null comments to 0'
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 
-echo 'drop table if exists hn_scores_and_comments'
-steampipe query "drop table if exists hn_scores_and_comments"
-
 echo 'create table hn_scores_and_comments'
-steampipe query "create table public.hn_scores_and_comments as ( select id::bigint, score, descendants as comments from hn_items_all where score::int > 10 order by time desc )"
+steampipe query "drop table if exists hn_scores_and_comments"
+cp ./hn_scores_and_comments.csv ~/csv
+steampipe query "create table public.hn_scores_and_comments as select * from csv.hn_scores_and_comments"
 
-echo 'update hn_items_all with new scores and comments'
-steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_comments from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc ) update hn_items_all a set score = n.new_score::text, descendants = n.new_comments::text from new_scores_and_comments n where a.id = n.id::text"
-
+echo 'update hn_items_all from hn_scores_and_comments'
+steampipe query "with scores_and_comments as ( select *, score, descendants from hn_scores_and_comments ) update hn_items_all a set score = sc.score, descendants = sc.descendants from hn_scores_and_comments sc where sc.id = a.id"
 
 

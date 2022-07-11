@@ -101,11 +101,13 @@ jobs:
         steampipe query "select sum(descendants::bigint) as descendants from hn_scores_and_comments"
 
     - name: create new_sc
-      continue-on-error: true
       run: steampipe query  "create table new_sc as ( with urls as ( select 'https://hacker-news.firebaseio.com/v0/item/' || sc.id || '.json' as url from hn_scores_and_comments sc order by url ), new_sc as ( select  response_body::jsonb->>'id' as id, response_body::jsonb->>'score' as new_score, response_body::jsonb->>'descendants' as new_descendants from net_http_request n join urls u on u.url = n.url ) select sc.id, sc.score, sc.descendants, n.new_score, n.new_descendants from new_sc n join hn_scores_and_comments sc on  n.id = sc.id )"
 
+    - name: check new_sc
+      run: |
+        steampipe query "select sum(descendants::bigint) as descendants from new_sc"
+
     - name: save new_sc
-      continue-on-error: true
       run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
 
     - name: setup git 

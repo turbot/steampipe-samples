@@ -51,4 +51,11 @@ steampipe query <<EOQ
   where new_sc.id = a.id
 EOQ
 
+echo 'set null comments to 0'
+steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
+
+echo 'set null scores to 0'
+steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
+
+
  

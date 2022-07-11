@@ -8,7 +8,7 @@ dashboard "Search" {
 
 
     input "search_term" {
-      width = 2
+      width = 3
       placeholder = "search_term (found in urls or titles, can be regex)"
       type = "text"
     }

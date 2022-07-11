@@ -83,7 +83,11 @@ jobs:
       run: |
         steampipe query "create table hn_items_tmp as select * from csv.hn"
 
+        steampipe query "select count(*) from from csv.hn"
+
         steampipe query "create table hn_items_all as select distinct on (id) * from hn_items_tmp"
+
+        steampipe query "select count(*) from hn_items_all"
 
         steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 

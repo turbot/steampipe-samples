@@ -35,11 +35,20 @@ steampipe query "update hn_items_all set descendants = 0::text where descendants
 
 echo 'create table hn_scores_and_comments'
 steampipe query "drop table if exists hn_scores_and_comments"
-cp ./hn_scores_and_comments.csv ~/csv
-steampipe query "create table public.hn_scores_and_comments as select * from csv.hn_scores_and_comments"
-steampipe query "create index idx_hn_scores_and_comments_id on public.hn_scores_and_comments(id)"
+steampipe query "create table public.hn_scores_and_comments as select id, score, descendants from hn_items_all where score::int > 10 "
+#steampipe query "create index idx_hn_scores_and_comments_id on public.hn_scores_and_comments(id)"
 
-echo 'update hn_items_all from hn_scores_and_comments'
-steampipe query "with scores_and_comments as ( select *, score, descendants from hn_scores_and_comments ) update hn_items_all a set score = sc.score, descendants = sc.descendants from hn_scores_and_comments sc where sc.id = a.id"
+echo 'update hn_items_all from new_sc'
+cp new_sc.csv ~/csv/new_sc.csv
+steampipe query <<EOQ
+  update 
+    hn_items_all a 
+  set 
+    score = new_sc.new_score, 
+    descendants = new_sc.new_descendants 
+  from 
+    csv.new_sc 
+  where new_sc.id = a.id
+EOQ
 
-
+ 

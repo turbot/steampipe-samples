@@ -96,20 +96,50 @@ jobs:
 
     - name: check hn_scores_and_comments
       run: |
-        steampipe query "select sum(descendants::int) as descendants from hn_scores_and_comments"
+        steampipe query "select sum(descendants::bigint) as descendants from hn_scores_and_comments"
 
-    - name: update hn_scores_and_comments
+    - name: create new_sc
       continue-on-error: true
-      run: STEAMPIPE_LOG=trace steampipe query "with new_scores_and_comments as ( select *, (select score::text as new_score from hackernews_item i where i.id = sc.id::bigint),  (select descendants::text as new_descendants from hackernews_item i where i.id = sc.id::bigint) from hn_scores_and_comments sc ) update hn_scores_and_comments sc set score = n.new_score::text, descendants = n.new_descendants::text from new_scores_and_comments n where sc.id = n.id"
+      run: steampipe query <<EOQ
+        create table new_sc as (
+          with urls as (
+            select
+              'https://hacker-news.firebaseio.com/v0/item/' || sc.id || '.json' as url
+            from
+              hn_scores_and_comments sc
+            order by
+              url
+          ),
+          new_sc as (
+            select
+              response_body::jsonb->>'id' as id,
+              response_body::jsonb->>'score' as new_score,
+              response_body::jsonb->>'descendants' as new_descendants
+            from
+              net_http_request n
+            join
+              urls u
+            on
+              u.url = n.url
+          )
+        select 
+          sc.id,
+          sc.score,
+          sc.descendants,
+          n.new_score,
+          n.new_descendants
+        from 
+          new_sc n
+        join
+          hn_scores_and_comments sc
+        on 
+          n.id = sc.id
+        )
+      EOQ
 
-    - name: recheck hn_scores_and_comments
-      run: |
-        steampipe query "select sum(descendants::int) as descendants from hn_scores_and_comments"
-
-    - name: export hn_scores_and_comments
-      run: |
-        cat ./hn_scores_and_comments.txt > ./hn_scores_and_comments.csv
-        steampipe query "select * from hn_scores_and_comments" --output csv >> ./hn_scores_and_comments.csv
+    - name: save new_sc
+      continue-on-error: true
+      run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
 
     - name: setup git 
       run: |
@@ -124,7 +154,7 @@ jobs:
 
     - name: commit
       run:
-        git commit -m "update hn" ./csv ./logs ./times.txt ./hn_scores_and_comments.csv 
+        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv
 
     - name: push
       run:

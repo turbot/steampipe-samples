@@ -172,3 +172,63 @@ query "source_detail" {
   EOQ
   param "source_domain" {}
 }
+
+query "people" {
+  sql = <<EOQ
+  with data as (
+    select distinct
+      h.by,
+      ( select count(*) from hn_items_all where by = h.by ) as stories,
+      ( select sum(descendants::int) from hn_items_all where descendants != '<null>' and by = h.by group by h.by ) as comments,
+      replace(g.html_url, 'https://github.com/', '') as github,
+      case 
+        when g.name is null then ''
+        else g.name
+      end as gh_name,
+      followers::int as gh_followers,
+      case 
+        when g.twitter_username is null then ''
+        else g.twitter_username
+      end as twitter
+    from
+      hn_items_all h
+    join
+      github_user g
+    on 
+    h.by = g.login
+      where
+    h.score::int > 500
+  ),
+  expanded as (
+    select
+      u.karma,
+      d.*,
+      ( select (public_metrics->>'followers_count')::int as tw_followers from twitter_user where d.twitter != '' and username = d.twitter )
+    from 
+      data d
+    join
+      hackernews_user u 
+    on 
+      u.id = d.by
+  )
+  select
+    by,
+    karma,
+    stories,
+    comments,
+    github,
+    gh_name,
+    gh_followers,
+    twitter,
+    case 
+      when tw_followers is null then ''::text
+      else tw_followers::text
+    end as tw_followers
+  from
+    expanded
+  order by
+      karma desc
+  EOQ
+  }
+
+

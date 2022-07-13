@@ -32,7 +32,7 @@ Submissions
     width = 6
 
     input "hn_user" {
-      width = 4
+      width = 6
       placeholder = "search or choose user"
       title = "hn user"
       type = "select"

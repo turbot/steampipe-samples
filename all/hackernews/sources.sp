@@ -43,7 +43,7 @@ Sources
     container  {
 
       input "domain" {
-        width = 4
+        width = 6
         placeholder = "search or choose domain"
         sql = <<EOQ
           with domains as (

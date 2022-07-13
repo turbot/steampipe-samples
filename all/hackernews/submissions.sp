@@ -33,6 +33,7 @@ Submissions
 
     input "hn_user" {
       width = 4
+      placeholder = "search or choose user"
       title = "hn user"
       type = "select"
       sql = <<EOQ
@@ -70,10 +71,9 @@ Submissions
     input "since_days_ago" {
       width = 4
       title = "since days ago"
-      option "7" {}
-      option "14" {}
       option "30" {}
-      option "60" {}
+      option "14" {}
+      option "7" {}
     }
 
 

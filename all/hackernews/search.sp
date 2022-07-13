@@ -47,7 +47,10 @@ Search
           by,
           title,
           to_char(time::timestamptz, 'MM-DD hHH24') as time,
-          url,
+          case 
+            when url = '<null>' then ''
+            else url
+          end as url,
           score,
           descendants as comments
         from 

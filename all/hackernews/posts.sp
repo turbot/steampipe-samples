@@ -28,7 +28,6 @@ Submissions
   container {
 
     table {
-      width = 6
       title = "top-rated posts"
       sql = <<EOQ
         select 
@@ -56,7 +55,6 @@ Submissions
       }
       column "by" {
         href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
-        wrap = "all"
       }
       column "url" {
         wrap = "all"

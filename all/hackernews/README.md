@@ -9,7 +9,7 @@
 - Run `steampipe dashboard`
 - Open localhost:9194
 
-## Dashboard: Everything
+## Dashboard: Home
 
 - `infocards`: A set of cards that count items (All/Ask HN/Show HN), the span of days they cover, max and average scores.
 
@@ -31,19 +31,24 @@
 
 - `top-rated stories`: Stories ranked by score.
 
-- `gitHub and twitter info for hn users`: A Hackernews username will often match a GitHub username, and sometimes also a Twitter username. When those matches occur, this table links to HN users' GitHub and Twitter accounts, and reports follower counts for both. The Hackernews username in column 1 of the chart links to the `Submissions` dashboard and selects that user.
+## Dashboard: People
+
+A Hackernews username will often match a GitHub username, and sometimes also a Twitter username. When those matches occur, this table links to HN users' GitHub and Twitter accounts, and reports follower counts for both. The Hackernews username in column 1 of the chart links to the `Submissions` dashboard and selects that user.
+
+## Dashboard: Posts
+
+Top-rated posts, with links to each Hacker News item, to the `Submissions` dashboard for the author, and to the URL cited in the post.
 
 ## Dashboard: Search
 
 Finds items whose titles and/or URLs match the search term. It's a regex match so, for example, `yandex(.+)gpt` matches the title *Yandex opensources 100B parameter GPT-like model* and `github.com(.+) matches the URL *https://github.com/lucidrains/parti-pytorch*.
 
-## Dashboard: Submissions
-
-The `by` columns in the `Everything` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
-
 ## Dashboard: Sources
 
 This dashboard reports the number of HN items by target domain (e.g. www.nytimes.com), with a drilldown chart showing the timeline of items referring to each domain.
+## Dashboard: Submissions
+
+The `by` columns in the `Everything` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
 
 # Notes
 

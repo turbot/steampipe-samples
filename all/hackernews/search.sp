@@ -1,7 +1,5 @@
 dashboard "Search" {
 
-  title = "Steampipe + Hacker News"
-  
   tags = {
     service = "Hacker News"
   }

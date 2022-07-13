@@ -1,8 +1,5 @@
 dashboard "Sources" {
 
-  title = "Steampipe + Hacker News"
-
-
   tags = {
     service = "Hacker News"
   }

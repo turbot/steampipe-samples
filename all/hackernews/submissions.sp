@@ -1,7 +1,5 @@
 dashboard "Submissions" {
 
-  title = "Steampipe + Hacker News"
-
   tags = {
     service = "Hacker News"
   }

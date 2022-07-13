@@ -1,7 +1,5 @@
 dashboard "Posts" {
 
-  title = "Steampipe + Hacker News"
-
   tags = {
     service = "Hacker News"
   }

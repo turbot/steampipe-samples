@@ -29,7 +29,7 @@ Search
 
     input "search_term" {
       width = 4
-      placeholder = "search_term (found in urls or titles, can be regex)"
+      placeholder = "search_term (matches in urls or titles, can be regex)"
       type = "text"
     }
 

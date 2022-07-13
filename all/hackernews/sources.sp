@@ -20,6 +20,8 @@ dashboard "Sources" {
 Sources
 🞄
 [Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+🞄
+[Urls](http://localhost:9194/hackernews.dashboard.Urls)
       EOT
     }
 

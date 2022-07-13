@@ -231,4 +231,27 @@ query "people" {
   EOQ
   }
 
+query "urls" {
+  sql = <<EOQ
+    select
+      url,
+      to_char(time::timestamptz, 'MM-DD hHH24') as time,
+      count(*) as occurrences,
+      sum(score::int) as score,
+      sum(descendants::int) as comments
+    from
+      hn_items_all
+    where
+      url != '<null>'
+    group by
+      url,
+      time,
+      score
+    order by
+      score desc
+    limit 
+      500
+  EOQ
+}
+
 

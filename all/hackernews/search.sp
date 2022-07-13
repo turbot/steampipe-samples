@@ -20,12 +20,13 @@ Search
 [Sources](http://localhost:9194/hackernews.dashboard.Sources)
 🞄
 [Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+🞄
+[Urls](http://localhost:9194/hackernews.dashboard.Urls)
       EOT
     } 
   } 
 
   container  {
-
 
     input "search_term" {
       width = 4

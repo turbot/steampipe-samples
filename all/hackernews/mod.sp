@@ -20,26 +20,29 @@ locals {
     "Sony",
     "Stripe"  
   ]
+
   languages = [
-      "C#",
-      "C\\+\\+",
-      "CSS",
-      "Erlang",
-      "golang",
-      "Haskell",
-      "HTML",
-      "Java ",
-      "JavaScript",
-      "JSON",
-      "PHP",
-      "Python",
-      "Rust",
-      "SQL",
-      "Swift",
-      "TypeScript",
-      "WebAssembly|WASM",
-      "XML"
+    "C#",
+    "C\\+\\+",
+    "CSS",
+    "Erlang",
+    "golang",
+    "Haskell",
+    "HTML",
+    "Java ",
+    "JavaScript",
+    "JSON",
+    "PHP",
+    "Python",
+    "Rust",
+    "Scala",
+    "SQL",
+    "Swift",
+    "TypeScript",
+    "WebAssembly|WASM",
+    "XML"
   ]
+
   operating_systems = [
     "Android",
     "iOS",
@@ -47,11 +50,13 @@ locals {
     "macOS",
     "Windows"
   ]
+
   clouds = [
     "AWS",
     "Azure",
     "Google Cloud|GCP"  
   ]
+
   dbs = [
     "DB2",
     "Citus",
@@ -69,6 +74,8 @@ locals {
     "Yugabyte"
   ]
 }
+
+# https://steampipe.io/docs/reference/mod-resources/dashboard#color
 
 chart "companies_base" {
   series "mentions" {
@@ -241,6 +248,9 @@ chart "db_base" {
     }
     point "Timescale" {
       color = "purple"
+    }
+    point "Scala" {
+      color = "DarkCyan"
     }
     point "SQLite" {
       color = "blue"

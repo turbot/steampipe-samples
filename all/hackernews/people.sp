@@ -24,10 +24,19 @@ People
     }
 
   }
-    
+
   table {
     title = "hacker news people with scores > 500"
     query = query.people
+    column "by" {
+    href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
+    }
+    column "twitter" {
+    href = "https://twitter.com/{{.'twitter'}}"
+    }
+    column "github" {
+    href = "https://github.com/{{.'github'}}"
+    }
   }
 
 }

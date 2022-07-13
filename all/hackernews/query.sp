@@ -45,7 +45,7 @@ query "submission_times" {
       case
         when descendants = '<null>' then ''
         else descendants
-      end as cmts
+      end as comments
     from 
       hn_items_all
     where

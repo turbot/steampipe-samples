@@ -36,7 +36,7 @@ Submissions
           title,
           by,
           score::int,
-          descendants::int as cmnts,
+          descendants::int as comments,
           url
         from
           hn_items_all

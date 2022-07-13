@@ -68,7 +68,7 @@ People
       by,
       karma,
       stories,
-      comments as cmnts,
+      comments,
       github,
       gh_name,
       gh_followers,

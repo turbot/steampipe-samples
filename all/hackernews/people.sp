@@ -80,19 +80,15 @@ People
         karma desc
     EOQ
     column "by" {
-    wrap = "all"
     href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
     }
     column "twitter" {
-    wrap = "all"
     href = "https://twitter.com/{{.'twitter'}}"
     }
     column "github" {
-    wrap = "all"
     href = "https://github.com/{{.'github'}}"
     }
     column "gh_name" {
-    wrap = "all"
     }
   }
 

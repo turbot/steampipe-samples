@@ -1,7 +1,7 @@
 dashboard "Home" {
 
   tags = {
-    service = "Hackernews"
+    service = "Hacker News"
   }
 
   container {
@@ -375,4 +375,12 @@ Home
 
   }
 
+  card "cache_warmer_people" {
+    value = "caching..."
+    width = 2
+    query = query.people
+  }    
+
+
 }
+

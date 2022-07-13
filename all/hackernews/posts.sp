@@ -1,7 +1,7 @@
 dashboard "Posts" {
 
   tags = {
-    service = "Hackernews"
+    service = "Hacker News"
   }
 
   container {

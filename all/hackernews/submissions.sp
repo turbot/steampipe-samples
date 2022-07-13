@@ -1,7 +1,7 @@
 dashboard "Submissions" {
 
   tags = {
-    service = "Hackernews"
+    service = "Hacker News"
   }
 
   container {

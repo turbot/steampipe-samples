@@ -1,5 +1,5 @@
 mod "hackernews" {
-  title = "hackernews"
+  title = "Hacker News"
 }
 
 locals {

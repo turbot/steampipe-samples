@@ -73,7 +73,10 @@ People
       gh_name,
       gh_followers,
       twitter,
-      tw_followers
+      case 
+        when tw_followers is null then ''::text
+        else tw_followers::text
+      end as tw_followers
     from
       expanded
     order by

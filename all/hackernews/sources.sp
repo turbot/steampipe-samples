@@ -4,6 +4,28 @@ dashboard "Sources" {
     service = "Hackernews"
   }
 
+  container {
+    
+    text {
+      width = 4
+      value = <<EOT
+[Home](http://localhost:9194/hackernews.dashboard.Home)
+🞄
+[People](http://localhost:9194/hackernews.dashboard.People)
+🞄
+[Posts](http://localhost:9194/hackernews.dashboard.Posts)
+🞄
+[Search](http://localhost:9194/hackernews.dashboard.Search)
+🞄
+Sources
+🞄
+[Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+      EOT
+    }
+
+  }
+
+
   table {
     width = 6
     query = query.domains

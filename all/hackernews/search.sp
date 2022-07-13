@@ -4,11 +4,31 @@ dashboard "Search" {
     service = "Hackernews"
   }
 
+  container {
+    
+    text {
+      width = 4
+      value = <<EOT
+[Home](http://localhost:9194/hackernews.dashboard.Home)
+🞄
+[People](http://localhost:9194/hackernews.dashboard.People)
+🞄
+[Posts](http://localhost:9194/hackernews.dashboard.Posts)
+🞄
+Search 
+🞄
+[Sources](http://localhost:9194/hackernews.dashboard.Sources)
+🞄
+[Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+      EOT
+    } 
+  } 
+
   container  {
 
 
     input "search_term" {
-      width = 3
+      width = 4
       placeholder = "search_term (found in urls or titles, can be regex)"
       type = "text"
     }

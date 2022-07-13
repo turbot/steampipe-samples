@@ -44,6 +44,7 @@ Sources
 
       input "domain" {
         width = 4
+        placeholder = "search or choose domain"
         sql = <<EOQ
           with domains as (
             select distinct

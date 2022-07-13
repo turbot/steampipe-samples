@@ -3,7 +3,7 @@
 ## Setup
 
 - Install [Steampipe](https://steampipe.io/downloads)
-- Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) and configure its `~/.steampipe/config/csv.spc` with a path that includes `~/csv/*.csv` (e.g. `paths = [ "/home/jon/csv/*.csv" ]`
+- Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) (`steampipe plugin install csv`) and configure its `~/.steampipe/config/csv.spc` with a path that includes `~/csv/*.csv` (e.g. `paths = [ "/home/jon/csv/*.csv" ]`
 - Clone this repo and visit `steampipe-samples/all/hackernews`
 - Run `./update.sh`
 - Run `steampipe dashboard`

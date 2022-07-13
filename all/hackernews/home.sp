@@ -1,14 +1,17 @@
 dashboard "Home" {
 
+  title = "Steampipe + Hacker News"
+
   tags = {
     service = "Hacker News"
   }
 
   container {
-    
+
     text {
       width = 4
       value = <<EOT
+
 Home
 🞄
 [People](http://localhost:9194/hackernews.dashboard.People)

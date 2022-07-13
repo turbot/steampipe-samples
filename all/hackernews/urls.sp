@@ -1,5 +1,7 @@
 dashboard "Urls" {
 
+  title = "Steampipe + Hacker News"
+
   tags = {
     service = "Hacker News"
   }

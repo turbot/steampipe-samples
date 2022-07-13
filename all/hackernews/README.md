@@ -48,7 +48,12 @@ Finds items whose titles and/or URLs match the search term. It's a regex match s
 This dashboard reports the number of HN items by target domain (e.g. www.nytimes.com), with a drilldown chart showing the timeline of items referring to each domain.
 ## Dashboard: Submissions
 
-The `by` columns in the `Everything` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
+The `by` columns in the `Home` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
+
+## Dashboard: Urls
+
+A table of top-scoring URLs, with charts of their domains by occurrences and by max score.
+
 
 # Notes
 

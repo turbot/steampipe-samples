@@ -51,7 +51,7 @@ query "submission_times" {
     where
       by = $1
     order by
-      time desc
+      score::int desc
   EOQ
   param "hn_user" {}
 

@@ -1,0 +1,78 @@
+id,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx
+32105968,Higher energy expenditure and lower physical activity in underweight adults,2022-07-15T08:19:54Z,sohkamyung,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.sciencedirect.com/science/article/abs/pii/S1550413122001942,"{""connection_name"":""hackernews""}"
+32105656,Android 13 marches toward release with final beta version,2022-07-15T07:30:27Z,Liriel,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://arstechnica.com/gadgets/2022/07/android-13-marches-toward-release-with-final-beta-version/,"{""connection_name"":""hackernews""}"
+32105676,The 3 things investors care for in a pitch,2022-07-15T07:32:29Z,simonebrunozzi,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://danielcroninthepitchprofessor.medium.com/ive-held-500-pitch-trainings-these-are-the-only-3-things-investors-really-care-for-99fd6c8a8fa3,"{""connection_name"":""hackernews""}"
+32105641,Heinz Spoon Friez,2022-07-15T07:28:21Z,HieronymusBosch,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://heinztohome.co.uk/pages/spoon-friez,"{""connection_name"":""hackernews""}"
+32105754,Wordle: The Party Game is a board game version of the hit online puzzle,2022-07-15T07:47:43Z,Tomte,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.theverge.com/2022/7/14/23219072/wordle-the-party-game-multiplayer-board-new-york-times-hasbro,"{""connection_name"":""hackernews""}"
+32105679,Why long-term plans don't work and how to fix them,2022-07-15T07:33:35Z,lucasfcosta,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://lucasfcosta.com/2022/07/15/long-term-plans-dont-work.html,"{""connection_name"":""hackernews""}"
+32105827,A new dominant Omicron strain in the U.S. is driving up Cases – and Reinfections,2022-07-15T07:58:00Z,Trouble_007,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://text.npr.org/1110804098,"{""connection_name"":""hackernews""}"
+32105835,Git Cheatsheet,2022-07-15T07:58:53Z,eashish93,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://hackprogramming.com/notes/git-cheatsheet,"{""connection_name"":""hackernews""}"
+32105872,Cryptocurrency flowing into “mixers” hits an all-time high,2022-07-15T08:05:06Z,tokyoseb,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://arstechnica.com/information-technology/2022/07/usage-of-crypto-mixers-for-stymying-blockchain-investigations-hits-all-time-high/,"{""connection_name"":""hackernews""}"
+32105923,The most important code linting rule: max-params,2022-07-15T08:13:40Z,gajus,1,false,false,<null>,<null>,<null>,<null>,<null>,"Let me ask you: What do you think this code does?<p><pre><code>    resizeImage(imagePath, 300, 200, true, true, 1)
+</code></pre>
+It resizes image... but what exactly does it do? For the most part, we cannot tell without looking up the function definition.<p>Let&#x27;s say you are reviewing a PR and it includes this change:<p><pre><code>    -resizeImage(imagePath, 300, 200, true, true, 1)
+    +resizeImage(imagePath, 300, 200, false, true, 1)
+</code></pre>
+Can you confidently say what is the impact of this change? For the most part... no. You need to know what each positional argument does.<p>Let&#x27;s say you know that the interface is:<p><pre><code>    function resizeImage(
+      imagePath: string,
+      width: number,
+      height: number,
+      upscale: boolean,
+      crop: boolean,
+      quality: number,
+    ): Promise&lt;Buffer&gt;
+</code></pre>
+But now a PR introduces a change to the parameter order (e.g. to make it consistent with other functions):<p><pre><code>    function resizeImage(
+      imagePath: string,
+      width: number,
+      height: number,
+    +  crop: boolean,
+      upscale: boolean,
+    -  crop: boolean,
+      quality: number,
+    ): Promise&lt;Buffer&gt;
+</code></pre>
+How do you review this change? Sure, reviewing the interface diff is easy, but what about the dozens or hundreds of diffs that update function invocation?<p><pre><code>    -resizeImage(imagePath, 300, 200, true, false, 1)
+    +resizeImage(imagePath, 300, 200, false, true, 1)
+    resizeImage(imagePath, 300, 200, false, false, 1)
+    -resizeImage(imagePath, 300, 200, false, true, 1)
+    +resizeImage(imagePath, 300, 200, false, false, 1)
+    -resizeImage(imagePath, 300, 200, true, false, 1)
+    +resizeImage(imagePath, 300, 200, false, true, 1)
+</code></pre>
+Hopefully the problem is self-explanatory: Positional arguments create a breading ground for hard and even impossible bugs to catch&#x2F;debug&#x2F;fix, esp. when code needs to be refactored. Fear not though as there is a better way.<p>Let&#x27;s start from the start, but this time use a single-object parameter:<p><pre><code>    resizeImage({
+      imagePath,
+      width: 300,
+      height: 200,
+      upscale: true,
+      crop: false,
+      quality: 1,
+    })
+</code></pre>
+Can you tell what is the intention behind this code? Yes, you can get a good sense, even if you are not familiar with the implementation.<p>Can you easily refactor the interface? Yes, linter will warn you if contract is not satisfied.<p>We end up with positional arguments because they feel the most natural to start with. However, as functions grow in scope, what started as a simple function with 1-2 arguments becomes an unreadable mess.<p>This is where [`max-params`](https:&#x2F;&#x2F;eslint.org&#x2F;docs&#x2F;latest&#x2F;rules&#x2F;max-params) comes to the rescue. Simply adding an ESLint rule that restricts having functions with more than X parameters ensures that your code remains legible and easy to refactor as your codebase scales.",story,<null>,"{""connection_name"":""hackernews""}"
+32105960,"Sharing a list of books for PMs, sorted by categories",2022-07-15T08:19:01Z,mariuz,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://twitter.com/oliagavrysh/status/1547596967827517442,"{""connection_name"":""hackernews""}"
+32105642,The Chemical Formulary,2022-07-15T07:28:28Z,siriaan,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://babel.hathitrust.org/cgi/pt?id=mdp.39015074096499,"{""connection_name"":""hackernews""}"
+32105925,On Language Models for Creoles [pdf],2022-07-15T08:13:58Z,tokai,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://aclanthology.org/2021.conll-1.5.pdf,"{""connection_name"":""hackernews""}"
+32105908,U.S. Wars and Hostile Actions: A List,2022-07-15T08:11:22Z,janandonly,2,false,false,1,[32105965],<null>,<null>,<null>,<null>,story,https://davidswanson.org/warlist/,"{""connection_name"":""hackernews""}"
+32105782,Ask HN: How do I lead a team whom I have no confidence?,2022-07-15T07:50:24Z,toqti,17,false,false,35,"[32105956,32105867,32105882,32105952,32105964,32105959,32105955,32105892,32105937,32105957,32105871,32105893,32105848,32105875,32105926,32105862,32105870,32105869,32105832,32105847,32105837,32105890,32105873,32105962]",<null>,<null>,<null>,"I&#x27;m lead on a small team of web developers.<p>The other members consist of:<p>A Maverick who insists they know what they are doing but clearly don&#x27;t and won&#x27;t admit it. Going so far as to add concepts to the code that don&#x27;t belong (or work for that matter), applying shiny new ideas from stackoverflow that bog down the system where a simple line will suffice.<p>Hour long tasks for them take a whol work week because of back and forth with PR comments.<p>The other member is a copy paster who will grab anything from anywhere (old projects, the web) and paste it in and expect something to happen (it doesn&#x27;t).<p>I&#x27;m going on vacation and all PR&#x27;s require my approval. I dread the mess I will have to sift through when I get back, could push the project back weeks.<p>What can I do in this situation?<p>I&#x27;m sure there are many thoughts going through your mind regarding the team and perhaps my lack of managment skills but I am only lead on the project, I don&#x27;t manage people.<p>My boss trusts my judgement and is aware of the situation but he is not technical enough to take over the code reviews.<p>Is there a possible solution to this without adversely affecting the porject?<p>Thanks",story,<null>,"{""connection_name"":""hackernews""}"
+32105902,SearchHut,2022-07-15T08:10:41Z,ewired,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://sourcehut.org/blog/2022-07-15-searchhut/,"{""connection_name"":""hackernews""}"
+32105924,German transport companies propose nation wide 69-euro monthly ticket,2022-07-15T08:13:50Z,nixass,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://ga.de/ga-english/news/transport-companies-propose-69-euro-ticket-starting-in-september_aid-72935263,"{""connection_name"":""hackernews""}"
+32105953,The Great Green Wall,2022-07-15T08:17:55Z,bryanrasmussen,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.greatgreenwall.org/about-great-green-wall,"{""connection_name"":""hackernews""}"
+32105883,"Lies, Damned Lies, and Statistics",2022-07-15T08:07:02Z,bryanrasmussen,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,"https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics","{""connection_name"":""hackernews""}"
+32105936,Patching a service into a test environment for fast local development,2022-07-15T08:15:27Z,alexjreid,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://alexjreid.dev/posts/patching-in-a-development-service/,"{""connection_name"":""hackernews""}"
+32105773,Modern Data Stack – Ranking,2022-07-15T07:49:22Z,ngaut,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://ossinsight.io/collections/modern-data-stack/,"{""connection_name"":""hackernews""}"
+32105616,Life Cycle of a Hornet Colony,2022-07-15T07:24:55Z,itronitron,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,http://www.vespa-crabro.com/hornets2.htm,"{""connection_name"":""hackernews""}"
+32105721,Ask HN: Create GitHub Issue Right from Slack/Discord/MS Teams/etc.?,2022-07-15T07:40:31Z,mlejva,1,false,false,<null>,<null>,<null>,<null>,<null>,"I&#x27;ve been looking for such a tool for a few months now.<p>I&#x27;d like to be able to select a Slack message, for example, and create a GitHub issue out of it. This would automate a lot of boring work for me and my team. I&#x27;m at the point of writing it myself but rather would use someone else&#x27;s service.<p>Do you happen to know a tool like this?",story,<null>,"{""connection_name"":""hackernews""}"
+32105777,Netflix and Microsoft team up for cheaper plan with adverts,2022-07-15T07:49:41Z,paulmooreparks,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.bbc.com/news/business-62158936,"{""connection_name"":""hackernews""}"
+32105682,Interoperability Between Swift and C++,2022-07-15T07:34:20Z,todsacerdoti,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/apple/swift/blob/main/docs/CppInteroperability/CppInteroperabilityManifesto.md,"{""connection_name"":""hackernews""}"
+32105720,Ruby Evolution: New Ruby Features Added in v2.0 Through v3.1,2022-07-15T07:40:24Z,mariuz,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://rubyreferences.github.io/rubychanges/evolution.html,"{""connection_name"":""hackernews""}"
+32105758,Find alternatives to almost any popular GitHub project – by replacing “GitHub”,2022-07-15T07:48:17Z,stanislavb,2,false,false,1,[32105764],<null>,<null>,<null>,<null>,story,https://www.libhunt.com/site/find_alternatives,"{""connection_name"":""hackernews""}"
+32105624,Climbing Through the Window,2022-07-15T07:26:10Z,bfollington,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://shimmeringvoid.substack.com/p/climbing-through-the-window,"{""connection_name"":""hackernews""}"
+32105792,Applause – Web archive with astronomical photographic plates,2022-07-15T07:51:27Z,giuliomagnifico,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.plate-archive.org/cms/,"{""connection_name"":""hackernews""}"
+32105781,Verus: Verified Rust for low-level systems code,2022-07-15T07:50:04Z,blopeur,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/secure-foundations/verus,"{""connection_name"":""hackernews""}"
+32105774,Show HN: A data thief in the guise of a lamb,2022-07-15T07:49:24Z,itsJovierose,1,false,false,<null>,<null>,<null>,<null>,<null>,How true is this? What should I do to protect my data from being collected?,story,https://blog.internxt.com/how-google-tracks-you/,"{""connection_name"":""hackernews""}"
+32105779,Polar bears are interbreeding with grizzlies–and it may be their only hope,2022-07-15T07:49:48Z,serverlessmom,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.sierraclub.org/sierra/meet-polar-bear-tomorrow-2,"{""connection_name"":""hackernews""}"
+32105757,Building Git (2019),2022-07-15T07:48:02Z,Tomte,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://shop.jcoglan.com/building-git/,"{""connection_name"":""hackernews""}"
+32105629,CVE-2022-29593 – Authentication Bypass by Capture Replay (Dingtian-DT-R002),2022-07-15T07:26:45Z,scanr,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/9lyph/CVE-2022-29593,"{""connection_name"":""hackernews""}"
+32105661,Does a compiler use all x86 instructions? (2016),2022-07-15T07:30:52Z,davidgerard,3,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,http://pepijndevos.nl/2016/08/24/x86-instruction-distribution.html,"{""connection_name"":""hackernews""}"
+

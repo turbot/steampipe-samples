@@ -26,7 +26,7 @@ locals {
     "C\\+\\+",
     "CSS",
     "Erlang",
-    "golang",
+    "golang| go 1.| (in|with|using) go | go (.+)(compiler|template|monorepo|generic|interface|library|framework|garbage|module|range|source)",
     "Haskell",
     "HTML",
     "Java ",

@@ -27,7 +27,7 @@ query "mentions" {
     where
       mentions > 0
     order by 
-      mentions
+      mentions desc
   EOQ
   param "names" {}
   param "min_minutes_ago" {}

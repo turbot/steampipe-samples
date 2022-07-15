@@ -175,59 +175,65 @@ query "source_detail" {
 
 query "people" {
   sql = <<EOQ
-  with data as (
-    select distinct
-      h.by,
-      ( select count(*) from hn_items_all where by = h.by ) as stories,
-      ( select sum(descendants::int) from hn_items_all where descendants != '<null>' and by = h.by group by h.by ) as comments,
-      replace(g.html_url, 'https://github.com/', '') as github,
-      case 
-        when g.name is null then ''
-        else g.name
-      end as gh_name,
-      followers::int as gh_followers,
-      case 
-        when g.twitter_username is null then ''
-        else g.twitter_username
-      end as twitter
-    from
-      hn_items_all h
-    join
-      github_user g
-    on 
-    h.by = g.login
-      where
-    h.score::int > 500
-  ),
-  expanded as (
+    with hn_users_and_max_scores as (
+      select 
+        by,
+        max(score::int) as max_score
+      from
+        hn_items_all
+      group by
+        by
+      having
+        max(score::int) > 300
+    ),
+    hn_info as (
+      select 
+        h.by,
+        ( select count(*) from hn_items_all where by = h.by ) as stories,
+        ( select sum(descendants::int) from hn_items_all where descendants != '<null>' and by = h.by group by h.by ) as comments
+      from hn_users_and_max_scores h 
+    ),
+    plus_gh_and_tw_info as (
+      select
+        h.*,
+        g.html_url as github_url,
+        case 
+          when g.name is null then ''
+          else g.name
+        end as gh_name,
+        g.followers::int as gh_followers,
+        g.twitter_username,
+        ( select (public_metrics->>'followers_count') as tw_followers from twitter_user t where g.twitter_username is not null and t.username = g.twitter_username ) 
+      from
+        hn_info h
+      join
+        github_user g
+      on 
+        h.by = g.login
+      order by
+        h.by
+    ) 
     select
+      p.by,
       u.karma,
-      d.*,
-      ( select (public_metrics->>'followers_count')::int as tw_followers from twitter_user where d.twitter != '' and username = d.twitter )
-    from 
-      data d
+      p.stories,
+      p.comments,
+      p.github_url,
+      p.gh_followers,
+      case 
+        when p.twitter_username is null then ''
+        else 'https://twitter.com/' || p.twitter_username
+      end as twitter_url,
+      case 
+        when p.tw_followers is null then ''
+        else p.tw_followers
+      end as twitter_followers
+    from
+      plus_gh_and_tw_info p 
     join
       hackernews_user u 
     on 
-      u.id = d.by
-  )
-  select
-    by,
-    karma,
-    stories,
-    comments,
-    github,
-    gh_name,
-    gh_followers,
-    twitter,
-    case 
-      when tw_followers is null then ''::text
-      else tw_followers::text
-    end as tw_followers
-  from
-    expanded
-  order by
-      karma desc
+      p.by = u.id
   EOQ
   }
 

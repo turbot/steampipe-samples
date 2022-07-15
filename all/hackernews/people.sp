@@ -26,15 +26,15 @@ People
   }
 
   table {
-    title = "hacker news people with scores > 500"
+    title = "hacker news people with max score > 300"
     query = query.people
     column "by" {
     href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
     }
-    column "twitter" {
+    column "twitter_user" {
     href = "https://twitter.com/{{.'twitter'}}"
     }
-    column "github" {
+    column "github_user" {
     href = "https://github.com/{{.'github'}}"
     }
   }

@@ -29,7 +29,7 @@ People
 
   table {
     title = "hacker news people with max score > 300"
-    query = query.people
+    sql = "select * from hn_people"
     column "by" {
     href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
     }

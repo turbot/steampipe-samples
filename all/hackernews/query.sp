@@ -244,7 +244,10 @@ query "posts" {
       score::int,
       descendants::int as comments,
       url,
-      substring(url from 'http[s]*://([^/$]+)') as domain
+      case
+        when url = '' then ''
+        else substring(url from 'http[s]*://([^/$]+)')
+      end as domain
     from
       hn_items_all
     where 

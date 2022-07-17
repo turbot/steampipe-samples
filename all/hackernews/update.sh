@@ -52,8 +52,9 @@ steampipe query <<EOQ
 EOQ
 
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
-
 steampipe query "update hn_items_all set score = 0::text where score = '<null>'"
+steampipe query "update hn_items_all set url = '' where url = '<null>'"
+
 
 echo 'create table hn_people'
 cp people.csv ~/csv/

@@ -50,7 +50,7 @@ Urls
           from
             hn_items_all
           where
-            url != '<null>'
+            url != ''
           group by
             domain
           order by 
@@ -70,7 +70,7 @@ Urls
           from
             hn_items_all
           where
-            url != '<null>'
+            url != ''
           group by
             domain
           order by 

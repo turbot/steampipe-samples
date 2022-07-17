@@ -107,10 +107,8 @@ jobs:
     - name: save new_sc
       run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
 
-    - name: update hn_items_all from new_sc'
-      run: | 
-        cp new_sc.csv ~/csv/
-        steampipe query query.update_scores_and_comments
+    - name: update hn_items_all from new_sc
+      run: steampipe query query.update_scores_and_comments
 
     - name: save github info
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query --output csv query.people > ./people.csv

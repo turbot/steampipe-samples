@@ -202,7 +202,8 @@ query "people" {
           else g.name
         end as gh_name,
         g.followers::int as gh_followers,
-        g.twitter_username
+        g.twitter_username,
+        g.public_repos
       from
         hn_info h
       join
@@ -218,6 +219,8 @@ query "people" {
       p.stories,
       p.comments,
       p.github_url,
+      p.gh_name,
+      p.public_repos,
       p.gh_followers,
       case 
         when p.twitter_username is null then ''

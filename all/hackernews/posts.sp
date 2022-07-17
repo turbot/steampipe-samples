@@ -19,7 +19,7 @@ Posts
 🞄
 [Sources](http://localhost:9194/hackernews.dashboard.Sources)
 🞄
-Submissions
+[Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
 🞄
 [Urls](http://localhost:9194/hackernews.dashboard.Urls)
 

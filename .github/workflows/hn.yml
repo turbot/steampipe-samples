@@ -111,7 +111,7 @@ jobs:
       run: steampipe query query.update_scores_and_comments
 
     - name: save github info
-      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query --output csv query.people > ./people.csv
+      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv
 
     - name: setup git 
       run: |

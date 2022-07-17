@@ -184,7 +184,7 @@ query "people" {
       group by
         by
       having
-        max(score::int) > 100
+        max(score::int) > 200
     ),
     hn_info as (
       select 

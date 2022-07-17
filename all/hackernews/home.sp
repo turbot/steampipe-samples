@@ -375,14 +375,7 @@ Home
       args = [ local.dbs, 20160, 0 ] 
     }
 
-  }
-
-  card "cache_warmer_people" {
-    value = "caching..."
-    width = 2
-    query = query.people
   }    
-
 
 }
 

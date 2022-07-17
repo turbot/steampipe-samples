@@ -244,8 +244,6 @@ query "people2" {
         hn_items_all
       group by
         by
-      having
-        max(score::int) > 300
     )
     select * from hn_users_and_max_scores
    EOQ

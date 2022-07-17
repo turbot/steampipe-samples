@@ -107,8 +107,8 @@ jobs:
     - name: save new_sc
       run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
 
-    - name: capture github/twitter info
-      run: STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv
+#    - name: capture github info
+#      run: STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv
 
     - name: setup git 
       run: |
@@ -123,7 +123,7 @@ jobs:
 
     - name: commit
       run:
-        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv ./people.csv
+        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv # ./people.csv
 
     - name: push
       run:

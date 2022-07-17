@@ -40,7 +40,8 @@ Submissions
           by,
           score::int,
           descendants::int as comments,
-          url
+          url,
+          substring(url from 'http[s]*://([^/$]+)') as domain
         from
           hn_items_all
         where 
@@ -61,6 +62,9 @@ Submissions
       }
       column "url" {
         wrap = "all"
+      }
+      column "domain" {
+        href = "http://localhost:9194/hackernews.dashboard.Search?input.search_term={{.'domain'}}"
       }
 
     }

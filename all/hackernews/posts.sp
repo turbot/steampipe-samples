@@ -32,25 +32,7 @@ Submissions
 
     table {
       title = "top-rated posts"
-      sql = <<EOQ
-        select 
-          id as link,
-          to_char(time::timestamptz, 'MM-DD hHH24') as time,
-          title,
-          by,
-          score::int,
-          descendants::int as comments,
-          url,
-          substring(url from 'http[s]*://([^/$]+)') as domain
-        from
-          hn_items_all
-        where 
-          score != '<null>'
-          and descendants != '<null>'
-        order by 
-          score desc
-        limit 100
-      EOQ
+      query = query.posts
       column "link" {
         href = "https://news.ycombinator.com/item?id={{.'link'}}"
       }

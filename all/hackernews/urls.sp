@@ -30,15 +30,12 @@ Urls
   container {
 
     table  {
-      width = 8
+      width = 7
       query = query.urls
-      column "url" {
-          wrap = "all"
-      }
     }
 
     container {
-      width = 4
+      width = 5
 
       chart  {
         title = "domains by count"    

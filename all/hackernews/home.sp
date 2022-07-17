@@ -9,7 +9,6 @@ dashboard "Home" {
     text {
       width = 4
       value = <<EOT
-
 Home
 🞄
 [People](http://localhost:9194/hackernews.dashboard.People)

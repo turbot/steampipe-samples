@@ -234,6 +234,8 @@ query "people" {
       hackernews_user u 
     on 
       p.by = u.id
+    order by
+      karma desc
   EOQ
   }
 

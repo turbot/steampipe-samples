@@ -236,7 +236,6 @@ query "people" {
 
 query "people2" {
   sql = <<EOQ
-    create table people as 
     with hn_users_and_max_scores as (
       select 
         by,
@@ -247,52 +246,8 @@ query "people2" {
         by
       having
         max(score::int) > 300
-    ),
-    hn_info as (
-      select 
-        h.by,
-        ( select count(*) from hn_items_all where by = h.by ) as stories,
-        ( select sum(descendants::int) from hn_items_all where descendants != '<null>' and by = h.by group by h.by ) as comments
-      from hn_users_and_max_scores h 
-    ),
-    plus_gh_info as (
-      select
-        h.*,
-        g.html_url as github_url,
-        case 
-          when g.name is null then ''
-          else g.name
-        end as gh_name,
-        g.followers::int as gh_followers,
-        g.twitter_username
-      from
-        hn_info h
-      join
-        github_user g
-      on 
-        h.by = g.login
-      order by
-        h.by
-    ) 
-    select
-      p.by,
-      u.karma,
-      p.stories,
-      p.comments,
-      p.github_url,
-      p.gh_followers,
-      case 
-        when p.twitter_username is null then ''
-        else 'https://twitter.com/' || p.twitter_username
-      end as twitter_url
-    from
-      plus_gh_info p 
-    join
-      hackernews_user u 
-    on 
-      p.by = u.id
-    order by
-      karma desc
+    )
+    select * from hn_users_and_max_scores
    EOQ
 }
 

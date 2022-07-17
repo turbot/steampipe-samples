@@ -112,9 +112,6 @@ jobs:
     - name: check github info
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query "query.people2"
 
-    - name: check github info
-      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query "select * from people"
-
     - name: save github info
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv
 

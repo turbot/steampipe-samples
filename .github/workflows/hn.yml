@@ -8,9 +8,9 @@ on:
   schedule:
     - cron:  '15 * * * *'
 
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 
 jobs:
   cron:
@@ -70,8 +70,8 @@ jobs:
     - name: capture hourly snapshot
       run: STEAMPIPE_LOG=trace steampipe query "select * from hackernews_new where time > now() - interval '1 hour'" --output csv >> ./csv/hn_`date +%s`.csv
 
-    - name: capture hourly count
-      run: STEAMPIPE_LOG=trace steampipe query "select count(*) as stories from hackernews_new where time > now() - interval '1 hour'" --output csv > ./logs/count.txt
+    - name: capture github/twitter info
+      run: STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv
 
     - name: combine files
       run: |
@@ -123,7 +123,7 @@ jobs:
 
     - name: commit
       run:
-        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv
+        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv ./people.csv
 
     - name: push
       run:

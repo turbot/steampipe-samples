@@ -5,7 +5,6 @@
 - Install [Steampipe](https://steampipe.io/downloads)
 - `mkdir ~/csv`
 - Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) (`steampipe plugin install csv`), edit `~/.steampipe/config/csv.spc`, set `paths = [ "~/csv/*.csv" ]`
-- Install [the GitHub plugin](https://hub.steampipe.io/plugins/github/csv) (`steampipe plugin install github`), edit  `~/.steampipe/config/github.spc`, set `token =` to a Personal Access Token
 - Clone this repo and visit `steampipe-samples/all/hackernews`
 - Run `./update.sh`
 - Run `steampipe dashboard`

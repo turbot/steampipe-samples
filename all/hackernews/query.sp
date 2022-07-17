@@ -193,7 +193,7 @@ query "people" {
         ( select sum(descendants::int) from hn_items_all where descendants != '<null>' and by = h.by group by h.by ) as comments
       from hn_users_and_max_scores h 
     ),
-    plus_gh_and_tw_info as (
+    plus_gh_info as (
       select
         h.*,
         g.html_url as github_url,
@@ -202,8 +202,7 @@ query "people" {
           else g.name
         end as gh_name,
         g.followers::int as gh_followers,
-        g.twitter_username,
-        ( select (public_metrics->>'followers_count') as tw_followers from twitter_user t where g.twitter_username is not null and t.username = g.twitter_username ) 
+        g.twitter_username
       from
         hn_info h
       join
@@ -223,20 +222,16 @@ query "people" {
       case 
         when p.twitter_username is null then ''
         else 'https://twitter.com/' || p.twitter_username
-      end as twitter_url,
-      case 
-        when p.tw_followers is null then ''
-        else p.tw_followers
-      end as twitter_followers
+      end as twitter_url
     from
-      plus_gh_and_tw_info p 
+      plus_gh_info p 
     join
       hackernews_user u 
     on 
       p.by = u.id
     order by
       karma desc
-  EOQ
+   EOQ
   }
 
 query "urls" {

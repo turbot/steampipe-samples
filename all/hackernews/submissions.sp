@@ -29,7 +29,7 @@ Submissions
 
 
   container {
-    width = 6
+    width = 8
 
     input "hn_user" {
       width = 6
@@ -66,7 +66,7 @@ Submissions
   }
 
   container {
-    width = 6
+    width = 4
 
     input "since_days_ago" {
       width = 4
@@ -78,6 +78,7 @@ Submissions
 
 
     chart  {
+      type = "bar"
       args = [
         self.input.hn_user.value,
         self.input.since_days_ago
@@ -85,12 +86,12 @@ Submissions
       axes {
         x {
           title {
-            value = "days"
+            value = "submissions"
           }
         }
         y {
           title {
-            value = "submissions"
+            value = "day"
           }
         }
       }

@@ -70,7 +70,7 @@ query "submission_days" {
     group by 
       day
     order by
-      day
+      day desc
   EOQ
   param "hn_user" {}
   param "since_days_ago" {}

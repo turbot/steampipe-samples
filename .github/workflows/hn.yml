@@ -96,24 +96,24 @@ jobs:
       run: steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 5 order by time desc )"
 
     - name: check hn_scores_and_comments
-      run: |
-        steampipe query "select sum(descendants::bigint) as descendants from hn_scores_and_comments"
+      run: steampipe query "select sum(descendants::bigint) as descendants from hn_scores_and_comments"
 
     - name: create new_sc
       run: steampipe query  "create table new_sc as ( with urls as ( select 'https://hacker-news.firebaseio.com/v0/item/' || sc.id || '.json' as url from hn_scores_and_comments sc order by url ), new_sc as ( select  response_body::jsonb->>'id' as id, response_body::jsonb->>'score' as new_score, response_body::jsonb->>'descendants' as new_descendants from net_http_request n join urls u on u.url = n.url ) select sc.id, sc.score, sc.descendants, n.new_score, n.new_descendants from new_sc n join hn_scores_and_comments sc on  n.id = sc.id )"
 
     - name: check new_sc
-      run: |
-        steampipe query "select sum(descendants::bigint) as descendants from new_sc"
+      run: steampipe query "select sum(descendants::bigint) as descendants from new_sc"
 
     - name: save new_sc
       run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
 
-    - name: check github info
-      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query "query.people2"
+    - name: update hn_items_all from new_sc'
+      run: | 
+        cp new_sc.csv ~/csv/
+        steampipe query query.update_scores_and_comments
 
     - name: save github info
-      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv
+      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query --output csv query.people > ./people.csv
 
     - name: setup git 
       run: |

@@ -40,16 +40,7 @@ steampipe query "create index idx_hn_scores_and_comments_id on public.hn_scores_
 
 echo 'update hn_items_all from new_sc'
 cp new_sc.csv ~/csv/
-steampipe query <<EOQ
-  update 
-    hn_items_all a 
-  set 
-    score = new_sc.new_score, 
-    descendants = new_sc.new_descendants 
-  from 
-    csv.new_sc 
-  where new_sc.id = a.id
-EOQ
+steampipe query query.update_scores_and_comments
 
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 steampipe query "update hn_items_all set score = 0::text where score = '<null>'"

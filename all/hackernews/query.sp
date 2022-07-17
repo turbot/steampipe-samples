@@ -234,23 +234,6 @@ query "people" {
    EOQ
 }
 
-query "people2" {
-  sql = <<EOQ
-    with hn_users_and_max_scores as (
-      select 
-        by,
-        max(score::int) as max_score
-      from
-        hn_items_all
-      group by
-        by
-      order by
-        max_score desc
-    )
-    select * from hn_users_and_max_scores
-   EOQ
-}
-
 query "posts" {
   sql = <<EOQ
     select 
@@ -299,4 +282,15 @@ query "urls" {
   EOQ
 }
 
-
+query "update_scores_and_comments" {
+  sql = <<EOQ
+    update 
+      hn_items_all a 
+    set 
+      score = new_sc.new_score, 
+      descendants = new_sc.new_descendants 
+    from 
+      csv.new_sc 
+    where new_sc.id = a.id
+  EOQ
+}

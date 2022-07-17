@@ -1,9 +1,11 @@
-# Hackernews dashboards
+# Hacker News dashboards
 
 ## Setup
 
 - Install [Steampipe](https://steampipe.io/downloads)
-- Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) (`steampipe plugin install csv`) and configure its `~/.steampipe/config/csv.spc` with a path that includes `~/csv/*.csv` (e.g. `paths = [ "/home/jon/csv/*.csv" ]`
+- `mkdir ~/csv`
+- Install [the CSV plugin](https://hub.steampipe.io/plugins/turbot/csv) (`steampipe plugin install csv`), edit `~/.steampipe/config/csv.spc`, set `paths = [ "~/csv/*.csv" ]`
+- Install [the GitHub plugin](https://hub.steampipe.io/plugins/github/csv) (`steampipe plugin install github`), edit  `~/.steampipe/config/github.spc`, set `token =` to a Personal Access Token
 - Clone this repo and visit `steampipe-samples/all/hackernews`
 - Run `./update.sh`
 - Run `steampipe dashboard`
@@ -33,7 +35,9 @@
 
 ## Dashboard: People
 
-A Hackernews username will often match a GitHub username, and sometimes also a Twitter username. When those matches occur, this table links to HN users' GitHub and Twitter accounts, and reports follower counts for both. The Hackernews username in column 1 of the chart links to the `Submissions` dashboard and selects that user.
+The Hackernews username in first column links to the `Submissions` dashboard and selects that user.
+
+A Hackernews username will often match a GitHub username, which in turn may yield a Twitter username. When that happens this table links to one or both accounts. 
 
 ## Dashboard: Posts
 
@@ -46,6 +50,7 @@ Finds items whose titles and/or URLs match the search term. It's a regex match s
 ## Dashboard: Sources
 
 This dashboard reports the number of HN items by target domain (e.g. www.nytimes.com), with a drilldown chart showing the timeline of items referring to each domain.
+
 ## Dashboard: Submissions
 
 The `by` columns in the `Home` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
@@ -53,7 +58,6 @@ The `by` columns in the `Home` dashboard link here. This dashboard charts a sele
 ## Dashboard: Urls
 
 A table of top-scoring URLs, with charts of their domains by occurrences and by max score.
-
 
 # Notes
 

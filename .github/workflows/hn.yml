@@ -70,9 +70,6 @@ jobs:
     - name: capture hourly snapshot
       run: STEAMPIPE_LOG=trace steampipe query "select * from hackernews_new where time > now() - interval '1 hour'" --output csv >> ./csv/hn_`date +%s`.csv
 
-    - name: capture github/twitter info
-      run: STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv
-
     - name: combine files
       run: |
         cat hn_header.txt > hn.csv
@@ -109,6 +106,9 @@ jobs:
 
     - name: save new_sc
       run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
+
+    - name: capture github/twitter info
+      run: STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv
 
     - name: setup git 
       run: |

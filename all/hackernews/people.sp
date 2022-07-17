@@ -29,7 +29,7 @@ People
 
   table {
     title = "hacker news people with max score > 200"
-    sql = "select * from hn_people"
+    sql = "select * from hn_people order by karma::int desc"
     column "by" {
     href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
     }

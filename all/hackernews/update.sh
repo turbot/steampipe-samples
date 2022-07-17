@@ -26,9 +26,9 @@ steampipe query "create table public.hn_items_all as select distinct on (id) * f
 
 echo 'create indexes'
 steampipe query "create index idx_hn_items_all_by on public.hn_items_all(by)"
-steampipe query "create index idx_hn_items_all_url on public.hn_items_all(url)"
-steampipe query "create index idx_hn_items_all_score on public.hn_items_all(score)"
-steampipe query "create index idx_hn_items_all_descendants on public.hn_items_all(descendants)"
+#steampipe query "create index idx_hn_items_all_url on public.hn_items_all(url)"
+#steampipe query "create index idx_hn_items_all_score on public.hn_items_all(score)"
+#steampipe query "create index idx_hn_items_all_descendants on public.hn_items_all(descendants)"
 
 echo 'set null comments to 0'
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
@@ -39,7 +39,7 @@ steampipe query "create table public.hn_scores_and_comments as select id, score,
 steampipe query "create index idx_hn_scores_and_comments_id on public.hn_scores_and_comments(id)"
 
 echo 'update hn_items_all from new_sc'
-cp new_sc.csv ~/csv/new_sc.csv
+cp new_sc.csv ~/csv/
 steampipe query <<EOQ
   update 
     hn_items_all a 
@@ -54,6 +54,11 @@ EOQ
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
 
 steampipe query "update hn_items_all set score = 0::text where score = '<null>'"
+
+echo 'create table hn_people'
+cp people.csv ~/csv/
+steampipe query "drop table if exists hn_people"
+steampipe query "create table public.hn_people as select * from csv.people"
 
 
  

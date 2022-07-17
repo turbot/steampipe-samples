@@ -126,7 +126,7 @@ query "domains" {
     where
       c.count > 5
     order by
-      c.count desc
+      max_score desc
   EOQ
 }
 

@@ -110,7 +110,7 @@ jobs:
       run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
 
     - name: check github info
-      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query --output csv "query.people"
+      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query "query.people"
 
     - name: save github info
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} STEAMPIPE_LOG=trace steampipe query --output csv "query.people" > ./people.csv

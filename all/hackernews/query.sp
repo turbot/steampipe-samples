@@ -189,6 +189,7 @@ query "people" {
     hn_info as (
       select 
         h.by,
+        h.max_score,
         ( select count(*) from hn_items_all where by = h.by ) as stories,
         ( select sum(descendants::int) from hn_items_all where descendants != '<null>' and by = h.by group by h.by ) as comments
       from hn_users_and_max_scores h 
@@ -216,6 +217,7 @@ query "people" {
     select
       p.by,
       u.karma,
+      p.max_score,
       p.stories,
       p.comments,
       p.github_url,

@@ -10,7 +10,7 @@ locals {
     "CloudFlare",
     "Facebook",
     "Google",
-    "Intel",
+    "Intel ",
     "Microsoft",
     "Netflix",
     "Tesla",
@@ -34,8 +34,8 @@ locals {
     "JSON",
     "PHP",
     "Python",
-    "Rust",
-    "Scala",
+    "Rust ",
+    "Scala ",
     "SQL",
     "Swift",
     "TypeScript",
@@ -165,8 +165,11 @@ chart "languages_base" {
     point "Python" {
       color = "#4B8BBE"
     }
-    point "Rust" {
+    point "Rust " {
       color = "black"
+    }
+    point "Scala " {
+      color = "Coral"
     }
     point "SQL" {
       color = "ForestGreen"

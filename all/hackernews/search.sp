@@ -60,9 +60,6 @@ Search
         order by
           score::int desc
       EOQ
-      column "title" {
-        wrap = "all"
-      }
       column "url" {
         wrap = "all"
       }

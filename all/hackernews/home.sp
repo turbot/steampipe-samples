@@ -163,7 +163,7 @@ Home
 
     chart {
       width = 6
-      title = "stories by hour last 14 days"
+      title = "stories by hour since June 21"
       sql = <<EOQ
         with data as (
           select
@@ -187,7 +187,7 @@ Home
 
     chart {
       width = 6
-      title = "ask and show by hour last 14 days"
+      title = "ask and show by hour since June 21"
       sql = <<EOQ
         with ask_hn as (
           select
@@ -232,15 +232,6 @@ Home
       base = chart.companies_base
       width = 4
       type = "donut"
-      title = "company mentions: last 4 hours"
-      query = query.mentions
-      args = [ local.companies, 240, 0 ]
-    }
-
-    chart {
-      base = chart.companies_base
-      width = 4
-      type = "donut"
       title = "company mentions: last 24 hours"
       query = query.mentions
       args = [ local.companies, 1440, 0 ]
@@ -250,23 +241,23 @@ Home
       base = chart.companies_base
       width = 4
       type = "donut"
-      title = "company mentions: last 14 days"
+      title = "company mentions: last 7 days"
       query = query.mentions
-      args = [ local.companies, 20160, 0 ] 
+      args = [ local.companies, 10080, 0 ]
+    }
+
+    chart {
+      base = chart.companies_base
+      width = 4
+      type = "donut"
+      title = "company mentions: since June 21"
+      query = query.mentions
+      args = [ local.companies, 518400, 0 ] 
     }
 
   }
 
   container {
-
-    chart {
-      base = chart.languages_base
-      width = 4
-      type = "donut"
-      title = "language mentions: last 4 hours"
-      query = query.mentions
-      args = [ local.languages, 240, 0 ]
-    }
 
     chart {
       base = chart.languages_base
@@ -281,23 +272,23 @@ Home
       base = chart.languages_base
       width = 4
       type = "donut"
-      title = "language mentions: last 14 days"
+      title = "language mentions: last 7 days"
       query = query.mentions
-      args = [ local.languages, 20160, 0 ]
+      args = [ local.languages, 10080, 0 ]
+    }
+
+    chart {
+      base = chart.languages_base
+      width = 4
+      type = "donut"
+      title = "language mentions: since June 21"
+      query = query.mentions
+      args = [ local.languages, 518400, 0 ]
     }
 
   }
 
   container {
-
-    chart {
-      base = chart.os_base
-      width = 4
-      type = "donut"
-      title = "os mentions: last 4 hours"
-      query = query.mentions
-      args = [ local.operating_systems, 240, 0 ]
-    }
 
     chart {
       base = chart.os_base
@@ -312,23 +303,23 @@ Home
       base = chart.os_base
       width = 4
       type = "donut"
-      title = "os mentions: last 14 days"
+      title = "os mentions: last 7 days"
       query = query.mentions
-      args = [ local.operating_systems, 20160, 0 ]
+      args = [ local.operating_systems, 10080, 0 ]
+    }
+
+    chart {
+      base = chart.os_base
+      width = 4
+      type = "donut"
+      title = "os mentions: since June 21"
+      query = query.mentions
+      args = [ local.operating_systems, 518400, 0 ]
     }
 
   }
 
   container {
-
-    chart {
-      base = chart.cloud_base
-      width = 4
-      type = "donut"
-      title = "cloud mentions: last 4 hours"
-      query = query.mentions
-      args = [ local.clouds, 240, 0 ]
-    }
 
     chart {
       base = chart.cloud_base
@@ -343,23 +334,23 @@ Home
       base = chart.cloud_base
       width = 4
       type = "donut"
-      title = "cloud mentions: last 14 days"
+      title = "cloud mentions: last 7 days"
       query = query.mentions
-      args = [ local.clouds, 20160, 0 ] 
+      args = [ local.clouds, 10080, 0 ]
+    }
+
+    chart {
+      base = chart.cloud_base
+      width = 4
+      type = "donut"
+      title = "cloud mentions: since June 21"
+      query = query.mentions
+      args = [ local.clouds, 518400, 0 ] 
     }
 
   }
 
   container {
-
-    chart {
-      base = chart.db_base
-      width = 4
-      type = "donut"
-      title = "db mentions: last 4 hours"
-      query = query.mentions
-      args = [ local.dbs, 240, 0 ]
-    }
 
     chart {
       base = chart.db_base
@@ -374,9 +365,18 @@ Home
       base = chart.db_base
       width = 4
       type = "donut"
-      title = "db mentions: last 14 days"
+      title = "db mentions: last 7 days"
       query = query.mentions
-      args = [ local.dbs, 20160, 0 ] 
+      args = [ local.dbs, 10080, 0 ]
+    }
+
+    chart {
+      base = chart.db_base
+      width = 4
+      type = "donut"
+      title = "db mentions: since June 21"
+      query = query.mentions
+      args = [ local.dbs, 518400, 0 ] 
     }
 
   }    

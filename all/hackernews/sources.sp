@@ -32,7 +32,6 @@ Sources
     width = 6
     query = query.domains
     column "domain" {
-      wrap = "all"
       href = "http://localhost:9194/hackernews.dashboard.Sources?input.domain={{.'domain'}}"
     }    
   }

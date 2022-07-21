@@ -34,6 +34,19 @@ Search
       type = "text"
     }
 
+    text "examples" {
+      width = 8
+      value = <<EOT
+Examples: 
+[gpt](http://localhost:9194/hackernews.dashboard.Search?input.search_term=gpt),
+[go.+compiler](http://localhost:9194/hackernews.dashboard.Search?input.search_term=%20go.%2bcompiler),
+[simonwillison](http://localhost:9194/hackernews.dashboard.Search?input.search_term=simonwillison)
+[github.com/microsoft](http://localhost:9194/hackernews.dashboard.Search?input.search_term=github.com%2Fmicrosoft), 
+[github.com.+pytorch](http://localhost:9194/hackernews.dashboard.Search?input.search_term=github.com.%2bpytorch),
+[nytimes.+/technology](http://localhost:9194/hackernews.dashboard.Search?input.search_term=nytimes.%2b/technology)
+      EOT
+    }
+
   }
 
 

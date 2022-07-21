@@ -44,7 +44,14 @@ Top-rated posts, with links to each Hacker News item, to the `Submissions` dashb
 
 ## Dashboard: Search
 
-Finds items whose titles and/or URLs match the search term. It's a regex match so, for example, `yandex(.+)gpt` matches the title *Yandex opensources 100B parameter GPT-like model* and `github.com(.+) matches the URL *https://github.com/lucidrains/parti-pytorch*.
+Finds items whose titles and/or URLs match the search term. It's a regex match, here are some examples.
+
+- `gpt`: Anything about GPT
+- `go.+compiler`: Matches "gcassert is a linter for Go compiler decisions"
+- `simonwillison`: Matches `simonwillison.net` and `til.simonwillison.net`
+- `github.com/microsoft`: Matches Microsoft's GitHub repos
+- `github.com.+pytorch`: Matches PyTorch repos
+- `nytimes.+/technology`: Matches articles in the NYTimes' technology section
 
 ## Dashboard: Sources
 

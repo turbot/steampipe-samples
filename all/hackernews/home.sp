@@ -163,65 +163,14 @@ Home
 
     chart {
       width = 6
-      title = "stories by hour: last 7 days"
-      sql = <<EOQ
-        with data as (
-          select
-            time::timestamptz
-          from
-            hn_items_all
-          where
-            time::timestamptz > now() - interval '7 day'
-        )
-        select
-          to_char(time,'MM:DD HH24') as hour,
-          count(*)
-        from 
-          data
-        group by
-          hour
-        order by
-          hour
-      EOQ
+      title = "stories by hour last 7 days"
+      query = query.stories_by_hour
     }
 
     chart {
       width = 6
-      title = "ask and show by hour: last 7 days"
-      sql = <<EOQ
-        with ask_hn as (
-          select
-            to_char(time::timestamptz,'MM:DD HH24') as hour
-          from
-            hn_items_all
-          where
-            time::timestamptz > now() - interval '7 day'
-            and title ~ '^Ask HN:'
-        ),
-        show_hn as (
-          select
-            to_char(time::timestamptz,'MM:DD HH24') as hour
-          from
-            hn_items_all
-          where
-            time::timestamptz > now() - interval '14 day'
-            and title ~ '^Show HN:'
-        )
-        select
-          hour,
-          count(a.*) as "Ask HN",
-          count(s.*) as "Show HN"
-        from 
-          ask_hn a
-        left join 
-          show_hn s 
-        using 
-          (hour)
-        group by
-          hour
-        order by
-          hour
-      EOQ
+      title = "ask and show by hour last 7 days"
+      query = query.ask_and_show_by_hour
     }
 
   }

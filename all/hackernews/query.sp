@@ -299,3 +299,104 @@ query "update_scores_and_comments" {
     where new_sc.id = a.id
   EOQ
 }
+
+query "stories_by_hour" {
+  sql = <<EOQ
+    with data as (
+      select
+        time::timestamptz
+      from
+        hn_items_all
+      where
+        time::timestamptz > now() - interval '7 day'
+    ),
+    by_hour as (
+      select
+        to_char(time, 'Dy hHH24') as day_hour,
+        to_char(time,'MM-DD hHH24') as hour,
+        count(*)
+      from 
+        data
+      group by
+        day_hour, hour
+      order by
+        hour
+    )
+    select
+      day_hour,
+      count
+    from
+      by_hour
+  EOQ
+}
+
+query "ask_and_show_by_hour" {
+  sql = <<EOQ
+    with ask_hn_data as (
+      select
+        time::timestamptz
+      from
+        hn_items_all
+      where
+        time::timestamptz > now() - interval '7 day'
+        and title ~ '^Ask HN'
+    ),
+    ask_hn_by_hour as (
+      select
+        to_char(time, 'Dy hHH24') as day_hour,
+        to_char(time,'MM-DD hHH24') as hour,
+        count(*)
+      from 
+        ask_hn_data
+      group by
+        day_hour, hour
+      order by
+        hour
+    ),
+    ask_hn as (
+      select
+        day_hour,
+        count as ask_count
+      from
+        ask_hn_by_hour
+    ),
+    show_hn_data as (
+      select
+        time::timestamptz
+      from
+        hn_items_all
+      where
+        time::timestamptz > now() - interval '7 day'
+        and title ~ '^Show HN'
+    ),
+    show_hn_by_hour as (
+      select
+        to_char(time, 'Dy hHH24') as day_hour,
+        to_char(time,'MM-DD hHH24') as hour,
+        count(*)
+      from 
+        show_hn_data
+      group by
+        day_hour, hour
+      order by
+        hour
+    ),
+    show_hn as (
+      select
+        day_hour,
+        count as show_count
+      from
+        show_hn_by_hour
+    )
+    select
+      day_hour,
+      ask_count as "Ask HN",
+      show_count as "Show HN"
+    from 
+      ask_hn a
+    left join 
+      show_hn s 
+    using 
+      (day_hour)
+  EOQ
+}

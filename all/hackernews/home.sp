@@ -163,7 +163,7 @@ Home
 
     chart {
       width = 6
-      title = "stories by hour since June 21"
+      title = "stories by hour: last 7 days"
       sql = <<EOQ
         with data as (
           select
@@ -171,7 +171,7 @@ Home
           from
             hn_items_all
           where
-            time::timestamptz > now() - interval '14 day'
+            time::timestamptz > now() - interval '7 day'
         )
         select
           to_char(time,'MM:DD HH24') as hour,
@@ -187,7 +187,7 @@ Home
 
     chart {
       width = 6
-      title = "ask and show by hour since June 21"
+      title = "ask and show by hour: last 7 days"
       sql = <<EOQ
         with ask_hn as (
           select
@@ -195,7 +195,7 @@ Home
           from
             hn_items_all
           where
-            time::timestamptz > now() - interval '14 day'
+            time::timestamptz > now() - interval '7 day'
             and title ~ '^Ask HN:'
         ),
         show_hn as (

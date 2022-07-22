@@ -287,19 +287,6 @@ query "urls" {
   EOQ
 }
 
-query "update_scores_and_comments" {
-  sql = <<EOQ
-    update 
-      hn_items_all a 
-    set 
-      score = new_sc.new_score, 
-      descendants = new_sc.new_descendants 
-    from 
-      csv.new_sc 
-    where new_sc.id = a.id
-  EOQ
-}
-
 query "stories_by_hour" {
   sql = <<EOQ
     with data as (
@@ -401,6 +388,23 @@ query "ask_and_show_by_hour" {
   EOQ
 }
 
+query "create_scores_and_comments" {
+  sql = <<EOQ
+    create table hn_scores_and_comments as ( 
+      select 
+        id, 
+        score, 
+        descendants 
+      from 
+        hn_items_all 
+      where 
+        score::int > 5 
+      order by
+        time desc 
+    )
+  EOQ
+}
+
 query "new_scores_and_comments" {
   sql = <<EOQ
     create table new_sc as ( 
@@ -440,4 +444,15 @@ query "new_scores_and_comments" {
 
 }
 
-
+query "update_scores_and_comments" {
+  sql = <<EOQ
+    update 
+      hn_items_all a 
+    set 
+      score = new_sc.new_score, 
+      descendants = new_sc.new_descendants 
+    from 
+      csv.new_sc 
+    where new_sc.id = a.id
+  EOQ
+}

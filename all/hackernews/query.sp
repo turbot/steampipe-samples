@@ -402,7 +402,7 @@ query "ask_and_show_by_hour" {
 }
 
 query "new_scores_and_comments" {
-  SQL = <<EOQ
+  sql = <<EOQ
     create table new_sc as ( 
       with urls as ( 
         select 'https://hacker-news.firebaseio.com/v0/item/' || sc.id || '.json' as url

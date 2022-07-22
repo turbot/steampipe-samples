@@ -441,7 +441,6 @@ query "new_scores_and_comments" {
         n.id = sc.id
     )          
   EOQ
-
 }
 
 query "update_scores_and_comments" {

@@ -89,7 +89,7 @@ jobs:
         steampipe query "select count(*) from hn_items_all"
 
     - name: create hn_scores_and_comments
-      run: steampipe query "create table hn_scores_and_comments as ( select id, score, descendants from hn_items_all where score::int > 5 order by time desc )"
+      run: steampipe query query.create_scores_and_comments
 
     - name: check hn_scores_and_comments
       run: steampipe query "select sum(descendants::bigint) as descendants from hn_scores_and_comments"

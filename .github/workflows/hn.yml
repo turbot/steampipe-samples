@@ -8,9 +8,9 @@ on:
   schedule:
     - cron:  '15 * * * *'
 
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 
 jobs:
   cron:
@@ -83,13 +83,9 @@ jobs:
     - name: create hn_items_all      
       run: |
         steampipe query "create table hn_items_tmp as select * from csv.hn"
-
         steampipe query "select count(*) from csv.hn"
-
         steampipe query "create table hn_items_all as select distinct on (id) * from hn_items_tmp"
-
         steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
-
         steampipe query "select count(*) from hn_items_all"
 
     - name: create hn_scores_and_comments
@@ -99,7 +95,7 @@ jobs:
       run: steampipe query "select sum(descendants::bigint) as descendants from hn_scores_and_comments"
 
     - name: create new_sc
-      run: steampipe query  "create table new_sc as ( with urls as ( select 'https://hacker-news.firebaseio.com/v0/item/' || sc.id || '.json' as url from hn_scores_and_comments sc order by url ), new_sc as ( select  response_body::jsonb->>'id' as id, response_body::jsonb->>'score' as new_score, response_body::jsonb->>'descendants' as new_descendants from net_http_request n join urls u on u.url = n.url ) select sc.id, sc.score, sc.descendants, n.new_score, n.new_descendants from new_sc n join hn_scores_and_comments sc on  n.id = sc.id )"
+      run: steampipe query query.new_scores_and_comments
 
     - name: check new_sc
       run: steampipe query "select sum(descendants::bigint) as descendants from new_sc"

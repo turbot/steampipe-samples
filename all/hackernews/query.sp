@@ -400,3 +400,44 @@ query "ask_and_show_by_hour" {
       (day_hour)
   EOQ
 }
+
+query "new_scores_and_comments" {
+  SQL = <<EOQ
+    create table new_sc as ( 
+      with urls as ( 
+        select 'https://hacker-news.firebaseio.com/v0/item/' || sc.id || '.json' as url
+      from 
+        hn_scores_and_comments sc 
+      order by 
+        url
+      ), 
+      new_sc as ( 
+        select  
+          response_body::jsonb->>'id' as id, 
+          response_body::jsonb->>'score' as new_score, 
+          response_body::jsonb->>'descendants' as new_descendants 
+      from 
+        net_http_request n 
+      join 
+        urls u 
+      on 
+        u.url = n.url
+      )
+      select 
+        sc.id, 
+        sc.score, 
+        sc.descendants, 
+        n.new_score, 
+        n.new_descendants 
+      from 
+        new_sc n 
+      join 
+        hn_scores_and_comments sc 
+      on
+        n.id = sc.id
+    )          
+  EOQ
+
+}
+
+

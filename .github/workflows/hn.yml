@@ -109,8 +109,9 @@ jobs:
       run: steampipe query query.update_scores_and_comments
 
     - name: save hn_items_all 
-      run: steampipe query "alter table hn_items_all drop column _ctx"
-      run: steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
+      run: |
+        steampipe query "alter table hn_items_all drop column _ctx"
+        steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
 
     - name: save github info
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv

@@ -275,7 +275,7 @@ query "urls" {
     from
       hn_items_all
     where
-      url != '<null>'
+      url != ''
     group by
       url,
       time,

@@ -9,21 +9,29 @@ locals {
     "Apple",
     "CloudFlare",
     "Facebook",
+    "GitLab",
     "Google",
+    "IBM",
     "Intel ",
     "Microsoft",
+    "Mozilla",
     "Netflix",
+    "OpenAI",
     "Tesla",
+    "TikTok",
     "Toshiba",
     "Twitter",
-    "SpaceX",
     "Sony",
-    "Stripe"  
+    "SpaceX",
+    "Stripe",
+    "Uber",
+    "Zendesk"
   ]
 
   languages = [
     "C#",
     "C\\+\\+",
+    "Clojure",
     "CSS",
     "Erlang",
     "golang| go 1.| (in|with|using) go | go (.+)(compiler|template|monorepo|generic|interface|library|framework|garbage|module|range|source)",
@@ -47,7 +55,7 @@ locals {
     "Android",
     "iOS",
     "Linux",
-    "macOS",
+    "macOS| mac os ( *)x",
     "Windows"
   ]
 
@@ -104,8 +112,14 @@ chart "companies_base" {
     point "Facebook" {
       color = "RoyalBlue"
     }
+    point "GitLab" {
+      color = "#8C929D"
+    }
     point "Google" {
       color = "SeaGreen"
+    }
+    point "IBM" {
+      color = "#005d5d"
     }
     point "Intel" {
       color = "Wheat"
@@ -113,11 +127,20 @@ chart "companies_base" {
     point "Microsoft" {
       color = "Blue"
     }
+    point "Mozilla" {
+      color = "#FFCB00"
+    }
     point "Netflix" {
       color = "DarkRed"
     }
+    point "OpenAI" {
+      color = "#572F5F"
+    }
     point "Tesla" {
       color = "Gray"
+    }
+    point "TikTok" {
+      color = "Turquoise"
     }
     point "Toshiba" {
       color = "Goldenrod"
@@ -125,11 +148,14 @@ chart "companies_base" {
     point "Twitter" {
       color = "PaleTurquoise"
     }
+    point "Uber" {
+      color = "Black"
+    }
     point "Sony" {
       color = "Gold"
     }
     point "SpaceX" {
-      color = "Black"
+      color = "#22272B"
     }
     point "Stripe" {
       color = "SaddleBrown"
@@ -144,6 +170,9 @@ chart "languages_base" {
     }
     point "C++" {
       color = "orange"
+    }
+    point "Clojure" {
+      color = "#91DC47"
     }
     point "CSS" {
       color = "pink"
@@ -173,7 +202,7 @@ chart "languages_base" {
       color = "beige"
     }
     point "Python" {
-      color = "#4B8BBE"
+      color = "#306998"
     }
     point "Rust " {
       color = "black"
@@ -202,13 +231,13 @@ chart "languages_base" {
 chart "os_base" {
   series "mentions" {
     point "Android" {
-      color = "green"
+      color = "#78C257"
     }
     point "iOS" {
       color = "crimson"
     }
-    point "macOS" {
-      color = "red"
+    point "macOS | mac os ( )*x" {
+      color = "#a46859"
     }
     point "Windows" {
       color = "blue"

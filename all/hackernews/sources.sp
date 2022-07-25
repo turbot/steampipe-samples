@@ -40,26 +40,41 @@ Sources
     width = 6
 
     container  {
-
-      input "domain" {
-        width = 6
-        placeholder = "search or choose domain"
-        sql = <<EOQ
-          with domains as (
-            select distinct
-              substring(url from 'http[s]*://([^/$]+)') as domain
+      
+      container {
+      
+        input "domain" {
+          width = 6
+          placeholder = "search or choose domain"
+          sql = <<EOQ
+            with domains as (
+              select distinct
+                substring(url from 'http[s]*://([^/$]+)') as domain
+              from
+                hn_items_all
+            )
+            select
+              domain as label,
+              domain as value
             from
-              hn_items_all
-          )
-          select
-            domain as label,
-            domain as value
-          from
-            domains
-          order by
-            domain
-        EOQ    
+              domains
+            order by
+              domain
+          EOQ    
+        }
+
+        text "source_examples" {
+          width = 6
+          value = <<EOT
+Examples: 
+[www.nytimes.com](http://localhost:9194/hackernews.dashboard.Sources?input.domain=www.nytimes.com),
+[github.com](http://localhost:9194/hackernews.dashboard.Sources?input.domain=github.com),
+[simonwillison.net](http://localhost:9194/hackernews.dashboard.Sources?input.domain=simonwillison.net)
+        EOT
+        }
+
       }
+
 
       chart {
         args = [

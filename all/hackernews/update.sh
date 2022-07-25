@@ -10,6 +10,7 @@ echo 'create indexes'
 steampipe query "create index idx_hn_items_all_by on public.hn_items_all(by)" >/dev/null 2>&1
 steampipe query "create index idx_hn_items_all_score on public.hn_items_all(score)" >/dev/null 2>&1
 steampipe query "create index idx_hn_items_all_descendants on public.hn_items_all(descendants)" >/dev/null 2>&1
+steampipe query "create index idx_hn_items_all_url on public.hn_items_all(url)" >/dev/null 2>&1
 
 
 echo 'cast types'

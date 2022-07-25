@@ -34,7 +34,7 @@ Search
       type = "text"
     }
 
-    text "examples" {
+    text "search_examples" {
       width = 8
       value = <<EOT
 Examples: 

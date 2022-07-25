@@ -269,7 +269,6 @@ query "urls" {
     select
       url,
       to_char(time::timestamptz, 'MM-DD hHH24') as time,
-      count(*) as occurrences,
       sum(score::int) as score,
       sum(descendants::int) as comments
     from

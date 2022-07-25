@@ -188,7 +188,7 @@ chart "languages_base" {
       color = "#F05138"
     }
     point "TypeScript" {
-      color = "purple"
+      color = "white"
     }
     point "WebAssembly|WASM" {
       color = "#6856E7"

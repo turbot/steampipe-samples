@@ -54,7 +54,8 @@ locals {
   clouds = [
     "AWS",
     "Azure",
-    "Google Cloud|GCP"  
+    "Google Cloud|GCP",
+    "Oracle Cloud"
   ]
 
   dbs = [
@@ -73,6 +74,15 @@ locals {
     "Supabase",
     "Yugabyte"
   ]
+
+  editors = [
+    " emacs ",
+    " sublime ",
+    "vscode| vs code |visual studio code",
+    " vim "
+  ]
+
+
 }
 
 # https://steampipe.io/docs/reference/mod-resources/dashboard#color
@@ -141,7 +151,7 @@ chart "languages_base" {
     point "Erlang" {
       color = "DarkSalmon"
     }
-    point "golang" {
+    point "golang| go 1.| (in|with|using) go | go (.+)(compiler|template|monorepo|generic|interface|library|framework|garbage|module|range|source)" {
       color = "#4B8BBE"
     }
     point "Haskell" {
@@ -212,13 +222,16 @@ chart "os_base" {
 chart "cloud_base" {
   series "mentions" {
     point "AWS" {
-      color = "brown"
+      color = "#FF9900"
     }
     point "Azure" {
       color = "blue"
     }
     point "Google Cloud|GCP" {
-      color = "#F4B400"
+      color = "#4285F4"
+    }
+    point "Oracle Cloud" {
+      color = "red"
     }
   }
 }
@@ -256,12 +269,29 @@ chart "db_base" {
       color = "DarkCyan"
     }
     point "SQLite" {
-      color = "blue"
+      color = "purple"
     }
     point "Yugabyte" {
       color = "lightgreen"
     }
 
+  }
+}
+
+chart "editor_base" {
+  series "mentions" {
+    point "Sublime" {
+      color = "brown"
+    }
+    point "vscode| vs code |visual studio code" {
+      color = "blue"
+    }
+    point "emacs" {
+      color = "green"
+    }
+    point "vim" {
+      color = "black"
+    }
   }
 }
 

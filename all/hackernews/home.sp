@@ -322,7 +322,39 @@ Home
       args = [ local.dbs, 518400, 0 ] 
     }
 
+  }
+
+  container {
+
+    chart {
+      base = chart.editor_base
+      width = 4
+      type = "donut"
+      title = "editor mentions: last 24 hours"
+      query = query.mentions
+      args = [ local.editors, 1440, 0 ]
+    }
+
+    chart {
+      base = chart.editor_base
+      width = 4
+      type = "donut"
+      title = "editor mentions: last 7 days"
+      query = query.mentions
+      args = [ local.editors, 10080, 0 ]
+    }
+
+    chart {
+      base = chart.editor_base
+      width = 4
+      type = "donut"
+      title = "editor mentions: since June 21"
+      query = query.mentions
+      args = [ local.editors, 518400, 0 ] 
+    }
+
   }    
+
 
 }
 

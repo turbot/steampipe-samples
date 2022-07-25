@@ -112,51 +112,45 @@ Home
     width = 12
     
     chart {
-      title = "users with > 50 posts"
-      width = 6
+      title = "users by total score: last 7 days"
+          width = 6
       sql = <<EOQ
-        with data as (
-          select
-            by,
-            count(*) as posts
-          from
-            hn_items_all
-          group by
-            by
-          order by
-            posts desc
-        )
-        select 
-          * 
+        select
+          by,
+          sum(score::int) as sum_score
         from
-          data
+          hn_items_all
         where
-          posts > 50
-        limit
-          25
+          time::timestamptz < now() - interval '7 days'
+        group by 
+          by
+        order by
+          sum_score desc
+        limit 
+          15
       EOQ
     }
-
+    
     chart {
-      title = "users with scores > 50"
+      title = "users by total comments: last 7 days"
       width = 6
       sql = <<EOQ
         select
           by,
-          max(score::int) as max_score
+          sum(descendants::int) as posts
         from
           hn_items_all
         where
-          score::int > 50
-        group by 
+          time::timestamptz < now() - interval '7 days'
+        group by
           by
         order by
-          max_score desc
-        limit 
-          25
+          posts desc
+        limit
+          15
       EOQ
     }
-    
+
   }
 
   container {

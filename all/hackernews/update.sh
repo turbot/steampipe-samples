@@ -24,6 +24,7 @@ echo 'create table hn_people'
 cp people.csv ~/csv/ >/dev/null 2>&1
 steampipe query "drop table if exists hn_people" >/dev/null 2>&1
 steampipe query "create table public.hn_people as select * from csv.people" >/dev/null 2>&1
+steampipe query "alter table public.hn_people drop column _ctx" >/dev/null 2>&1
 
 echo 'now run `steampipe dashboard`, then visit http://localhost:9194 and check out the hacker news dashboard!'
 

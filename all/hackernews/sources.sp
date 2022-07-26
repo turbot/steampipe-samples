@@ -81,6 +81,13 @@ Examples:
           self.input.domain
         ]
         query = query.domain_detail
+        axes {
+          y {
+            title {
+              value = "stories"
+            }
+          }
+        }
       }
 
       table {

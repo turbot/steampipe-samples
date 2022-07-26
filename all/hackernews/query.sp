@@ -207,7 +207,7 @@ query "people" {
         g.public_repos
       from
         hn_info h
-      join
+      left join
         github_user g
       on 
         h.by = g.login

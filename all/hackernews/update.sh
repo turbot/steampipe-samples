@@ -3,6 +3,7 @@ git pull 2>&1
 
 echo 'create table hn_items_all'
 cp hn_items_all.csv ~/csv >/dev/null 2>&1
+
 steampipe query "drop table if exists hn_items_all" >/dev/null 2>&1
 steampipe query "create table public.hn_items_all as select distinct on (id) * from csv.hn_items_all" >/dev/null 2>&1
 

@@ -14,9 +14,11 @@
 
 - `infocards`: A set of cards that count items (All/Ask HN/Show HN), the span of days they cover, max and average scores.
 
-- `users with > 5 posts`: Chart of users with the most posts.
+- `users by total score: last 7 days`
 
-- `stories by hour`: Chart of story counts over time.
+- `users by total comments: last 7 days`
+
+- `stories by total comments: last 7 days`
 
 - `ask and show by hour`: Chart of Ask and Show counts over time.
 
@@ -28,19 +30,19 @@
 
 - `cloud mentions`: Same for major clouds.
 
-- `database mentions`: Same for databases
+- `db mentions`: Same for databases.
 
-- `top-rated stories`: Stories ranked by score.
+- `editor mentions`: Same for editors.
 
 ## Dashboard: People
 
-The Hackernews username in first column links to the `Submissions` dashboard and selects that user.
+The Hacker News username in first column links to the `Submissions` dashboard and selects that user.
 
-A Hackernews username will often match a GitHub username, which in turn may yield a Twitter username. When that happens this table links to one or both accounts. 
+A Hacker News username will often match a GitHub username, which in turn may yield a Twitter username. When that happens this table links to one or both accounts. 
 
 ## Dashboard: Posts
 
-Top-rated posts, with links to each Hacker News item, to the `Submissions` dashboard for the author, and to the URL cited in the post.
+Top-rated posts, with links to each Hacker News item, to the `Submissions` dashboard for the author, to the URL cited in the post, and to a search on the URL's domain.
 
 ## Dashboard: Search
 
@@ -59,7 +61,7 @@ This dashboard reports the number of HN items by target domain (e.g. www.nytimes
 
 ## Dashboard: Submissions
 
-The `by` columns in the `Home` dashboard link here. This dashboard charts a select user's HN submissions and provides links to each item. 
+The `by` columns in the `Home` dashboard link here. This dashboard charts a selected user's HN submissions and provides links to each item. 
 
 ## Dashboard: Urls
 
@@ -73,10 +75,6 @@ You can add to or alter the existing dashboards, create new ones, or just use th
 
 # Demo
 
-
-
-https://user-images.githubusercontent.com/46509/178805260-8b90b070-89ce-4202-a885-2ecf0278715c.mp4
-
-
+https://user-images.githubusercontent.com/46509/181120985-b4e09ede-e72d-4669-b947-d07b2b2fcad4.mp4
 
 

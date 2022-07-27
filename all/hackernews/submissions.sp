@@ -47,7 +47,12 @@ Submissions
       EOQ    
     }
 
+  }
+
+  container {
+
     table  {
+      width = 8
       args = [
         self.input.hn_user.value
       ]
@@ -62,26 +67,12 @@ Submissions
         wrap = "all"
       }
     }
-
-  }
-
-  container {
-    width = 4
-
-    input "since_days_ago" {
-      width = 4
-      title = "since days ago"
-      option "30" {}
-      option "14" {}
-      option "7" {}
-    }
-
-
+  
     chart  {
+      width = 4
       type = "bar"
       args = [
-        self.input.hn_user.value,
-        self.input.since_days_ago
+        self.input.hn_user.value
       ]
       axes {
         x {
@@ -99,5 +90,6 @@ Submissions
     }
 
   }
+ 
 
 }

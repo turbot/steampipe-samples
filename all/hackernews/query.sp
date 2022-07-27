@@ -66,14 +66,12 @@ query "submission_days" {
       hn_items_all
     where
       by = $1
-      and time::timestamptz > now() - ($2 || ' day')::interval
     group by 
       day
     order by
       day desc
   EOQ
   param "hn_user" {}
-  param "since_days_ago" {}
 }
 
 query "domains" {

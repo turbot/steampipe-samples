@@ -157,13 +157,12 @@ Home
 
     chart {
       width = 6
-      title = "stories by hour: last 7 days"
+      title = "stories by hour: last 10 days"
       query = query.stories_by_hour
     }
-
     chart {
       width = 6
-      title = "ask and show by hour: last 7 days"
+      title = "ask and show by hour: last 10 days"
       query = query.ask_and_show_by_hour
     }
 

@@ -292,25 +292,25 @@ query "stories_by_hour" {
       from
         hn_items_all
       where
-        time::timestamptz > now() - interval '7 day'
+        time::timestamptz > now() - interval '10 day'
     ),
     by_hour as (
       select
-        to_char(time, 'Dy hHH24') as day_hour,
+         regexp_replace(to_char(time, 'Dy DD HH24'), '(\w)(\w{2,2})(.+)', '\1\3') as day_hour,
         to_char(time,'MM-DD hHH24') as hour,
         count(*)
       from 
         data
       group by
         day_hour, hour
-      order by
-        hour
     )
     select
       day_hour,
       count
     from
       by_hour
+    order by
+      hour
   EOQ
 }
 
@@ -322,12 +322,12 @@ query "ask_and_show_by_hour" {
       from
         hn_items_all
       where
-        time::timestamptz > now() - interval '7 day'
+        time::timestamptz > now() - interval '10 day'
         and title ~ '^Ask HN'
     ),
     ask_hn_by_hour as (
       select
-        to_char(time, 'Dy hHH24') as day_hour,
+        regexp_replace(to_char(time, 'Dy DD HH24'), '(\w)(\w{2,2})(.+)', '\1\3') as day_hour,
         to_char(time,'MM-DD hHH24') as hour,
         count(*)
       from 
@@ -355,7 +355,7 @@ query "ask_and_show_by_hour" {
     ),
     show_hn_by_hour as (
       select
-        to_char(time, 'Dy hHH24') as day_hour,
+        regexp_replace(to_char(time, 'Dy DD HH24'), '(\w)(\w{2,2})(.+)', '\1\3') as day_hour,
         to_char(time,'MM-DD hHH24') as hour,
         count(*)
       from 

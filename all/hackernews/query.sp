@@ -190,7 +190,10 @@ query "people" {
         h.max_score,
         ( select count(*) from hn_items_all where by = h.by ) as stories,
         ( select sum(descendants::int) from hn_items_all where descendants != '<null>' and by = h.by group by h.by ) as comments
-      from hn_users_and_max_scores h 
+      from 
+        hn_users_and_max_scores h
+      where
+        h.by != 'aiobe'
     ),
     plus_gh_info as (
       select

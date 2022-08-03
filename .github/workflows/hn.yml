@@ -8,9 +8,9 @@ on:
   schedule:
     - cron:  '15 * * * *'
 
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
 
 jobs:
   cron:
@@ -111,6 +111,9 @@ jobs:
       run: |
         steampipe query "alter table hn_items_all drop column _ctx"
         steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
+
+    - name: review hn users
+      run: steampipe query "select distinct by from hn_items_all order by by"
 
     - name: save github info
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv

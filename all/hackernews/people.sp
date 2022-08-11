@@ -9,19 +9,19 @@ dashboard "People" {
     text {
       width = 4
       value = <<EOT
-[Home](http://localhost:9194/hackernews.dashboard.Home)
+[Home](http://${local.host}:9194/hackernews.dashboard.Home)
 🞄
 People
 🞄
-[Posts](http://localhost:9194/hackernews.dashboard.Posts)
+[Posts](http://${local.host}:9194/hackernews.dashboard.Posts)
 🞄
-[Search](http://localhost:9194/hackernews.dashboard.Search)
+[Search](http://${local.host}:9194/hackernews.dashboard.Search)
 🞄
-[Sources](http://localhost:9194/hackernews.dashboard.Sources)
+[Sources](http://${local.host}:9194/hackernews.dashboard.Sources)
 🞄
-[Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+[Submissions](http://${local.host}:9194/hackernews.dashboard.Submissions)
 🞄
-[Urls](http://localhost:9194/hackernews.dashboard.Urls)
+[Urls](http://${local.host}:9194/hackernews.dashboard.Urls)
       EOT
     }
 
@@ -31,7 +31,7 @@ People
     title = "hacker news people with max score > 200"
     sql = "select * from hn_people order by karma::int desc"
     column "by" {
-    href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
+    href = "http://${local.host}:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
     }
     column "twitter_user" {
     href = "https://twitter.com/{{.'twitter'}}"

@@ -11,17 +11,17 @@ dashboard "Home" {
       value = <<EOT
 Home
 🞄
-[People](http://localhost:9194/hackernews.dashboard.People)
+[People](http://${local.host}:9194/hackernews.dashboard.People)
 🞄
-[Posts](http://localhost:9194/hackernews.dashboard.Posts)
+[Posts](http://${local.host}:9194/hackernews.dashboard.Posts)
 🞄
-[Search](http://localhost:9194/hackernews.dashboard.Search)
+[Search](http://${local.host}:9194/hackernews.dashboard.Search)
 🞄
-[Sources](http://localhost:9194/hackernews.dashboard.Sources)
+[Sources](http://${local.host}:9194/hackernews.dashboard.Sources)
 🞄
-[Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+[Submissions](http://${local.host}:9194/hackernews.dashboard.Submissions)
 🞄
-[Urls](http://localhost:9194/hackernews.dashboard.Urls)
+[Urls](http://${local.host}:9194/hackernews.dashboard.Urls)
       EOT
     }
 

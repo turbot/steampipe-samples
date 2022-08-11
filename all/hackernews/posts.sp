@@ -9,19 +9,19 @@ dashboard "Posts" {
     text {
       width = 4
       value = <<EOT
-[Home](http://localhost:9194/hackernews.dashboard.Home)
+[Home](http://${local.host}:9194/hackernews.dashboard.Home)
 🞄
-[People](http://localhost:9194/hackernews.dashboard.People)
+[People](http://${local.host}:9194/hackernews.dashboard.People)
 🞄
 Posts
 🞄
-[Search](http://localhost:9194/hackernews.dashboard.Search)
+[Search](http://${local.host}:9194/hackernews.dashboard.Search)
 🞄
-[Sources](http://localhost:9194/hackernews.dashboard.Sources)
+[Sources](http://${local.host}:9194/hackernews.dashboard.Sources)
 🞄
-[Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+[Submissions](http://${local.host}:9194/hackernews.dashboard.Submissions)
 🞄
-[Urls](http://localhost:9194/hackernews.dashboard.Urls)
+[Urls](http://${local.host}:9194/hackernews.dashboard.Urls)
 
       EOT
     }
@@ -40,13 +40,13 @@ Posts
         wrap = "all"
       }
       column "by" {
-        href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
+        href = "http://${local.host}:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
       }
       column "url" {
         wrap = "all"
       }
       column "domain" {
-        href = "http://localhost:9194/hackernews.dashboard.Search?input.search_term={{.'domain'}}"
+        href = "http://${local.host}:9194/hackernews.dashboard.Search?input.search_term={{.'domain'}}"
       }
 
     }

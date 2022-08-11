@@ -9,19 +9,19 @@ dashboard "Search" {
     text {
       width = 4
       value = <<EOT
-[Home](http://localhost:9194/hackernews.dashboard.Home)
+[Home](http://${local.host}:9194/hackernews.dashboard.Home)
 🞄
-[People](http://localhost:9194/hackernews.dashboard.People)
+[People](http://${local.host}:9194/hackernews.dashboard.People)
 🞄
-[Posts](http://localhost:9194/hackernews.dashboard.Posts)
+[Posts](http://${local.host}:9194/hackernews.dashboard.Posts)
 🞄
 Search 
 🞄
-[Sources](http://localhost:9194/hackernews.dashboard.Sources)
+[Sources](http://${local.host}:9194/hackernews.dashboard.Sources)
 🞄
-[Submissions](http://localhost:9194/hackernews.dashboard.Submissions)
+[Submissions](http://${local.host}:9194/hackernews.dashboard.Submissions)
 🞄
-[Urls](http://localhost:9194/hackernews.dashboard.Urls)
+[Urls](http://${local.host}:9194/hackernews.dashboard.Urls)
       EOT
     } 
   } 
@@ -38,12 +38,12 @@ Search
       width = 8
       value = <<EOT
 Examples: 
-[gpt](http://localhost:9194/hackernews.dashboard.Search?input.search_term=gpt),
-[go.+compiler](http://localhost:9194/hackernews.dashboard.Search?input.search_term=%20go.%2bcompiler),
-[simonwillison](http://localhost:9194/hackernews.dashboard.Search?input.search_term=simonwillison)
-[github.com/microsoft](http://localhost:9194/hackernews.dashboard.Search?input.search_term=github.com%2Fmicrosoft), 
-[github.com.+pytorch](http://localhost:9194/hackernews.dashboard.Search?input.search_term=github.com.%2bpytorch),
-[nytimes.+/technology](http://localhost:9194/hackernews.dashboard.Search?input.search_term=nytimes.%2b/technology)
+[gpt](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=gpt),
+[go.+compiler](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=%20go.%2bcompiler),
+[simonwillison](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=simonwillison)
+[github.com/microsoft](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=github.com%2Fmicrosoft), 
+[github.com.+pytorch](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=github.com.%2bpytorch),
+[nytimes.+/technology](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=nytimes.%2b/technology)
       EOT
     }
 
@@ -80,7 +80,7 @@ Examples:
         href = "https://news.ycombinator.com/item?id={{.'id'}}"
       }
       column "by" {
-        href = "http://localhost:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
+        href = "http://${local.host}:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
       }
 
   }

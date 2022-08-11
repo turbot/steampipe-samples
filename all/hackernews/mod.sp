@@ -3,6 +3,10 @@ mod "hackernews" {
 }
 
 locals {
+  host = "localhost"
+}
+
+locals {
   companies = [ 
     "Amazon",
     "AMD",

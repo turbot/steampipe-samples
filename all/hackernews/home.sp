@@ -192,9 +192,9 @@ Home
       base = chart.companies_base
       width = 4
       type = "donut"
-      title = "company mentions: since June 21"
+      title = "company mentions: last 30 days"
       query = query.mentions
-      args = [ local.companies, 518400, 0 ] 
+      args = [ local.companies, 43200, 0 ] 
     }
 
   }
@@ -223,9 +223,9 @@ Home
       base = chart.languages_base
       width = 4
       type = "donut"
-      title = "language mentions: since June 21"
+      title = "language mentions: last 30 days"
       query = query.mentions
-      args = [ local.languages, 518400, 0 ]
+      args = [ local.languages, 43200, 0 ]
     }
 
   }
@@ -254,9 +254,9 @@ Home
       base = chart.os_base
       width = 4
       type = "donut"
-      title = "os mentions: since June 21"
+      title = "os mentions: last 30 days"
       query = query.mentions
-      args = [ local.operating_systems, 518400, 0 ]
+      args = [ local.operating_systems, 43200, 0 ]
     }
 
   }
@@ -285,9 +285,9 @@ Home
       base = chart.cloud_base
       width = 4
       type = "donut"
-      title = "cloud mentions: since June 21"
+      title = "cloud mentions: last 30 days"
       query = query.mentions
-      args = [ local.clouds, 518400, 0 ] 
+      args = [ local.clouds, 43200, 0 ] 
     }
 
   }
@@ -316,9 +316,9 @@ Home
       base = chart.db_base
       width = 4
       type = "donut"
-      title = "db mentions: since June 21"
+      title = "db mentions: last 30 days"
       query = query.mentions
-      args = [ local.dbs, 518400, 0 ] 
+      args = [ local.dbs, 43200, 0 ] 
     }
 
   }
@@ -347,9 +347,9 @@ Home
       base = chart.editor_base
       width = 4
       type = "donut"
-      title = "editor mentions: since June 21"
+      title = "editor mentions: last 30 days"
       query = query.mentions
-      args = [ local.editors, 518400, 0 ] 
+      args = [ local.editors, 43200, 0 ] 
     }
 
   }    

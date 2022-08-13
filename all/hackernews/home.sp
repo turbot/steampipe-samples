@@ -19,7 +19,7 @@ Home
 🞄
 [Sources](http://${local.host}:9194/hackernews.dashboard.Sources)
 🞄
-[Submissions](http://${local.host}:9194/hackernews.dashboard.Submissions)
+[Submissions](http://${local.host}:9194/hackernews.dashboard.Submissions?input.hn_user=none)
 🞄
 [Urls](http://${local.host}:9194/hackernews.dashboard.Urls)
       EOT

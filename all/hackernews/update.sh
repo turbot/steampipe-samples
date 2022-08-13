@@ -5,7 +5,7 @@ echo 'create table hn_items_all'
 cp hn_items_all.csv ~/csv >/dev/null 2>&1
 
 steampipe query "drop table if exists hn_items_all" >/dev/null 2>&1
-steampipe query "create table public.hn_items_all as select distinct on (id) * from csv.hn_items_all where time " >/dev/null 2>&1
+steampipe query "create table public.hn_items_all as select distinct on (id) * from csv.hn_items_all" >/dev/null 2>&1
 steampipe query "delete from hn_items_all where substring(time from 1 for 10) < to_char(now() - interval '31 day' , 'YYYY-MM-DD')" >/dev/null 2>&1
 
 echo 'create indexes'

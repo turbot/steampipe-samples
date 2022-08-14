@@ -353,7 +353,7 @@ query "ask_and_show_by_hour" {
       from
         hn_items_all
       where
-        time::timestamptz > now() - interval '7 day'
+        time::timestamptz > now() - interval '10 day'
         and title ~ '^Show HN'
     ),
     show_hn_by_hour as (

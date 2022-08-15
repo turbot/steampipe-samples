@@ -39,10 +39,10 @@ Search
       value = <<EOT
 Examples: 
 [gpt](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=gpt),
-[go.+compiler](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=%20go.%2bcompiler),
+[go.+generic](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=%20go.%2bgeneric),
 [simonwillison](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=simonwillison)
 [github.com/microsoft](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=github.com%2Fmicrosoft), 
-[github.com.+pytorch](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=github.com.%2bpytorch),
+[github.com.+sqlite](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=github.com.%2bsqlite),
 [nytimes.+/technology](http://${local.host}:9194/hackernews.dashboard.Search?input.search_term=nytimes.%2b/technology)
       EOT
     }

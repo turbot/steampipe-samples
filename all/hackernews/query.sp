@@ -1,3 +1,35 @@
+query "repos_by_company" {
+  sql = <<EOQ
+    with names as (
+      select
+        unnest( $1::text[] ) as name
+    ),
+    hn_items as (
+      select
+        (regexp_match(url, 'github.com/(\w+)'))[1] as name,
+        by,
+        score::int,
+        descendants::int as comments,
+        url
+      from
+        hn_items_all
+      where
+        url ~* 'github.com/'
+    )
+    select 
+      h.*
+    from 
+      hn_items h 
+    join 
+      names n 
+    on 
+      h.url ~ ('github.com/' || lower(n.name) || '/')
+    order by
+      h.name
+  EOQ
+  param "names" {}
+}
+
 query "mentions" {
   sql = <<EOQ
     with names as (

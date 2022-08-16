@@ -4,6 +4,31 @@ dashboard "Repos" {
     service = "Hacker News"
   }
 
+  container {
+    
+    text {
+      width = 4
+      value = <<EOT
+[Home](http://${local.host}:9194/hackernews.dashboard.Home)
+🞄
+[People](http://${local.host}:9194/hackernews.dashboard.People)
+🞄
+[Posts](http://${local.host}:9194/hackernews.dashboard.Posts)
+🞄
+Repos
+🞄
+[Search](http://${local.host}:9194/hackernews.dashboard.Search)
+🞄
+[Sources](http://${local.host}:9194/hackernews.dashboard.Sources)
+🞄
+[Submissions](http://${local.host}:9194/hackernews.dashboard.Submissions?input.hn_user=none)
+🞄
+[Urls](http://${local.host}:9194/hackernews.dashboard.Urls)
+      EOT
+    } 
+  } 
+
+
   container  {
 
     table {

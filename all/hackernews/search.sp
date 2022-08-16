@@ -15,6 +15,8 @@ dashboard "Search" {
 🞄
 [Posts](http://${local.host}:9194/hackernews.dashboard.Posts)
 🞄
+[Repos](http://${local.host}:9194/hackernews.dashboard.Repos)
+🞄
 Search 
 🞄
 [Sources](http://${local.host}:9194/hackernews.dashboard.Sources)

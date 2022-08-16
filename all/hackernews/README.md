@@ -44,6 +44,10 @@ A Hacker News username will often match a GitHub username, which in turn may yie
 
 Top-rated posts, with links to each Hacker News item, to the `Submissions` dashboard for the author, to the URL cited in the post, and to a search on the URL's domain.
 
+## Dashboard: Repos
+
+Hacker News items with GitHub URLs matching company names.
+
 ## Dashboard: Search
 
 Finds items whose titles and/or URLs match the search term. It's a regex match, here are some examples.

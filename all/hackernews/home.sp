@@ -137,7 +137,7 @@ Home
       sql = <<EOQ
         select
           by,
-          sum(descendants::int) as posts
+          sum(descendants::int) as comments
         from
           hn_items_all
         where
@@ -145,7 +145,7 @@ Home
         group by
           by
         order by
-          posts desc
+          comments desc
         limit
           15
       EOQ
@@ -241,7 +241,7 @@ Home
       args = [ local.operating_systems, 1440, 0 ]
     }
 
-    chart {
+    chart { 
       base = chart.os_base
       width = 4
       type = "donut"

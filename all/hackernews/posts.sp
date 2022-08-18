@@ -7,7 +7,7 @@ dashboard "Posts" {
   container {
     
     text {
-      width = 4
+      width = 6
       value = <<EOT
 [Home](http://${local.host}:9194/hackernews.dashboard.Home)
 🞄

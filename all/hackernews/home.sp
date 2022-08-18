@@ -7,7 +7,7 @@ dashboard "Home" {
   container {
 
     text {
-      width = 4
+      width = 6
       value = <<EOT
 Home
 🞄

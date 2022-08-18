@@ -3,7 +3,7 @@ dashboard "Home" {
   tags = {
     service = "Hacker News"
   }
-
+ 
   container {
 
     text {
@@ -106,66 +106,6 @@ Home
       sql = <<EOQ
         select round(avg(score::int), 1) as "avg show score" from hn_items_all where title ~ '^Show HN'
       EOQ
-    }
-
-  }
-
-  container {
-    width = 12
-    
-    chart {
-      title = "users by total score: last 7 days"
-          width = 6
-      sql = <<EOQ
-        select
-          by,
-          sum(score::int) as sum_score
-        from
-          hn_items_all
-        where
-          time::timestamptz < now() - interval '7 days'
-        group by 
-          by
-        order by
-          sum_score desc
-        limit 
-          15
-      EOQ
-    }
-    
-    chart {
-      title = "users by total comments: last 7 days"
-      width = 6
-      sql = <<EOQ
-        select
-          by,
-          sum(descendants::int) as comments
-        from
-          hn_items_all
-        where
-          time::timestamptz < now() - interval '7 days'
-        group by
-          by
-        order by
-          comments desc
-        limit
-          15
-      EOQ
-    }
-
-  }
-
-  container {
-
-    chart {
-      width = 6
-      title = "stories by hour: last 10 days"
-      query = query.stories_by_hour
-    }
-    chart {
-      width = 6
-      title = "ask and show by hour: last 10 days"
-      query = query.ask_and_show_by_hour
     }
 
   }
@@ -355,6 +295,67 @@ Home
     }
 
   }    
+
+
+  container {
+
+    chart {
+      width = 6
+      title = "stories by hour: last 10 days"
+      query = query.stories_by_hour
+    }
+    chart {
+      width = 6
+      title = "ask and show by hour: last 10 days"
+      query = query.ask_and_show_by_hour
+    }
+
+  }  
+
+  container {
+    width = 12
+    
+    chart {
+      title = "users by total score: last 7 days"
+          width = 6
+      sql = <<EOQ
+        select
+          by,
+          sum(score::int) as sum_score
+        from
+          hn_items_all
+        where
+          time::timestamptz < now() - interval '7 days'
+        group by 
+          by
+        order by
+          sum_score desc
+        limit 
+          15
+      EOQ
+    }
+    
+    chart {
+      title = "users by total comments: last 7 days"
+      width = 6
+      sql = <<EOQ
+        select
+          by,
+          sum(descendants::int) as comments
+        from
+          hn_items_all
+        where
+          time::timestamptz < now() - interval '7 days'
+        group by
+          by
+        order by
+          comments desc
+        limit
+          15
+      EOQ
+    }
+
+  }
 
 
 }

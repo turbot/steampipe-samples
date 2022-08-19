@@ -240,7 +240,7 @@ chart "os_base" {
     point "iOS" {
       color = "crimson"
     }
-    point "macOS | mac os ( )*x" {
+    point "macOS | mac os ( *)x" {
       color = "#a46859"
     }
     point "Windows" {

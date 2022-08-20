@@ -59,7 +59,7 @@ locals {
     "Android",
     "iOS",
     "Linux",
-    "macOS| mac os ( *)x",
+    "macOS",
     "Windows"
   ]
 
@@ -240,7 +240,7 @@ chart "os_base" {
     point "iOS" {
       color = "crimson"
     }
-    point "macOS | mac os ( *)x" {
+    point "macOS" {
       color = "#a46859"
     }
     point "Windows" {

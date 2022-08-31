@@ -4,21 +4,22 @@ Examples, samples, snippets and scripts to use with Steampipe.
 
 ## Benchmarks
 - [AWS Compliance Quickstart](./all/aws-compliance-quickstart)
+- [Control output templates](./all/control-output-templates)
 
 ## Dashboards
 - [Avatars](./all/github-avatars)
 - [HCL patterns](./all/hcl-dashboard-patterns)
-- [Hackernews](./all/hackernews)
+- [Hacker News](./all/hackernews)
 - [Hypothesis](/./all/hypothesis/)
 - [Reddit](./all/reddit/)
-- [Salesforce dashboard](./all/salesforce/)
+- [Salesforce](./all/salesforce/)
 
 ## Files to Tables
 - [Querying OpenAPI definitions](./all/config-yaml)
 
 ## GitHub
-- [GitHub user activity](./all/github-activity)
-- [GitHub external contributor analysis](./all/github-external-contributor-analysis/)
+- [GitHub activity](./all/github-activity)
+- [GitHub external contributors](./all/github-external-contributor-analysis/)
 
 ## Joins
 - [Joining CSV and API tables](./all/join-csv-and-api)

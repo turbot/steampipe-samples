@@ -56,11 +56,11 @@ def push_rows(table, query):
 push('drop table if exists hn_items_all')
 push('create table public.hn_items_all ( id text, title text, "time" text, by text, score text, descendants text, type text, url text )')
 push_rows('hn_items_all', 'select id, title, "time", by, score, descendants, type, url from public.hn_items_all order by id desc')
-push('grant all for hn_items_all to public')
+push('grant all on hn_items_all to public')
 
 push('drop table if exists hn_people')
 push('create table hn_people (by text, karma text, max_score text, stories text, comments text, github_url text, gh_name text, public_repos text, gh_followers text, twitter_url text)')
 push_rows('hn_people', 'select by, karma, max_score, stories, comments, github_url, gh_name, public_repos, gh_followers, twitter_url from public.hn_people')
-push('grant all for hn_people to public')
+push('grant all on hn_people to public')
 
     

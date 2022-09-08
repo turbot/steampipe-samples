@@ -85,6 +85,7 @@ jobs:
         steampipe query "create table hn_items_tmp as select * from csv.hn"
         steampipe query "select count(*) from csv.hn"
         steampipe query "create table hn_items_all as select distinct on (id) * from hn_items_tmp"
+        steampipe query "delete from hn_items_all where substring(time from 1 for 10) < to_char(now() - interval '31 day' , 'YYYY-MM-DD')"
         steampipe query "update hn_items_all set score = 0::text where score = '<null>'"
         steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
         steampipe query "select count(*) from hn_items_all"
@@ -111,9 +112,6 @@ jobs:
       run: |
         steampipe query "alter table hn_items_all drop column _ctx"
         steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
-
-    - name: review hn users
-      run: steampipe query "select distinct by from hn_items_all order by by"
 
     - name: save github info
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv

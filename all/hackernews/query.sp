@@ -226,6 +226,7 @@ query "people" {
         hn_users_and_max_scores h
       where
         h.by != 'aiobe' -- causes "resource not accessible by integration" in gh actions, no idea why
+        and h.by != 'akpa1'
     ),
     plus_gh_info as (
       select

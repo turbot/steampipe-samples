@@ -7,6 +7,15 @@ variable "search_limit" {
   default = 2000
 }
 
+locals {
+  host = "http://localhost:9194"
+}
+
+
+/*
+
+Advanced feature: histograms
+
 variable "note_word_count_buckets" {
   type = number
   default = 7
@@ -17,155 +26,7 @@ variable "user_anno_count_buckets" {
   default = 5
 }
 
-query "conversational_data" {
-   sql = <<EOQ
-    with data as (
-      select
-        username,
-        id,
-        case 
-          when refs is null then array['']
-          else ( select array_agg(ref) from jsonb_array_elements_text(refs) as ref )
-        end as refs
-      from 
-        hypothesis_search
-      where
-        query = 'group=' || $1 || '&limit=' || $2 || '&uri=' || $3 
-    ),
-    unnested as (
-      select
-        *,
-        unnest(refs) as ref
-      from 
-        data
-      group by
-        id, refs, username
-    ),
-    prepared as (
-      select
-        case 
-          when ref = '' then 'root'
-          else ref
-        end as from_id,
-        id,
-        (select username from data d where d.id = u.id ) as title,
-        $1 as category,
-        array_length(refs,1) as length
-      from 
-        unnested u
-      where 
-        ref = ''
-        or ref = refs[array_length(refs,1)]
-    )
-    select 
-      * 
-    from 
-      prepared
-    union 
-    select 
-      null as from_id,
-      'root' as id,
-      'root' as title,
-      'root' as category,
-      1 as length
-    from 
-      prepared
-  EOQ
-  param "group" {}
-  param "limit" {}
-  param "annotated_url" {}
-}
 
-query "threads" {
-  sql = <<EOQ
-    with data as (
-      select
-        username,
-        id,
-        refs
-      from
-        hypothesis_search
-      where 
-        query = 'uri=' || $1
-      ),
-      id_paths as (
-        select
-          id,
-          ( 
-            select 
-              array_agg (ref) 
-            from 
-              jsonb_array_elements_text(refs) as ref
-          ) as id_path
-        from 
-          data
-      ),
-      threads as (
-        select 
-                case 
-            when id_path is null then array[id]
-            else array_append(id_path, id)
-          end as thread
-        from
-          id_paths
-      ),
-      with_roots as (
-        select 
-          thread[1] as root,
-          thread
-        from
-          threads
-        order by
-          root,
-          array_length(thread, 1) desc
-      ),
-      only_full_threads as (
-        select distinct on (root)
-          *
-        from 
-          with_roots
-        order by
-          root
-      ),
-      unnested as (
-        select 
-          *,
-        unnest(thread) as id
-        from only_full_threads
-      ),
-      with_usernames as (
-        select 
-          *,
-          (select username from data d where d.id = u.id)
-        from
-          unnested u
-      ),
-      paths as (
-        select
-          root,
-          array_length(array_agg(username),1) as path_length,
-          array_to_string(array_agg(username),'.') as user_path
-        from 
-          with_usernames
-        group by
-          root, thread
-      )
-      select
-        replace(user_path, '.', ' → ') as "user path",
-        'https://hypothes.is/a/' || root as link
-      from 
-        paths
-      where
-        path_length > 1
-      order by 
-        path_length desc
-      limit 5
-  EOQ
-  param "annotated_url" {}
-}
-
-
-/*
 To "install" these functions, you can copy/paste one at a time into the `steampipe query` console. Or if you have `psql` installed then you can run it like so:
 
 psql -h localhost -p 9193 -d steampipe -U steampipe

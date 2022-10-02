@@ -1,11 +1,21 @@
-dashboard "media_conversations" {
+dashboard "Media_Conversations" {
 
   tags = {
     service  = "Hypothesis"
-    type     = "Conversations"
   }
 
-  title = "Media Conversations"
+  container {
+
+    text {
+      width = 3
+      value = <<EOT
+[Home](${local.host}/hypothesis.dashboard.Home)
+🞄
+Media_Conversations
+      EOT
+    }
+
+  }
 
   input "groups" {
       title = "Hypothesis group"
@@ -53,47 +63,21 @@ dashboard "media_conversations" {
     ]
     title = "recently-annotated urls"    
     width = 6
-    sql = <<EOQ
-      with thread_data as (
-        select
-          uri,
-          title,
-          count(*),
-          min(created) as first,
-          max(created) as last,
-          sum(jsonb_array_length(refs)) as refs,
-          array_agg(distinct username) as thread_participants
-        from 
-          hypothesis_search
-        where
-          query = 'group=' || $1 || '&limit=' || $2 || '&wildcard_uri=https://' || $3 || '/*'
-        group
-          by uri, title
-        order 
-          by max(created) desc
-      )
-      select
-        uri as value,
-        title as label,
-        json_build_object(
-          'annos,replies', '(' || count || ' notes, ' || refs || ' replies)',
-          'most_recent', substring(last from 1 for 10)
-        ) as tags,
-        count,
-        refs
-      from 
-        thread_data
-      where
-        date(last) - date(first) > 0
-        and refs is not null    
-    EOQ
+    query = query.recently_annotated_urls
   }
 
   table {
     title = "longest threads"
     type = "table"
-    args = [ self.input.annotated_media_url.value]
+    args = [ 
+      self.input.annotated_media_url.value,
+      self.input.groups.value
+    ]
     query = query.threads
+    column "top_level_id" {
+      href = "https://hypothes.is/a/{{.'top_level_id'}}"
+    }
+
   }  
 
   hierarchy {

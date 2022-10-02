@@ -1,11 +1,22 @@
-dashboard "overview" {
+dashboard "Home" {
 
   tags = {
     service  = "Hypothesis"
-    type     = "Overview"
   }
 
-  title = "Annotations"
+  container {
+
+    text {
+      width = 3
+      value = <<EOT
+Home
+🞄
+[Media_Conversations](${local.host}/hypothesis.dashboard.Media_Conversations)
+      EOT
+    }
+
+  }
+
 
   input "groups" {
     title = "Hypothesis group"
@@ -118,18 +129,6 @@ dashboard "overview" {
         || case when $3 = 'all' then '' else '&uri=' || $3 end
       EOQ
     }
-
-    table {
-      width = 3
-      type = "line"
-      sql = <<EOQ
-      select 
-          ${var.search_limit} as search_limit,
-          ${var.note_word_count_buckets} as note_word_count_buckets,
-          ${var.user_anno_count_buckets} as user_anno_count_buckets
-        EOQ
-    }
-
   }
 
   container {
@@ -285,6 +284,39 @@ dashboard "overview" {
   }
 
   container {
+
+    table {
+      title = "longest threads"
+      type = "table"
+      args = [ 
+        self.input.annotated_uris.value,
+        self.input.groups.value,
+      ]
+      query = query.threads
+      column "top_level_id" {
+        href = "https://hypothes.is/a/{{.'top_level_id'}}"
+      }
+    }          
+
+    hierarchy {
+      title = "conversations"
+      args = [ 
+        self.input.groups.value,
+        var.search_limit,
+        self.input.annotated_uris.value
+      ]
+      query = query.conversational_data
+    }  
+
+
+  }
+
+
+/* 
+
+Advanced feature: histograms
+
+  container {
     width = 12
 
     container {
@@ -360,101 +392,10 @@ dashboard "overview" {
       }
     }
 
-    container {
-  
-      chart {
-        title = "longest threads"
-        type = "table"
-        args = [ self.input.annotated_uris.value]
-        query = query.threads
-      }          
-
-      hierarchy {
-        title = "conversations"
-        args = [ 
-          self.input.groups.value,
-          var.search_limit,
-          self.input.annotated_uris.value
-        ]
-        query = query.conversational_data
-      }  
-
-
-    }
-
   }
 
+*/
+
 }
 
 
-query "top_annotators" {
-  sql = <<EOT
-    select 
-      username, 
-      count(*) as annotations
-    from 
-      hypothesis_search
-    where query = 'limit=' || $1
-      || '&group=' || $2
-      || case when $3 = 'all' then '' else '&uri=' || $3 end
-    group by 
-      username 
-    order by 
-      annotations desc
-    limit 10
-  EOT 
-  param "search_limit" {}
-  param "groups" {}
-  param "annotated_uris" {}
-}
-
-query "top_domains" {
-  sql   = <<EOT
-    with domains as (
-      select 
-        (regexp_matches(uri, '.*://([^/]*)'))[1] as domain
-      from 
-        hypothesis_search
-    where query = 'limit=' || $1
-      || '&group=' || $2
-      || case when $3 = 'all' then '' else '&uri=' || $3 end
-    )
-    select 
-      domain, 
-      count(*) as annotations
-    from 
-      domains
-    group by 
-      domain
-    order by 
-      annotations desc
-    limit 10
-  EOT
-  param "search_limit" {}
-  param "groups" {}
-  param "annotated_uris" {}
-}
-
-query "top_tags" {
-  sql   = <<EOT
-    with tags as (
-      select 
-        jsonb_array_elements_text(tags) as tag
-      from 
-        hypothesis_search
-      where query = 'limit=' || $1
-        || '&group=' || $2
-        || case when $3 = 'all' then '' else '&uri=' || $3 end
-    )
-    select 
-      tag,
-      count(*) as tags
-    from tags
-    group by tag
-    order by tags desc
-    limit 10  
-  EOT
-  param "search_limit" {}
-  param "groups" {}
-  param "annotated_uris" {}
-}

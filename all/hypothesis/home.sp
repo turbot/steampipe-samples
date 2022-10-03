@@ -92,6 +92,9 @@ Home
       || case when $3 = 'all' then '' else '&uri=' || $3 end
     as "api query"
     EOQ
+    column "api query" {
+      wrap = "all"
+    }
   }
 
   table {
@@ -105,6 +108,7 @@ Home
     EOQ
     column "url" {
       href = "{{.'url'}}"
+      wrap = "all"
     }
   }
 
@@ -121,6 +125,23 @@ Home
       width = 3
       sql   = <<EOQ
         select count(*) as "matching annos"
+      from
+        hypothesis_search
+      where query = 'limit=' || $1
+        || '&group=' || $2
+        || case when $3 = 'all' then '' else '&uri=' || $3 end
+      EOQ
+    }
+
+    card {
+      args = [
+        var.search_limit,
+        self.input.groups.value,
+        self.input.annotated_uris.value
+      ]
+      width = 3
+      sql   = <<EOQ
+        select count( distinct username) as "annotators"
       from
         hypothesis_search
       where query = 'limit=' || $1

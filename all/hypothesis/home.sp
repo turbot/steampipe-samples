@@ -79,6 +79,7 @@ Home
 
 
   table {
+    width = 6
     args = [
     var.search_limit,
     self.input.groups.value,
@@ -93,8 +94,40 @@ Home
     EOQ
   }
 
+  table {
+    width = 6
+    args = [
+    self.input.annotated_uris.value
+    ]
+    sql = <<EOQ
+    select 
+      $1 as url
+    EOQ
+    column "url" {
+      href = "{{.'url'}}"
+    }
+  }
+
+
   container {
     width = 12
+
+    card {
+      args = [
+        var.search_limit,
+        self.input.groups.value,
+        self.input.annotated_uris.value
+      ]
+      width = 3
+      sql   = <<EOQ
+        select count(*) as "matching annos"
+      from
+        hypothesis_search
+      where query = 'limit=' || $1
+        || '&group=' || $2
+        || case when $3 = 'all' then '' else '&uri=' || $3 end
+      EOQ
+    }
 
     card {
       args = [
@@ -274,7 +307,7 @@ Home
         limit 10
         )
         select 
-          tag, tags as occurrences, array_agg(distinct username) as taggers
+          tag, tags as occurrences, array_to_string(array_agg(distinct username), ', ') as taggers
         from top_tags t join user_tag u using (tag)
         group by t.tag, t.tags
         order by tags desc

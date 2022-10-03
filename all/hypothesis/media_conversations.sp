@@ -37,8 +37,9 @@ Media_Conversations
   }   
 
   input "media_source" {
-    title = "media source"
-    width = 3
+    title = "media source (select or type another)"
+    type = "combo"
+    width = 4
     sql = <<EOQ
       with data(label, value) as (
       values
@@ -62,7 +63,7 @@ Media_Conversations
       self.input.media_source.value
     ]
     title = "recently-annotated urls"    
-    width = 6
+    width = 5
     query = query.recently_annotated_urls
   }
 

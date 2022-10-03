@@ -4,7 +4,7 @@ mod "hypothesis" {
 
 variable "search_limit" {
   type = number
-  default = 2000
+  default = 2500
 }
 
 locals {

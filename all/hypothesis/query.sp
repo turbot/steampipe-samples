@@ -40,70 +40,88 @@ query "recently_annotated_urls" {
 
 query "threads" {
   sql = <<EOQ
-    with refs as (
-        select
-        refs ->> 0 as top_level_id,
-        refs,
-        jsonb_array_length(refs) as refcount
-        from
-        hypothesis_search
-        where 
-        query = 'uri=' || $1 || '&group=' || $2
-        and refs is not null
-    ),
-    ids_to_names as (
-        select
+    with data as (
+      select
+        username,
         id,
-        username
-        from
-        hypothesis_search
-        where 
-        query = 'uri=' || $1 || '&group=' || $2
-    ),
-    ordered_threads as (
-        select 
-        *
-        from
         refs
-        order by
-        top_level_id, refcount desc
-    ),
-    distinct_threads as (
-        select distinct on (top_level_id)
-        *
-        from
-        ordered_threads
-    ),
-    unnested as (
-        select 
-        top_level_id,
-        refcount,
-        jsonb_array_elements_text(refs) as ref
-        from
-        distinct_threads d
-        order by
-        refcount desc
-    ),
-    name_joined as (
+      from
+        hypothesis_search
+      where 
+        query = 'uri=' || $1 || '&group=' || $2
+      ),
+      id_paths as (
         select
-        *
+          id,
+          ( 
+            select 
+              array_agg (ref) 
+            from 
+              jsonb_array_elements_text(refs) as ref
+          ) as id_path
+        from 
+          data
+      ),
+      threads as (
+        select 
+          case 
+            when id_path is null then array[id]
+            else array_append(id_path, id)
+          end as thread
         from
-        unnested u 
-        join
-        ids_to_names i 
-        on
-        u.ref = i.id
-    )
-    select
-        top_level_id,
-        refcount as thread_length,
-        array_to_string(array_agg(username), ' → ') as user_path
-    from
-        name_joined
-    group by
-        top_level_id, refcount
-    order by 
-        refcount desc
+          id_paths
+      ),
+      with_roots as (
+        select 
+          thread[1] as root,
+          thread
+        from
+          threads
+        order by
+          root,
+          array_length(thread, 1) desc
+      ),
+      only_full_threads as (
+        select distinct on (root)
+          *
+        from 
+          with_roots
+        order by
+          root
+      ),
+      unnested as (
+        select 
+          *,
+        unnest(thread) as id
+        from only_full_threads
+      ),
+      with_usernames as (
+        select 
+          *,
+          (select username from data d where d.id = u.id)
+        from
+          unnested u
+      ),
+      paths as (
+        select
+          root,
+          array_length(array_agg(username),1) as path_length,
+          array_to_string(array_agg(username),'.') as user_path
+        from 
+          with_usernames
+        group by
+          root, thread
+      )
+      select
+        replace(user_path, '.', ' → ') as "user path",
+        'https://hypothes.is/a/' || root as link
+      from 
+        paths
+      where
+        path_length > 1
+      order by 
+        path_length desc
+      limit 5
   EOQ
   param "annotated_url" {}
   param "group" {}

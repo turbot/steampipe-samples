@@ -17,7 +17,6 @@ Home
 
   }
 
-
   input "groups" {
     title = "Hypothesis group"
     width = 3
@@ -76,7 +75,6 @@ Home
         count desc
     EOQ
   }
-
 
   table {
     width = 6
@@ -225,7 +223,7 @@ Home
     }
   }
 
-    container {
+  container {
     width = 12
 
     table {

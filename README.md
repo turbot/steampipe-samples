@@ -19,6 +19,7 @@ Examples, samples, snippets and scripts to use with Steampipe.
 
 ## GitHub
 - [GitHub activity](./all/github-activity)
+- [GitHub add or remove topic](./all/github-add-or-remove-topic)
 - [GitHub external contributors](./all/github-external-contributor-analysis/)
 
 ## Joins

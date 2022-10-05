@@ -8,3 +8,5 @@ It illustrates two ways to use Steampipe programmatically.
 
 2. `querySpcForRepos()` makes a REST call to the [Steamipe Cloud query API](https://steampipe.io/docs/cloud/develop/query-api).
 
+Inspired by https://github.com/Hacktoberfest/hacktoberfest-repo-topic-apply. 
+

@@ -289,17 +289,20 @@ chart "db_base" {
     point "Postgres" {
       color = "lightblue"
     }
+    point "Redis" {
+       color = "#065E5B"
+    }
     point "Steampipe" {
       color = "black"
+    }
+    point "SQL Server" {
+      color = "blue"
     }
     point "Supabase" {
       color = "yellow"
     }
     point "Timescale" {
       color = "purple"
-    }
-    point "Scala" {
-      color = "DarkCyan"
     }
     point "SQLite" {
       color = "purple"

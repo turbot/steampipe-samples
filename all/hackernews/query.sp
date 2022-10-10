@@ -211,6 +211,8 @@ query "people" {
         max(score::int) as max_score
       from
         hn_items_all
+      where
+        score is not null
       group by
         by
       having

@@ -248,6 +248,8 @@ query "people" {
         github_user g
       on 
         h.by = g.login
+      where
+        g.html_url != '<null>'
       order by
         h.by
     ) 

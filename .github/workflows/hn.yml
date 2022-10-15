@@ -114,7 +114,6 @@ jobs:
         steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
 
     - name: save github info
-      continue-on-error: true
       run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv
 
     - name: setup git 

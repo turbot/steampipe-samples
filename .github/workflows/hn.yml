@@ -111,10 +111,12 @@ jobs:
     - name: save hn_items_all 
       run: |
         steampipe query "alter table hn_items_all drop column _ctx"
+        steampipe query "update hn_items_all set score = 0::text where score = '<null>'"
+        steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
         steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
 
-    #- name: save github info
-    #  run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv
+    - name: save github info
+      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv
 
     - name: setup git 
       run: |

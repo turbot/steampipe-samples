@@ -75,6 +75,7 @@ locals {
     "DB2",
     "Citus",
     "CouchDB",
+    "DuckDb",
     "MongoDB",
     "MySQL|MariaDB",
     "Oracle",
@@ -274,6 +275,9 @@ chart "db_base" {
   series "mentions" {
     point "DB2" {
       color = "brown"
+    }
+    point "DuckDb" {
+      color = "#FFEF00"
     }
     point "Citus" {
       color = "green"

@@ -17,7 +17,6 @@ steampipe query "create index idx_hn_items_all_url on public.hn_items_all(url)" 
 
 echo 'cast types'
 steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'" >/dev/null 2>&1
-steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'" >/dev/null 2>&1
 steampipe query "update hn_items_all set score = 0::text where score = '<null>'" >/dev/null 2>&1
 steampipe query "update hn_items_all set url = '' where url = '<null>'" >/dev/null 2>&1
 

@@ -113,8 +113,8 @@ jobs:
         steampipe query "alter table hn_items_all drop column _ctx"
         steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
 
-    #- name: save github info
-    #  run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv
+    - name: save github info
+      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv
 
     - name: setup git 
       run: |

@@ -211,8 +211,6 @@ query "people" {
         max(score::int) as max_score
       from
         hn_items_all
-      where
-        score is not null
       group by
         by
       having
@@ -248,8 +246,6 @@ query "people" {
         github_user g
       on 
         h.by = g.login
-      where
-        g.html_url != '<null>'
       order by
         h.by
     ) 
@@ -294,9 +290,6 @@ query "posts" {
       end as domain
     from
       hn_items_all
-    where 
-      score != '<null>'
-      and descendants != '<null>'
     order by 
       score desc
     limit 100

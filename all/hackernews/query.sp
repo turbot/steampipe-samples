@@ -228,6 +228,7 @@ query "people" {
         h.by != 'aiobe' -- causes "resource not accessible by integration" in gh actions, no idea why
         and h.by != 'snthueoa'
         and h.by != 'akpa1'
+        and h.by != 'wfme'
     ),
     plus_gh_info as (
       select

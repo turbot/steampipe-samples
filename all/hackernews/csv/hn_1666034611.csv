@@ -1,0 +1,123 @@
+id,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx
+33238033,Companies are increasingly tracking eye movements – but is it ethical?,2022-10-17T18:57:27Z,FeaturelessBug,5,false,false,<null>,[33238053],<null>,<null>,<null>,<null>,story,https://theconversation.com/companies-are-increasingly-tracking-eye-movements-but-is-it-ethical-191842,"{""connection_name"":""hackernews""}"
+33237993,Waves of suicide drones strike Ukraine’s capital; 4 killed,2022-10-17T18:54:16Z,LinuxBender,2,false,false,2,[33238019],<null>,<null>,<null>,<null>,story,https://apnews.com/article/russia-ukraine-kyiv-social-media-0cc944fef471a425a862728b3dd0d8bc,"{""connection_name"":""hackernews""}"
+33238011,Reference Values for Continuous Glucose Monitoring [pdf],2022-10-17T18:55:49Z,1sembiyan,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2699703/pdf/zdc1188.pdf,"{""connection_name"":""hackernews""}"
+33237690,Nvidia's founding couple donates $50M for AI computing at alma mater OSU,2022-10-17T18:26:21Z,t3e,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://venturebeat.com/games/nvidias-founding-couple-donates-50m-for-ai-computing-at-alma-mater-oregon-state-university/,"{""connection_name"":""hackernews""}"
+33237731,Cisco gear is being shipped into Russia from China,2022-10-17T18:30:07Z,jmsflknr,9,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.marketwatch.com/story/cisco-gear-is-being-shipped-into-russia-from-china-and-other-countries-leaked-customs-database-shows-11666013986,"{""connection_name"":""hackernews""}"
+33237988,Reverse job board for Django developers,2022-10-17T18:54:02Z,Tomolo,2,false,false,1,[33237989],<null>,<null>,<null>,<null>,story,https://djangodevs.com/,"{""connection_name"":""hackernews""}"
+33237806,How to Sell 30k Books in Six Weeks (2014),2022-10-17T18:36:12Z,barbariangrunge,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://observer.com/2014/07/behind-the-book-campaign-how-to-sell-30000-copies-in-6-six-weeks/,"{""connection_name"":""hackernews""}"
+33238229,Show HN: How to Turn Instagram into LinkedIn in 30 Seconds,2022-10-17T19:15:08Z,Jeffhezzy,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://hackernoon.com/how-to-turn-instagram-into-linkedin-in-30-seconds,"{""connection_name"":""hackernews""}"
+33238299,That Shouldn't Happen – UnreachableException in .NET 7,2022-10-17T19:20:34Z,icey,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://ab.bot/blog/that-shouldnt-happen-unreachableexception-in-net-7,"{""connection_name"":""hackernews""}"
+33237959,"$8 RISC-V computer, Linux Tablet, PostgreSQL 15, VirtualBox 7.0",2022-10-17T18:51:14Z,ph4ni,3,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://fossweekly.beehiiv.com/p/risc-v-computer-linux-tablet-postgresql-15-virtualbox-7-0-more,"{""connection_name"":""hackernews""}"
+33238123,How Is TSMC Still Growing?,2022-10-17T19:05:56Z,picture,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://asianometry.substack.com/p/how-is-tsmc-still-growing,"{""connection_name"":""hackernews""}"
+33237842,Converting Postman to YAML to Call API-Using Fluvio,2022-10-17T18:39:47Z,akerj,1,false,false,<null>,<null>,<null>,<null>,<null>,"I was wondering how to properly format the following keys and values into the YAML document so that I can connect to Fluvio&#x27;s managing connector. I was able to use Postman to get HTTP responses from Indeed API using POST Request URL, Indeed API Key, Request Payload (converted JSON format to YAML), and two parameters (co and locale). The Request Payload also put other key values automatically into the YAML. So far I have been using the following format for YAML but I keep getting Running Status Failed for the connector. How should the YAML be formatted with these keys and values so that I can use the connector? (YAML format below) Also, is it necessary to put in all the Request Headers for YAML if I have the POST Request URL? It wasn&#x27;t needed when using Postman.<p>I was also able to get the bearer token using Indeed documentation and get a response from Indeed&#x27;s API and also using another method which was utilizing the indeed API key found in the network tab in dev tools.<p>version: 0.3.0
+name: indeed-api-test
+type: http-source
+topic: indeed-api-test
+create_topic: true
+direction: source
+parameters:
+  endpoint: &#x27;https:&#x2F;&#x2F;apis.indeed.com&#x2F;graphql?co=US&amp;locale=en-US&#x27;
+  method: GET
+  interval: 5s
+  output_parts: full
+  output_type: json
+  co: US
+  locale: en-US
+  indeed-api-key: 9e8a2fd82bf5e73386b6c07f12a8a80d...
+  query: |
+  query SalaryInfo($country: String!, $language: String!, $locationForSalaryQuery: String!, $jobTitle: String, $employerKeys: [ID!]!, $jobKey: ID!, $includeIndeedSalaries: Boolean!) {
+    employers(country: $country, language: $language, keys: $employerKeys) {
+      key
+      name
+      relativeCompanyPageUrl
+      compJobCitySalaries: salaries(
+        filter: {jobTitle: $jobTitle, location: $locationForSalaryQuery, useLatestTimeRange: true, minCountForTimeRange: 5}
+      ) @include(if: $includeIndeedSalaries) {
+        ...SalaryInfoFields
+        __typename
+      }
+      compJobSalaries: salaries(
+        filter: {jobTitle: $jobTitle, location: $country, useLatestTimeRange: true, minCountForTimeRange: 5}
+      ) @include(if: $includeIndeedSalaries) {
+        ...SalaryInfoFields
+        __typename
+      }
+      __typename
+    }
+    jobCitySalaries: salaries(
+      filter: {jobTitle: $jobTitle, location: $locationForSalaryQuery, useLatestTimeRange: true, minCountForTimeRange: 5}
+    ) @include(if: $includeIndeedSalaries) {
+      ...SalaryInfoFields
+      __typename
+    }
+    jobData(jobKeys: [$jobKey]) {
+      ...JobDataFields
+      __typename
+    }
+  }<p><pre><code>  fragment SalaryInfoFields on SalaryInfo {
+    salary {
+      totalCount
+      main {
+        type
+        mean
+        count
+        __typename
+      }
+      __typename
+    }
+  }
+
+  fragment JobDataFields on JobDataPayload {
+    results {
+      job {
+        compensation {
+          formattedText
+          salarySource
+          __typename
+        }
+        benefits: attributes(customClass: &quot;SXMYH&quot;) {
+          key
+          label
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+  }</code></pre>
+operationName: SalaryInfo
+variables:
+  country: US
+  language: en
+  locationForSalaryQuery: US&#x2F;IL&#x2F;Chicago
+  jobTitle: Software Engineer
+  includeIndeedSalaries: false
+  employerKeys:
+  - d3bc74b389807635
+  jobKey: e0a56644cb03643a",story,<null>,"{""connection_name"":""hackernews""}"
+33237685,What quantum physics tells us about reality,2022-10-17T18:26:02Z,hhs,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.ft.com/content/72c22177-5525-451f-a84f-713da94176a2,"{""connection_name"":""hackernews""}"
+33238115,VESA Releases DisplayPort 2.1 Spec,2022-10-17T19:05:03Z,beebeepka,4,false,false,<null>,[33238187],<null>,<null>,<null>,<null>,story,https://www.displayport.org/pr/vesa-releases-displayport-2-1-specification/,"{""connection_name"":""hackernews""}"
+33237974,A new method to dehydrogenate alkanes at ambient conditions,2022-10-17T18:52:33Z,PaulHoule,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://phys.org/news/2022-10-method-dehydrogenate-alkanes-ambient-conditions.html,"{""connection_name"":""hackernews""}"
+33237913,Goldman Has Some New Divisions,2022-10-17T18:46:53Z,feross,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.bloomberg.com/opinion/articles/2022-10-17/goldman-has-some-new-divisions,"{""connection_name"":""hackernews""}"
+33238267,Symbolic Numeric Programming in Julia,2022-10-17T19:18:06Z,tosh,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.youtube.com/watch?v=xQRuywWqc4s,"{""connection_name"":""hackernews""}"
+33237876,UberEats Adds Weed Delivery to App in Toronto,2022-10-17T18:43:05Z,bubblehack3r,4,false,false,1,[33238257],<null>,<null>,<null>,<null>,story,https://gizmodo.com/ubereats-weed-canada-toronto-cannabis-1849665867,"{""connection_name"":""hackernews""}"
+33238136,An Introduction to Concepts and Compassion-Focused Exercises [pdf],2022-10-17T19:06:44Z,gdss,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.getselfhelp.co.uk/docs/GILBERT-COMPASSION-HANDOUT.pdf,"{""connection_name"":""hackernews""}"
+33237777,Fred Wilson: NFT Screens (In the Office),2022-10-17T18:34:17Z,rmason,2,false,false,2,"[33237933,33237969]",<null>,<null>,<null>,<null>,story,https://avc.com/2022/10/nft-screens/,"{""connection_name"":""hackernews""}"
+33237786,Back to the Future of Photosynthesis,2022-10-17T18:34:47Z,gmays,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.mpg.de/19348003/1010-terr-back-to-the-future-of-photosynthesis-153410-x,"{""connection_name"":""hackernews""}"
+33238203,Gitea still blocks recent SSH clients,2022-10-17T19:12:52Z,slow_typist,2,false,false,1,[33238265],<null>,<null>,<null>,<null>,story,https://github.com/go-gitea/gitea/issues/17798,"{""connection_name"":""hackernews""}"
+33237826,Nokia announces most advanced fiber broadband platform in the world,2022-10-17T18:38:12Z,bubblehack3r,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.globenewswire.com/news-release/2022/10/17/2535135/0/en/Nokia-announces-most-advanced-fiber-broadband-platform-in-the-world.html,"{""connection_name"":""hackernews""}"
+33237936,Typosquatting programming language package managers (2016),2022-10-17T18:48:55Z,mbokinala,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://incolumitas.com/2016/06/08/typosquatting-package-managers/,"{""connection_name"":""hackernews""}"
+33237977,Linux dodges serious Wi-Fi security exploits,2022-10-17T18:52:55Z,CrankyBear,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.zdnet.com/article/linux-dodges-serious-wi-fi-security-exploits/,"{""connection_name"":""hackernews""}"
+33238036,Kweb 1.0.0-RC.1 released – A lightweight Kotlin web framework for back end devs,2022-10-17T18:57:35Z,sanity31415,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/kwebio/kweb-core,"{""connection_name"":""hackernews""}"
+33238283,pigz: A parallel implementation of gzip for multi-core machines,2022-10-17T19:19:16Z,firloop,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/madler/pigz,"{""connection_name"":""hackernews""}"
+33238322,Biden declares economic war on the Chinese semiconductor industry,2022-10-17T19:22:34Z,donsupreme,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://noahpinion.substack.com/p/biden-declares-economic-war-on-the,"{""connection_name"":""hackernews""}"
+33238209,"Someone improved my code by 40,832,277,770%",2022-10-17T19:13:24Z,CharlesW,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.youtube.com/watch?v=c33AZBnRHks,"{""connection_name"":""hackernews""}"
+33237831,"The Vital Role of Soil Bacteria in the Garden, with Jeff Lowenfels",2022-10-17T18:38:25Z,Breadmaker,3,false,false,1,[33237856],<null>,<null>,<null>,<null>,story,https://joegardener.com/podcast/soil-bacteria-garden-jeff-lowenfels/,"{""connection_name"":""hackernews""}"
+33238172,"Apple bows to pressure, drops plan to buy Chinese memory chips",2022-10-17T19:09:36Z,CharlesW,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://appleinsider.com/articles/22/10/17/apple-bows-to-pressure-drops-plan-to-buy-chinese-memory-chips,"{""connection_name"":""hackernews""}"
+33237841,Show HN: Amazon Affiliates Telegram Bot. Automatize Your Business on Telegram,2022-10-17T18:39:40Z,me2too,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://bot.eofferte.eu/,"{""connection_name"":""hackernews""}"
+33238131,Peter Thiel’s Midterm Bet,2022-10-17T19:06:25Z,hn2017,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.theguardian.com/technology/2022/oct/15/peter-thiel-who-is-he-republican-donor-tech-entrepreneur,"{""connection_name"":""hackernews""}"
+33238029,"Once Worth $2.9M, NFT of First Ever Tweet Is Now $132",2022-10-17T18:57:03Z,giuliomagnifico,5,false,false,3,"[33238174,33238101,33238159]",<null>,<null>,<null>,<null>,story,https://www.entrepreneur.com/news-and-trends/once-worth-29-million-nft-of-first-ever-tweet-is-now-132/437349,"{""connection_name"":""hackernews""}"
+33237660,Chelsea Manning Book on WikiLeaks Leak: Readme.txt,2022-10-17T18:23:52Z,irsagent,3,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://us.macmillan.com/books/9780374279271/readmetxt,"{""connection_name"":""hackernews""}"
+33237769,Viva: An End-to-End System for Interactive Video Analytics [pdf],2022-10-17T18:33:49Z,luu,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://ddkang.github.io/papers/2022/viva-cidr.pdf,"{""connection_name"":""hackernews""}"
+33237952,A North Paw is an anklet that tells the wearer which way is North,2022-10-17T18:50:05Z,noja,3,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://sensebridge.net/projects/northpaw/,"{""connection_name"":""hackernews""}"

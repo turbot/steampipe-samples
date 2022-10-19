@@ -14,7 +14,7 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [Reddit](./all/reddit/)
 - [Salesforce](./all/salesforce/)
 
-## Files to Tables
+## File-based query
 - [Querying OpenAPI definitions](./all/config-yaml)
 
 ## GitHub
@@ -25,6 +25,9 @@ Examples, samples, snippets and scripts to use with Steampipe.
 ## Joins
 - [Joining CSV and API tables](./all/join-csv-and-api)
 - [Querying Gmail](./all/gmail)
+
+## Security
+- [Splunk lookup tables](./all/splunk-lookup-tables)
 
 ## Spreadsheets
 - [Spreadsheet integrity](./all/spreadsheet-integrity)

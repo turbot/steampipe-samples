@@ -229,6 +229,7 @@ query "people" {
         and h.by != 'snthueoa'
         and h.by != 'akpa1'
         and h.by != 'wfme'
+        and h.by != 'that'
     ),
     plus_gh_info as (
       select

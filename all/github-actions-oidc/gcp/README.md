@@ -77,7 +77,7 @@ Command: `terraform destroy -var-file=<custom_filename>.tfvars`
 
 ## GitHub Actions Workflow
 
-A sample GitHub Actions Workflow for AWS is available [here](./steampipe-sample-gcp.yml). Below GitHub Secrets are to be added in your repository.
+A sample GitHub Actions Workflow for AWS is available [here](./steampipe-sample-gcp-workflow.yml). Below GitHub Secrets are to be added in your repository.
 
 - OIDC_GCP_IDENTITY_PROVIDER
 - OIDC_GCP_SERVICE_ACCOUNT

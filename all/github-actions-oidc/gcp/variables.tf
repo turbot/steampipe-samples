@@ -16,5 +16,5 @@ variable "github_branch" {
 variable "pool_id" {
   type        = string
   description = "Workload Identity Pool ID"
-  default     = "steampipe-gh-oidc-demo3"
+  default     = "steampipe-gh-oidc-demo"
 }

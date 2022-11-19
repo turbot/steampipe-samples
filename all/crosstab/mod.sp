@@ -30,7 +30,7 @@ dashboard "chart_formats" {
   title = "Steampipe charts: data formats"
 
   text {
-    width = 4
+    width = 6
     value = "See the [documentation](https://steampipe.io/docs/reference/mod-resources/chart#data-format) for details on chart data formats, and [this repo](https://github.com/turbot/steampipe-samples/blob/main/all/crosstab/mod.sp) for source code."
   }
 

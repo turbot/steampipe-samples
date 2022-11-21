@@ -34,9 +34,6 @@ Urls
     table  {
       width = 7
       query = query.urls
-      column "url" {
-        wrap = "all"
-      }
     }
 
     container {

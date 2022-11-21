@@ -62,12 +62,6 @@ Submissions
       column "id" {
         href = "https://news.ycombinator.com/item?id={{.'id'}}"
       }
-      column "title" {
-        wrap = "all"
-      }
-      column "url" {
-        wrap = "all"
-      }
     }
   
     chart  {

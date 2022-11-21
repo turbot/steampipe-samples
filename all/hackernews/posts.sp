@@ -38,14 +38,8 @@ Posts
       column "link" {
         href = "https://news.ycombinator.com/item?id={{.'link'}}"
       }
-      column "title" {
-        wrap = "all"
-      }
       column "by" {
         href = "http://${local.host}:9194/hackernews.dashboard.Submissions?input.hn_user={{.'by'}}"
-      }
-      column "url" {
-        wrap = "all"
       }
       column "domain" {
         href = "http://${local.host}:9194/hackernews.dashboard.Search?input.search_term={{.'domain'}}"

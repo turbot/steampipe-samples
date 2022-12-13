@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+#
+# This python script will leverage the supplied cross account role to list the accounts in the
+# AWS Management (aka payer) accounts supplied to the --payers option.
+#
+# For all command line options call this script as
+#   generate_config_for_multipayer.py --help
+#
+
+
 import sys, argparse, os
 import boto3
 from botocore.exceptions import ClientError
@@ -69,7 +78,6 @@ connection "aws_payer" {{
 
 """
 
-
     file = open(os.path.expanduser(args.aws_config_file), "w")
     file.write(aws_config_file)
     file.close()
@@ -78,7 +86,6 @@ connection "aws_payer" {{
     file.write(steampipe_spc_file)
     file.close()
     exit(0)
-
 
 
 def list_accounts(payer_id, args):
@@ -93,7 +100,6 @@ def list_accounts(payer_id, args):
             aws_secret_access_key = creds['SecretAccessKey'],
             aws_session_token = creds['SessionToken'],
             region_name = "us-east-1")
-
 
         output = []
         response = org_client.list_accounts(MaxResults=20)

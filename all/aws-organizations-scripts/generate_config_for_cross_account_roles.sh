@@ -1,12 +1,25 @@
 #!/bin/bash
 
+#
+# generate_config_for_cross_account_roles.sh
+#
+# Iterates across a list of AWS Accounts from `aws organizations list-accounts` to:
+#   1. Generate an entry in the AWS_CONFIG_FILE specified on the command line
+#   2. Generate an associated connection entry in the aws.spc file for steampipe CLI
+#
+# Note: you will need to execute this script with permissions form the AWS Organizations Management Account
+# or any AWS account that is configured as a Delegated Administrator for an AWS Organizations
+# service (like GuardDuty or IAM Access Analyzer)
+#
+
+
 COMMAND=$1
 AUDITROLE=$2
 AWS_CONFIG_FILE=$3
 SSO_PROFILE=$4
 
 usage () {
-  echo "Usage: $0 [IMDS | SSO ] <AUDITROLE> <AWS_CONFIG_FILE> <SSO_PROFILE>"
+  echo "Usage: $0 [IMDS | LOCAL ] <AUDITROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
   exit 1
 }
 
@@ -14,7 +27,7 @@ if [ -z "$COMMAND" ] ; then
   usage
 fi
 
-if [ $COMMAND != "IMDS" ] && [ $COMMAND != "SSO" ] ; then
+if [ $COMMAND != "IMDS" ] && [ $COMMAND != "LOCAL" ] ; then
   echo "Invalid Command"
   usage
 fi
@@ -23,18 +36,18 @@ if [ $COMMAND == "IMDS" ] && [ -z $AWS_CONFIG_FILE ] ; then
   usage
 fi
 
-if [ $COMMAND == "SSO" ] && [ -z $SSO_PROFILE ] ; then
+if [ $COMMAND == "LOCAL" ] && [ -z $SOURCE_PROFILE ] ; then
   usage
 fi
 
 # STEAMPIPE_INSTALL_DIR overrides the default steampipe directory of ~/.steampipe
 if [ -z $STEAMPIPE_INSTALL_DIR ] ; then
-  echo "STEAMPIPE_INSTALL_DIR not defined. Setting one"
+  echo "STEAMPIPE_INSTALL_DIR not defined. Using the default."
   export STEAMPIPE_INSTALL_DIR=~/.steampipe
 fi
 
 if [ ! -d $STEAMPIPE_INSTALL_DIR ] ; then
-  echo "STEAMPIPE_INSTALL_DIR: $STEAMPIPE_INSTALL_DIR doesn't exist. Creating it"
+  echo "STEAMPIPE_INSTALL_DIR: $STEAMPIPE_INSTALL_DIR doesn't exist. Creating it."
   mkdir -p ${STEAMPIPE_INSTALL_DIR}/config/
 fi
 
@@ -88,12 +101,15 @@ role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDITROLE}
 credential_source = Ec2InstanceMetadata
 role_session_name = steampipe
 EOF
+
 else
+
+
 cat <<EOF>>$AWS_CONFIG_FILE
 
 [profile sp_${ACCOUNT_NAME}]
 role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDITROLE}
-source_profile = ${SSO_PROFILE}
+source_profile = ${SOURCE_PROFILE}
 role_session_name = steampipe
 EOF
 fi
@@ -110,8 +126,8 @@ EOF
 
 done < <(aws organizations list-accounts --query Accounts[].[Name,Id,Status] --output text)
 
-if [ $COMMAND == "SSO" ] ; then
-  echo "Now append $AWS_CONFIG_FILE to your active config file where $SSO_PROFILE is defined"
+if [ $COMMAND == "LOCAL" ] ; then
+  echo "Now append $AWS_CONFIG_FILE to your active config file where $SOURCE_PROFILE is defined"
 fi
 
 # All done!

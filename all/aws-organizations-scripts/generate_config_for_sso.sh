@@ -1,12 +1,16 @@
 #!/bin/bash
 
 #
-# For this script, we need to authenticate to AWS SSO, then get a list of the AWS Accounts and AWS SSO roles available to the user. This is done via five AWS CLI commands:
+# For this script, we authenticate to AWS SSO, then get a list of the AWS Accounts and AWS SSO roles available to the user.
 #
+# This is done via five AWS CLI commands:
 # 1. `aws sso-oidc register-client` - creates a client for use in the next steps
-# 2. `aws sso-oidc start-device-authorization` - manually create the redirection to the browser that you see when you do the normal `aws sso login`
-# 3. `aws sso-oidc create-token` - Creates the SSO Authentication token once the user has authorized the connection via AWS Identity Center and their identity provider
-# 4. `aws sso list-accounts` - leveraging the token from the previous command, this lists all the accounts and roles the user is allowed to access in AWS Identity Center.
+# 2. `aws sso-oidc start-device-authorization` - manually create the redirection to the browser that you see when you
+#     do the normal `aws sso login`
+# 3. `aws sso-oidc create-token` - Creates the SSO Authentication token once the user has authorized the connection via
+#     AWS Identity Center and their identity provider
+# 4. `aws sso list-accounts` - leveraging the token from the previous command, this lists all the accounts and roles
+#     the user is allowed to access in AWS Identity Center.
 # 5. `aws sso list-account-roles` - list the roles available to the user for each of the accounts
 #
 #
@@ -17,7 +21,6 @@
 # ./generate_config_for_sso.sh fooli security-audit ~/.steampipe/config/aws.spc ~/.aws/fooli-config
 #
 # Note: You can specify where both the AWS and Steampipe config files will be written
-
 
 
 SSO_PREFIX=$1

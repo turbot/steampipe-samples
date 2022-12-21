@@ -1,5 +1,13 @@
 #!/bin/bash
 
+
+#
+# This script will list the profiles from the AWS config file (defined by $AWS_CONFIG_FILE) and leverage
+# the profile to generate an IAM Credential report
+#
+# This script is useful to run ahead of any AWS Benchmark or Mod where IAM queries are made
+#
+
 if [ -z ${AWS_CONFIG_FILE+x} ] ; then
 	AWS_CONFIG_FILE="~/.aws/config"
 fi

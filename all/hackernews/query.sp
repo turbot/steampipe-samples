@@ -301,10 +301,10 @@ query "posts" {
 query "urls" {
   sql = <<EOQ
     select
-      url,
       to_char(time::timestamptz, 'MM-DD hHH24') as time,
       sum(score::int) as score,
-      sum(descendants::int) as comments
+      sum(descendants::int) as comments,
+      url
     from
       hn_items_all
     where

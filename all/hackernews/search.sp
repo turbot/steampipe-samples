@@ -75,9 +75,6 @@ Examples:
         order by
           score::int desc
       EOQ
-      column "url" {
-        wrap = "all"
-      }
       column "id" {
         href = "https://news.ycombinator.com/item?id={{.'id'}}"
       }

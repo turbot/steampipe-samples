@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_openid_connect_provider" "github_actions" {
   url = "https://token.actions.githubusercontent.com"
 
@@ -31,16 +33,6 @@ data "aws_iam_policy_document" "openid_trustrelationship" {
       values = [
         "sts.amazonaws.com",
       ]
-    }
-  }
-
-  statement {
-    sid     = "OIDCTrustCondition"
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-
-    principals {
-      type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.github_actions.arn]
     }
 
     condition {

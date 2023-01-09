@@ -7,9 +7,10 @@ on:
     - cron: "0 4 7,14,21,28 * *"
 
 # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+
 permissions:
   id-token: write # This is required for requesting the JWT
-  contents: read # This is required for actions/checkout
+  contents: write # This is required for actions/checkout
 
 jobs:
   aws:
@@ -37,7 +38,7 @@ jobs:
           # Install Steampipe CLI
           sudo /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/turbot/steampipe/main/install.sh)"
           # Check steampipe version
-          steampipe -v 
+          steampipe -v
           # Install AWS plugin
           steampipe plugin install aws
 
@@ -48,18 +49,20 @@ jobs:
           # Install the Steampipe AWS Compliance mod
           steampipe mod install github.com/turbot/steampipe-mod-aws-compliance 
           cd .steampipe/mods/github.com/turbot/steampipe-mod-aws-compliance*
-          # Run the AWS CIS v1.5.0 benchmark
-          steampipe check benchmark.cis_v150 --export=steampipe_aws_cis_v150_"$(date +"%d_%B_%Y")".html --output=none
 
-      - name: "Slack Notification"
-        id: slack-upload
-        env:
-          slack_channel: ${{ secrets.OIDC_SLACK_CHANNEL_ID }}
-          slack_token: ${{ secrets.OIDC_SLACK_OAUTH_ACCESS_TOKEN }}
+          # Run the AWS CIS v1.5.0 benchmark
+          steampipe check benchmark.cis_v150 --export=${GITHUB_WORKSPACE}/steampipe/benchmarks/aws/cis_v150_"$(date +"%d_%B_%Y")".html --output=none
+
+      - name: "Commit the file to github"
+        id: push-to-gh
+        working-directory: steampipe/benchmarks/aws
         run: |
 
-          cd .steampipe/mods/github.com/turbot/steampipe-mod-aws-compliance*
-          curl -F file=@"steampipe_aws_cis_v150_"$(date +"%d_%B_%Y")".html" -F "initial_comment=Steampipe AWS CIS v150 Benchmark" -F "title=steampipe_aws_cis_v150_"$(date +"%d_%B_%Y")".html" -F channels=$slack_channel -H "Authorization: Bearer $slack_token " https://slack.com/api/files.upload -s -o /dev/null
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add cis_v150_"$(date +"%d_%B_%Y")".html 
+          git commit -m "Add Steampipe Benchmark Results"
+          git push
 
       - name: Cleanup Steampipe files
         id: cleanup

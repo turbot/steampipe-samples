@@ -12,6 +12,10 @@ dashboard "plugin_versions_tags_inherit_nodes_and_edges_passing_args" {
     title = "plugin tags: inherit nodes and edges, passing args"  
 
     node {
+      base = node.plugin
+    }
+
+    node {
       base = node.plugin_version
       args = [ self.input.plugin_name.value ]
     }

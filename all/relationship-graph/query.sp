@@ -1,5 +1,5 @@
 query "plugin_input" {
-  sql = <<-EOQ
+  sql = <<EOQ
     select
       name as value,
       name as label

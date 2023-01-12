@@ -1,4 +1,4 @@
-dashboard "plugin_versions_inherit_nodes_and_edges_passing_args" {
+dashboard "plugin_versions_tags_inherit_nodes_and_edges_passing_args" {
 
   tags = {
     service = "v18 examples"
@@ -9,7 +9,7 @@ dashboard "plugin_versions_inherit_nodes_and_edges_passing_args" {
   }
 
   graph {
-    title = "ldap plugin versions: inherit nodes and edges, passing args"  
+    title = "plugin tags: inherit nodes and edges, passing args"  
 
     node {
       base = node.plugin_version
@@ -22,16 +22,17 @@ dashboard "plugin_versions_inherit_nodes_and_edges_passing_args" {
     }
 
     edge {
-      base = edge.plugin_to_version
+      base = edge.plugin_version
       args = [ self.input.plugin_name.value ]
     }
 
     edge {
-      base = edge.version_to_tag
+      base = edge.version_tag
       args = [ self.input.plugin_name.value ]
     }
 
   }
+
 }
 
 

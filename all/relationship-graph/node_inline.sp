@@ -1,4 +1,4 @@
-dashboard "node_inline" {
+dashboard "node_plugin_version_inline" {
 
   tags = {
     service = "v18 examples"
@@ -10,7 +10,7 @@ dashboard "node_inline" {
     node {
       category = category.plugin_version
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
           digest as id,
           left(split_part(digest,':',2),12) as title,

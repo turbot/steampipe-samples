@@ -1,7 +1,7 @@
-edge "plugin_to_version" {
-  title = "plugin_to_version"
+edge "plugin_version" {
+  title = "plugin_version"
 
-  sql = <<-EOQ
+  sql = <<EOQ
     select
       name as from_id,
       digest as to_id
@@ -14,10 +14,10 @@ edge "plugin_to_version" {
   param "plugin_name" {}
 }
 
-edge "version_to_tag" {
-  title = "version_to_tag"
+edge "version_tag" {
+  title = "version_tag"
 
-  sql = <<-EOQ
+  sql = <<EOQ
     select
       digest as from_id,
       concat(digest,':',tag) as to_id
@@ -34,7 +34,7 @@ edge "version_to_tag" {
 edge "name_to_digest" {
     title = "name_to_digest"
 
-    sql = <<-EOQ
+    sql = <<EOQ
     select
         name as from_id,
         digest as to_id

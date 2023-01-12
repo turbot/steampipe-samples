@@ -1,4 +1,4 @@
-dashboard "edge_reusable_with_base_passing_args" {
+dashboard "edge_plugin_version_base_passing_args" {
 
   tags = {
     service = "v18 examples"
@@ -12,7 +12,7 @@ dashboard "edge_reusable_with_base_passing_args" {
     title = "edge reusable with base passing args"
 
     edge {
-      base = edge.plugin_to_version
+      base = edge.plugin_version
       args = [ self.input.plugin_name.value ]
     }
 
@@ -26,7 +26,7 @@ dashboard "edge_reusable_with_base_passing_args" {
     }
 
     edge {
-      base = edge.plugin_to_version
+      base = edge.plugin_version
       args = [ self.input.plugin_name.value ]      
     }
 

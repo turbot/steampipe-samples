@@ -22,7 +22,7 @@ dashboard "node_inherits_base_passing_args" {
 node "plugin_with_arg" {
   category = category.plugin
 
-  sql = <<-EOQ
+  sql = <<EOQ
     select
       name as id,
       name as title,

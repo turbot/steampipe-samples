@@ -1,11 +1,11 @@
-dashboard "plugin_versions_union_nodes_and_edges" {
+dashboard "plugin_versions_tags_union_nodes_and_edges" {
 
   tags = {
     service = "v18 examples"
   }
 
   graph {
-    title = "ldap plugin versions: union nodes and edges"
+    title = "plugin versions: union nodes and edges"
 
     category "plugin" {
       title = "plugin"
@@ -25,7 +25,7 @@ dashboard "plugin_versions_union_nodes_and_edges" {
       color = "black"
     }
 
-    sql = <<-EOQ
+    sql = <<EOQ
       -- plugin nodes
       select
         name as id,

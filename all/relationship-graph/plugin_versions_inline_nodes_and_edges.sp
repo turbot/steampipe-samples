@@ -1,16 +1,16 @@
-dashboard "plugin_versions_inline_nodes_and_edges" {
+dashboard "plugin_versions_tags_inline_nodes_and_edges" {
 
   tags = {
     service = "v18 examples"
   }
 
   graph {
-    title = "ldap plugin versions: inline nodes"
+    title = "plugin versions: inline nodes"
 
     node {
       category = category.plugin
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
           name as id,
           name as title,
@@ -29,7 +29,7 @@ dashboard "plugin_versions_inline_nodes_and_edges" {
     node {
       category = category.plugin_version
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
           digest as id,
           left(split_part(digest,':',2),12) as title,
@@ -48,7 +48,7 @@ dashboard "plugin_versions_inline_nodes_and_edges" {
     node {
       category = category.plugin_tag
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
           concat(digest,':',tag) as id,
           tag as title
@@ -63,7 +63,7 @@ dashboard "plugin_versions_inline_nodes_and_edges" {
     edge {
       title = "version"
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
           name as from_id,
           digest as to_id
@@ -77,7 +77,7 @@ dashboard "plugin_versions_inline_nodes_and_edges" {
     edge {
       title = "tag"
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
           digest as from_id,
           concat(digest,':',tag) as to_id

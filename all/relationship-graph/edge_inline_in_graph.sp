@@ -1,4 +1,4 @@
-dashboard "edge_inline_in_graph" {
+dashboard "edge_version_tag_edge_inline_in_graph" {
  
   tags = {
     service = "v18 examples"
@@ -12,9 +12,9 @@ dashboard "edge_inline_in_graph" {
     title = "edge inline in graph"
 
     edge {
-      title = "name_to_digest"
+      title = "version_tag"
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
             name as from_id,
             digest as to_id
@@ -36,7 +36,7 @@ dashboard "edge_inline_in_graph" {
     }
 
     edge {
-      base = edge.version_to_tag
+      base = edge.version_tag
       args = [ self.input.plugin_name.value ]
     }
 

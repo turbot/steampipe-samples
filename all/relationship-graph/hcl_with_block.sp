@@ -1,4 +1,4 @@
-dashboard "hcl_with_block" {
+dashboard "using_hcl_with" {
 
   tags = {
     service = "v18 examples"
@@ -85,7 +85,6 @@ query "data" {
     }
 
   }
-
 
 }
 

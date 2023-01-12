@@ -1,7 +1,7 @@
 node "plugin" {
   category = category.plugin
 
-  sql = <<-EOQ
+  sql = <<EOQ
     select
       name as id,
       name as title,
@@ -18,7 +18,7 @@ node "plugin" {
 node "plugin_version" {
   category = category.plugin_version
 
-  sql = <<-EOQ
+  sql = <<EOQ
     select
       digest as id,
       left(split_part(digest,':',2),12) as title,
@@ -39,7 +39,7 @@ node "plugin_version" {
 node "plugin_tag" {
   category = category.plugin_tag
 
-  sql = <<-EOQ
+  sql = <<EOQ
     select
       concat(digest,':',tag) as id,
       tag as title

@@ -5,12 +5,12 @@ dashboard "schemas_and_tables" {
   }
 
   graph {
-    title = "Schemas & Tables"
+    title = "schemas & tables"
 
     node {
       category = category.catalog
 
-      sql = <<-EOQ
+      sql = <<EOQ
         select
           distinct on (catalog_name)
           concat('catalog:',catalog_name) as id,
@@ -24,7 +24,7 @@ dashboard "schemas_and_tables" {
 
     node {
       category = category.schema
-      sql      = <<-EOQ
+      sql      = <<EOQ
         select
           concat('schema:',schema_name) as id,
           schema_name as title,
@@ -42,7 +42,7 @@ dashboard "schemas_and_tables" {
 
     node {
       category = category.table
-      sql      = <<-EOQ
+      sql      = <<EOQ
           select
             concat('table:',table_name) as id,
             table_name as title,
@@ -59,7 +59,7 @@ dashboard "schemas_and_tables" {
     }
 
     edge {
-      sql = <<-EOQ
+      sql = <<EOQ
           select
             concat('catalog:',catalog_name) as from_id,
             concat('schema:',schema_name) as to_id
@@ -69,7 +69,7 @@ dashboard "schemas_and_tables" {
     }
 
     edge {
-      sql = <<-EOQ
+      sql = <<EOQ
           select
             concat('schema:',table_schema) as from_id,
             concat('table:',table_name) as to_id

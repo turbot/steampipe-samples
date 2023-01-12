@@ -26,6 +26,8 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [Joining CSV and API tables](./all/join-csv-and-api)
 - [Querying Gmail](./all/gmail)
 
+## Relationship Graphs
+- [Graphs, Nodes, Edges, and HCL-level With](./all/relationship-graph)
 ## Security
 - [Splunk lookup tables](./all/splunk-lookup-tables)
 

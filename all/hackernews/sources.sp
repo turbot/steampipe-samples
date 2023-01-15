@@ -60,6 +60,8 @@ Sources
               domain as value
             from
               domains
+            where
+              domain is not null
             order by
               domain
           EOQ    
@@ -76,7 +78,6 @@ Examples:
         }
 
       }
-
 
       chart {
         args = [

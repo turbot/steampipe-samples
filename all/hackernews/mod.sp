@@ -4,7 +4,7 @@ mod "hackernews" {
 
 locals {
   host = "cloud.steampipe.io/org/acme/workspace/jon/dashboard"
-  // host = "localhost"
+  //host = "localhost"
 }
 
 locals {

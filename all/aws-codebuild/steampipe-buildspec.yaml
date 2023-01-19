@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    run-as: codebuild-user
+    commands:
+      # Each CodeBuild container is ephemeral - We need to install steampipe every time
+      - curl -s -L https://github.com/turbot/steampipe/releases/latest/download/steampipe_linux_amd64.tar.gz | tar -xzf -
+      - echo "installed steampipe"
+      - ./steampipe plugin install terraform
+      - git clone https://github.com/turbot/steampipe-mod-terraform-aws-compliance.git
+ 
+  build:
+    # Steampipe will return a non-zero exit code with the number of failed checks
+    on-failure: CONTINUE
+    run-as: codebuild-user
+    commands:
+      - ./steampipe --version # for debugging
+      - export STEAMPIPE_MOD_LOCATION=`pwd`/steampipe-mod-terraform-aws-compliance
+      - cd terraform ; ../steampipe check all --output html > steampipe_report.html

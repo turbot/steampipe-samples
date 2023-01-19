@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  # Store the Steampipe Cloud host, token and workspace in AWS Secrets Manager
+  secrets-manager:
+    STEAMPIPE_CLOUD_TOKEN: steampipe-cloud:STEAMPIPE_CLOUD_TOKEN
+    WORKSPACE: steampipe-cloud:WORKSPACE
+
+phases:
+  install:
+    run-as: codebuild-user
+    commands:
+      # Each CodeBuild container is ephemeral - We need to install steampipe every time
+      - curl -s -L https://github.com/turbot/steampipe/releases/latest/download/steampipe_linux_amd64.tar.gz | tar -xzf -
+      - echo "installed steampipe"
+      - ./steampipe plugin install terraform
+      - git clone https://github.com/turbot/steampipe-mod-terraform-aws-compliance.git
+  build:
+    # Steampipe will return a non-zero exit code with the number of failed checks
+    # (That may or may not still be the case with the SteamPipe cloud version)
+    on-failure: CONTINUE
+    run-as: codebuild-user
+    commands:
+      - ./steampipe --version # for debugging
+      # We need to tell Steampipe where to find the Terraform Module to use
+      - export STEAMPIPE_MOD_LOCATION=`pwd`/steampipe-mod-terraform-aws-compliance
+      # Now run the compliance check
+      - - cd terraform ; ../steampipe check all --snapshot-location $WORKSPACE --snapshot --snapshot-title "Terraform Report"

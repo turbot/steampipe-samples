@@ -36,6 +36,4 @@ node "plugin_with_arg" {
     where
       name = $1
   EOQ
-
-  param "plugin_name" {}
 }

@@ -10,8 +10,6 @@ edge "plugin_version" {
     where
       name = $1
   EOQ
-
-  param "plugin_name" {}
 }
 
 edge "version_tag" {
@@ -27,8 +25,6 @@ edge "version_tag" {
     where
       name = $1
   EOQ
-
-  param "plugin_name" {}
 }
 
 edge "name_to_digest" {

@@ -32,6 +32,8 @@ node "plugin_version" {
     where
       name = $1
   EOQ
+
+  param "plugin_name" {}
 }
 
 node "plugin_tag" {
@@ -47,4 +49,6 @@ node "plugin_tag" {
     where
       name = $1
   EOQ
+
+  param "plugin_name" {}
 }

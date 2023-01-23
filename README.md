@@ -7,6 +7,7 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [Control output templates](./all/control-output-templates)
 
 ## Dashboards
+- [Remixing dashboards](./all/dashboard-remix)
 - [Avatars](./all/github-avatars)
 - [HCL patterns](./all/hcl-dashboard-patterns)
 - [Hacker News](./all/hackernews)

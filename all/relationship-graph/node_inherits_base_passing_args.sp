@@ -13,7 +13,10 @@ dashboard "node_inherits_base_passing_args" {
 
     node {
       base = node.plugin_with_arg
-      args = [ self.input.plugin_name.value ]
+      //args = [ self.input.plugin_name.value ]
+      args = {
+        plugin_name = self.input.plugin_name.value
+      }
     }
   }
 
@@ -36,6 +39,5 @@ node "plugin_with_arg" {
     where
       name = $1
   EOQ
-
   param "plugin_name" {}
 }

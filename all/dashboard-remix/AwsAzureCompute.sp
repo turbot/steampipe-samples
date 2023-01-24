@@ -46,7 +46,7 @@ dashboard "AwsAndAzureCompute" {
 
     title = "azure compute vms"
 
-    input "vm_id" {
+    input "vm_input" {
       query = azure_insights.query.compute_virtual_machine_input
     }
 
@@ -54,12 +54,12 @@ dashboard "AwsAndAzureCompute" {
       width = 5
       type = "info"
       query = azure_insights.query.compute_virtual_machine_status
-      args  = [self.input.vm_id.value]
+      args  = [self.input.vm_input.value]
     }
 
   	table {
 			type = "line"
-			args = [ self.input.vm_id.value ]
+			args = [ self.input.vm_input.value ]
       query = azure_insights.query.compute_virtual_machine_overview
   	}
 
@@ -80,7 +80,7 @@ dashboard "AwsAndAzureCompute" {
     table {
       title = "Security Groups"
       query = azure_insights.query.compute_virtual_machine_security_groups
-      args  = [self.input.vm_id.value]
+      args  = [self.input.vm_input.value]
 
       column "Name" {
         href = "/azure_insights.dashboard.network_security_group_detail?input.nsg_id={{ .'Security Group ID' | @uri }}"

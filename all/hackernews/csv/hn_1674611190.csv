@@ -1,0 +1,64 @@
+id,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx
+34513084,OpenLens,2023-01-25T01:20:18Z,aritraghosh007,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/MuhammedKalkan/OpenLens,"{""connection_name"":""hackernews""}"
+34512920,Yale Law School Restricts Access to Free Speech Panel,2023-01-25T01:01:09Z,tomohawk,3,false,false,1,[34513128],<null>,<null>,<null>,<null>,story,https://freebeacon.com/campus/looking-to-tamp-down-controversy-law-school-restricts-access-free-speech-panel/,"{""connection_name"":""hackernews""}"
+34513025,Introducing Cerulean (2020),2023-01-25T01:13:14Z,pr337h4m,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://matrix.org/blog/2020/12/18/introducing-cerulean/,"{""connection_name"":""hackernews""}"
+34512863,The Math Behind Nesting Rounded Corners,2023-01-25T00:53:44Z,vmoore,4,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://cloudfour.com/thinks/the-math-behind-nesting-rounded-corners/,"{""connection_name"":""hackernews""}"
+34513071,"Microsoft Posts Earnings Beat on Solid Cloud Results, but Guidance Disappoints",2023-01-25T01:19:24Z,bluedino,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.barrons.com/articles/microsoft-earning-stock-price-51674510719,"{""connection_name"":""hackernews""}"
+34513040,Rete.js – JavaScript framework for visual programming,2023-01-25T01:15:31Z,legrande,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://rete.js.org/,"{""connection_name"":""hackernews""}"
+34512865,It would be interesting to have ChatGPT move the cursor on your computer?,2023-01-25T00:54:01Z,iosifnicolae2,1,false,false,2,[34512872],<null>,<null>,<null>,<null>,story,<null>,"{""connection_name"":""hackernews""}"
+34513082,Extracting data from Harry Potter with GPT-3,2023-01-25T01:20:11Z,JadoJodo,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://jkrumbiegel.com/pages/2022-10-13-gpt3-harry-potter/,"{""connection_name"":""hackernews""}"
+34513230,"Ask HN: For a privacy-preserving license check, is CRC-16 binning good enough?",2023-01-25T01:37:00Z,logicallee,1,false,false,1,[34513294],<null>,<null>,<null>,"tl;dr: thinking about binning users by crc-16 hash of their IP which would only identify which of 65536 groups they&#x27;re in rather than reveal their IP, as I would like a serverless solution - the point is for my users to run their own home automation setup. I don&#x27;t want them to tell me their IP address in detail, since this would just compromise their privacy and increase their attack surface area.<p>Would this work?<p>I recently released a simple voice recognition app under MIT license[1], and now I&#x27;m working on expanding it to all kinds of open source home automation.  It is getting big enough that I am thinking of dual-licensing it under a creative commons non-commercial license and a commercial license for users who want to pay for some extra functionality, however I want users to remain in control.<p>As part of this, to enable paying users I would like to be able to check if they are among my customers via a simple API call, but I want to preserve people&#x27;s privacy so that they do not have to log in or authenticate in any way, and without actually transmitting their information or IP address.<p>For the license check, I was thinking of binning their IP address by CRC16 which has just 16 bits of entropy (65536 possible customers) meaning they would not actually tell me their IP address at all, just which bin they belong to which doesn&#x27;t specifically identify them.<p>I myself would know their name and which bin they request based on when they pay me, so if there is an overlap (two different customers happen to have the same bin - for 30 customers the chances of this seem to be about 0.7% and it does go up from there a bit) then I would know about it and it just adds to their privacy as they are no longer unique in that bin.<p>When the user&#x27;s IP address changes they would request the change from me in an authenticated way (for example logging in with username&#x2F;password and setting their new bin) and I would update their assigned bin.<p>On their machine the open source code does the license check by just looking it up in a neutral third party database which doesn&#x27;t track IP address (for starters a public Google sheets seems fine, it doesn&#x27;t collect users&#x27; IP address and it doesn&#x27;t really divulge anything to know which of 65536 are paying - anyone could be looking that information up, regardless of whether they&#x27;re a customer, there are only 65536 possibilities. Actually Google sheets supports 40000 rows per sheets so above 40000 I would look on sheet 2 after subtracting 40 000, but the point is I would not include any customer details there except that that cell is a paying customer.)<p>The code for the CRC-16 binning could look like this basically<p><pre><code>    import binascii
+    data = &quot;example_string&quot;
+    crc = binascii.crc_hqx(data.encode(), 0xffff)
+    </code></pre>
+You can empirically verify that there are no shenanigans and that this bins to 65,000 addresses by just trying a few million random numbers as string:<p><pre><code>    import random
+
+    print (random.random())
+    #0.7466695076975173  for example
+
+
+    values = {} # start with an empty dictionary
+
+    # add the crc of a million random values to the dictionary (keep track of their counts to see they&#x27;re binned evenly if you want)
+
+    for i in range (1,1000000):
+        data = random.random()
+        datastring = str(data)
+        crc = binascii.crc_hqx(datastring.encode(), 0xffff)
+        if (crc in values):
+            values[crc] += 1
+        else:
+            values[crc] = 1
+
+    # print the number of entries:
+
+    print (len(values)) #prints 65536
+
+
+</code></pre>
+What do you think about this approach as a way of preserving privacy without tying users to licenses in a reversible way?<p>The main quality I&#x27;m looking for here is letting users retain control over their home automation setups and privacy, while letting a few paying users pay for added functionality.<p>[1] https:&#x2F;&#x2F;github.com&#x2F;robss2020&#x2F;computerplayverysexymusic",story,<null>,"{""connection_name"":""hackernews""}"
+34513193,Rsslay: Turns RSS or Atom feeds into Nostr profiles,2023-01-25T01:33:41Z,disadvantage,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://rsslay.nostr.net/,"{""connection_name"":""hackernews""}"
+34513052,In the Beginning Was the Command Line,2023-01-25T01:17:17Z,legrande,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://web.archive.org/web/20180218045352/http://www.cryptonomicon.com/beginning.html,"{""connection_name"":""hackernews""}"
+34513151,Antidepressants can induce mutation and enhance persistence toward antibiotics,2023-01-25T01:28:28Z,stefankuehnel,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://doi.org/10.1073/pnas.2208344120,"{""connection_name"":""hackernews""}"
+34513244,AI is improving faster than most humans realize,2023-01-25T01:38:23Z,maxutility,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.bloomberg.com/opinion/articles/2023-01-23/chatgpt-is-only-going-to-get-better-and-we-better-get-used-to-it,"{""connection_name"":""hackernews""}"
+34513305,What Are Word and Sentence Embeddings?,2023-01-25T01:45:43Z,jdkee,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://txt.cohere.ai/sentence-word-embeddings/,"{""connection_name"":""hackernews""}"
+34513251,Show HN: The Noja Programming Language,2023-01-25T01:38:53Z,cozis,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/cozis/Noja,"{""connection_name"":""hackernews""}"
+34512853,Study suggests use of antidepressants generates resistance to antibiotics,2023-01-25T00:52:21Z,belter,3,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://english.elpais.com/science-tech/2023-01-24/study-suggests-use-of-antidepressants-generates-resistance-to-antibiotics.html,"{""connection_name"":""hackernews""}"
+34512860,Five typography trends set to make waves in 2023,2023-01-25T00:53:16Z,vmoore,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.itsnicethat.com/features/forward-thinking-five-typography-trends-graphic-design-040123,"{""connection_name"":""hackernews""}"
+34513133,Zendesk Hacked After Employees Fall for Phishing Attack,2023-01-25T01:26:32Z,arkadiyt,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.securityweek.com/zendesk-hacked-after-employees-fall-for-phishing-attack/,"{""connection_name"":""hackernews""}"
+34512817,Ask HN: How to set up WordPress server with a read only file system,2023-01-25T00:48:40Z,ThinkBeat,1,false,false,<null>,<null>,<null>,<null>,<null>,"I am thinking about moving my &quot;web&quot; hosting all the way home. 
+It is a crazy idea from what my background informs me 
+but I would like to try.<p>What I would like to achieve is WordPress running on a 
+read-only file system, probably with a ram disk to handle
+things that does not to be done when the computer is running.<p>Reboot it and I would be back to the proper configuration. 
+I would schedule one reboot every 12 hours I figure.<p>Does anyone know of any good documentation on handling the
+read only &#x2F; ram drive configuration.<p>I had a great link from a long time ago but I just cant find it.<p>(Yes WordPress is bad. I should use a static site generator with nearly free hosting anyways)<p>I know but I have not found one I like yet.<p>(Yes hosting in your own home is a bad idea. you are not not setup for power failure, disk failure, scaling, etc)<p>All true, but I would like to try it. 
+I think performance wise I will easily reach parity with cheaper end WordPress hosts)
+Plus if it goes down, well it wont be a big deal,
+I am not enterprisy.<p>I will have a dedicated hardware firewall in front of it.",story,<null>,"{""connection_name"":""hackernews""}"
+34513154,Not-yet-Awesome Rust,2023-01-25T01:28:35Z,Octokiddie,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://github.com/not-yet-awesome-rust/not-yet-awesome-rust,"{""connection_name"":""hackernews""}"
+34512814,The Elephant in the room: The myth of exponential hypergrowth,2023-01-25T00:48:18Z,kareemm,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://longform.asmartbear.com/docs/exponential-growth/,"{""connection_name"":""hackernews""}"
+34513192,The Lisa Was Apple's Best Failure,2023-01-25T01:33:28Z,ivanmaeder,2,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://spectrum.ieee.org/apple-lisa,"{""connection_name"":""hackernews""}"
+34513097,How Big Tech Deluded Itself and Got into This Mess,2023-01-25T01:21:42Z,tekdude,1,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://slate.com/technology/2023/01/tech-layoffs-google-microsoft-meta-amazon-pandemic-future-ceos.html,"{""connection_name"":""hackernews""}"
+34512988,Consumption Taxes,2023-01-25T01:09:45Z,thoughtstheseus,3,false,false,4,"[34513102,34513086]",<null>,<null>,<null>,<null>,story,https://crsreports.congress.gov/product/pdf/R/R44342,"{""connection_name"":""hackernews""}"
+34513018,"The Doomsday Clock moves to 90 seconds to midnight, signaling most peril ever",2023-01-25T01:12:23Z,Octokiddie,3,false,false,<null>,<null>,<null>,<null>,<null>,<null>,story,https://www.npr.org/2023/01/24/1150982819/doomsday-clock-90-seconds-to-midnight,"{""connection_name"":""hackernews""}"

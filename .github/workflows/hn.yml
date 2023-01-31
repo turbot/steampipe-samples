@@ -115,9 +115,6 @@ jobs:
         steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
         steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
 
-    - name: save github info
-      run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} steampipe query --output csv query.people > ./people.csv
-
     - name: setup git 
       run: |
         git config user.name "GitHub Actions Bot"
@@ -131,7 +128,7 @@ jobs:
 
     - name: commit
       run:
-        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv ./hn_items_all.csv ./people.csv
+        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv ./hn_items_all.csv
 
     - name: push 
       run:

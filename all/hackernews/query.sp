@@ -230,49 +230,13 @@ query "people" {
         and h.by != 'akpa1'
         and h.by != 'wfme'
         and h.by != 'that'
-    ),
-    plus_gh_info as (
-      select
-        h.*,
-        g.html_url as github_url,
-        case 
-          when g.name is null then ''
-          else g.name
-        end as gh_name,
-        g.followers::int as gh_followers,
-        g.twitter_username,
-        g.public_repos
-      from
-        hn_info h
-      left join
-        github_user g
-      on 
-        h.by = g.login
-      order by
-        h.by
-    ) 
+    )
     select
-      p.by,
-      u.karma,
-      p.max_score,
-      p.stories,
-      p.comments,
-      p.github_url,
-      p.gh_name,
-      p.public_repos,
-      p.gh_followers,
-      case 
-        when p.twitter_username is null then ''
-        else 'https://twitter.com/' || p.twitter_username
-      end as twitter_url
+      *
     from
-      plus_gh_info p 
-    join
-      hackernews_user u 
-    on 
-      p.by = u.id
+      hn_info
     order by
-      karma desc
+      max_score desc
    EOQ
 }
 

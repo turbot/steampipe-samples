@@ -12,6 +12,7 @@ Examples, samples, snippets and scripts to use with Steampipe.
 - [HCL patterns](./all/hcl-dashboard-patterns)
 - [Hacker News](./all/hackernews)
 - [Hypothesis](/./all/hypothesis/)
+- [Jira](./all/jira)
 - [Reddit](./all/reddit/)
 - [Salesforce](./all/salesforce/)
 

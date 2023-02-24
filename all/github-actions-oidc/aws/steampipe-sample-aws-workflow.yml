@@ -7,7 +7,6 @@ on:
     - cron: "0 4 7,14,21,28 * *"
 
 # These permissions are needed to interact with GitHub's OIDC Token endpoint.
-
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: write # This is required for actions/checkout
@@ -29,7 +28,8 @@ jobs:
           role-session-name: "steampipe-demo"
           role-duration-seconds: 900
           aws-region: "us-east-1"
-          # Steampipe benchmark runs against this region unless a connection is specified in aws.spc file. More details at https://hub.steampipe.io/plugins/turbot/aws#credentials-from-environment-variables
+          # Steampipe benchmark runs against this region unless a connection is specified in aws.spc file. 
+          # More details at https://hub.steampipe.io/plugins/turbot/aws#credentials-from-environment-variables
 
       - name: "Install Steampipe cli and plugin"
         id: steampipe-installation
@@ -44,6 +44,7 @@ jobs:
 
       - name: "Run Steampipe benchmark"
         id: steampipe-benchmark
+        continue-on-error: true
         run: |
 
           # Install the Steampipe AWS Compliance mod
@@ -51,7 +52,7 @@ jobs:
           cd .steampipe/mods/github.com/turbot/steampipe-mod-aws-compliance*
 
           # Run the AWS CIS v1.5.0 benchmark
-          steampipe check benchmark.cis_v150 --export=${GITHUB_WORKSPACE}/steampipe/benchmarks/aws/cis_v150_"$(date +"%d_%B_%Y")".html --output=none
+          steampipe check benchmark.cis_v150 --export=$GITHUB_WORKSPACE/steampipe/benchmarks/aws/cis_v150_"$(date +"%d_%B_%Y")".html --output=none
 
       - name: "Commit the file to github"
         id: push-to-gh

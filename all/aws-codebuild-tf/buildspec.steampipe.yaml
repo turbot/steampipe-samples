@@ -1,0 +1,41 @@
+version: 0.2
+
+env:
+  # Store the Steampipe Cloud host, token and workspace in AWS Secrets Manager
+  secrets-manager:
+    STEAMPIPE_CLOUD_TOKEN: $STEAMPIPE_CLOUD_SECRETNAME:STEAMPIPE_CLOUD_TOKEN
+    WORKSPACE: $STEAMPIPE_CLOUD_SECRETNAME:WORKSPACE
+  exported-variables:
+    # STATUS_URL is returned and leveraged by CodePipeline for the Approval message
+    - STATUS_URL
+    - ALARM_COUNT
+
+phases:
+  install:
+    commands:
+      # Each CodeBuild container is ephermal - We need to install this every time
+      - curl -s -L $STEAMPIPE_BINARY_URL | tar -xzf -
+      - echo installed steampipe
+      - git clone https://github.com/turbot/steampipe-mod-terraform-aws-compliance.git
+      # Steampipe cannot run as root, so we run all the next steps as the codebuild user. But first it needs to own those files
+      - chown -R codebuild-user .
+  build:
+    # Steampipe will return a non-zero exit code with the number of failed checks
+    # (That may or may not still be the case with the SteamPipe cloud version)
+    on-failure: CONTINUE
+    run-as: codebuild-user
+    commands:
+      # - pwd  # for debugging
+      # Place the .steampipe install in the local directory for this build
+      - export STEAMPIPE_INSTALL_DIR=`pwd`/.steampipe
+      - ./steampipe plugin install terraform
+      - ./steampipe --version # for debugging
+      # We need to tell Steampipe where to find the Terraform Module to use
+      - export STEAMPIPE_MOD_LOCATION=`pwd`/steampipe-mod-terraform-aws-compliance
+      # Now run the compliance check
+      - export STEAMPIPE_CLOUD_TOKEN
+      # - echo "Pushing Dashboard to $STEAMPIPE_CLOUD_HOST in $WORKSPACE" # CodeBuild considers these secrets and doesn't echo them.
+      - cd terraform ; ../steampipe check all --snapshot-location $WORKSPACE --snapshot-tag repo=$REPO --snapshot-tag branch=$BRANCH --snapshot --snapshot-title "$SNAPSHOT_TITLE" | tee output.txt
+      # Get some data from the output and export it for the next step in the pipeline
+      - export ALARM_COUNT=`grep ^ALARM output.txt | awk '{print $3}'`
+      - export STATUS_URL=`grep "Snapshot uploaded to" output.txt | awk '{ print $NF}'`

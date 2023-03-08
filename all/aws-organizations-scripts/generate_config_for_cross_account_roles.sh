@@ -12,11 +12,12 @@
 # service (like GuardDuty or IAM Access Analyzer)
 #
 
+set -e
 
 COMMAND=$1
 AUDITROLE=$2
 AWS_CONFIG_FILE=$3
-SSO_PROFILE=$4
+SOURCE_PROFILE=$4
 
 usage () {
   echo "Usage: $0 [IMDS | LOCAL ] <AUDITROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
@@ -24,19 +25,22 @@ usage () {
 }
 
 if [ -z "$COMMAND" ] ; then
+  echo "ERROR: Missing command"
   usage
 fi
 
 if [ $COMMAND != "IMDS" ] && [ $COMMAND != "LOCAL" ] ; then
-  echo "Invalid Command"
+  echo "ERROR: Invalid Command: $COMMAND"
   usage
 fi
 
 if [ $COMMAND == "IMDS" ] && [ -z $AWS_CONFIG_FILE ] ; then
+  echo "ERROR: AWS config file not defined"
   usage
 fi
 
 if [ $COMMAND == "LOCAL" ] && [ -z $SOURCE_PROFILE ] ; then
+  echo "ERROR: Source profile not defined"
   usage
 fi
 
@@ -86,11 +90,18 @@ EOF
 while read line ; do
 
   # extract the values we need
-  ACCOUNT_NAME=`echo $line | awk '{print $1}'`
-  ACCOUNT_ID=`echo $line | awk '{print $2}'`
+  # print from first to NF-1 (except last two fields) replacing middle spaces by _
+  ACCOUNT_NAME=`echo $line | awk '{for (i=1; i<NF-1; i++) printf $i " "}' | sed 's/ $//' | sed 's/ /_/g'`
+  ACCOUNT_ID=`echo $line | awk '{print $(NF - 1)}'`
 
   # Steampipe doesn't like dashes, so we need to swap for underscores
   SP_NAME=`echo $ACCOUNT_NAME | sed s/-/_/g`
+
+if [ $ACCOUNT_NAME == "$SOURCE_PROFILE" ] ; then
+  # TODO: improve how the source profile is checked
+  echo "Skipping $ACCOUNT_NAME as it is the source profile"
+  continue
+fi
 
 if [ $COMMAND == "IMDS" ] ; then
 # Append an entry to the AWS Creds file
@@ -124,7 +135,7 @@ connection "aws_${SP_NAME}" {
 
 EOF
 
-done < <(aws organizations list-accounts --query Accounts[].[Name,Id,Status] --output text)
+done < <(aws organizations list-accounts --query Accounts[].[Name,Id,Status] --output text --profile $SOURCE_PROFILE)
 
 if [ $COMMAND == "LOCAL" ] ; then
   echo "Now append $AWS_CONFIG_FILE to your active config file where $SOURCE_PROFILE is defined"

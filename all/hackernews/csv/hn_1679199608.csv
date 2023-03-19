@@ -1,0 +1,83 @@
+id,title,time,by,score,dead,deleted,descendants,kids,parent,parts,poll,text,type,url,_ctx
+35215835,Analyzing a failed drill bit with an electron microscope [video],2023-03-19T03:46:15Z,NotYourLawyer,2,false,false,,,,,,,story,https://www.youtube.com/watch?v=887Q-LWBW48,"{""connection_name"":""hackernews""}"
+35215875,Will AI Mean We’ll Be Able to Work Less?,2023-03-19T03:53:01Z,voisin,2,false,false,,,,,,,story,https://thewalrus.ca/will-ai-actually-mean-well-be-able-to-work-less/,"{""connection_name"":""hackernews""}"
+35215792,Show HN: I used ChatGPT to write a UserScript that removes all mentions of *GPT,2023-03-19T03:38:08Z,skarz,1,false,false,,,,,,"I have little to no coding experience, just basic HTML and CSS. This was generated entirely by ChatGPT with me giving the prompts. It took some trial and error but we got there:<p>&#x2F;&#x2F; ==UserScript==
+&#x2F;&#x2F; @name         Block GPT Posts on Hacker News
+&#x2F;&#x2F; @namespace    http:&#x2F;&#x2F;tampermonkey.net&#x2F;
+&#x2F;&#x2F; @version      0.1
+&#x2F;&#x2F; @description  Block posts containing the term &quot;GPT&quot; on news.ycombinator.com and renumber the remaining posts
+&#x2F;&#x2F; @author       You
+&#x2F;&#x2F; @match        https:&#x2F;&#x2F;news.ycombinator.com&#x2F;*
+&#x2F;&#x2F; @grant        none
+&#x2F;&#x2F; ==&#x2F;UserScript==<p>(function() {
+    &#x27;use strict&#x27;;<p><pre><code>    function getStartingNumber() {
+        const firstRankSpan = document.querySelector(&#x27;span.rank&#x27;);
+        if (firstRankSpan) {
+            const number = parseInt(firstRankSpan.textContent, 10);
+            return isNaN(number) ? 1 : number;
+        }
+        return 1;
+    }
+
+    function blockGPTPosts() {
+        const searchTerm = &#x2F;GPT&#x2F;i;
+        const titleLines = document.querySelectorAll(&#x27;span.titleline&#x27;);
+        const rankSpans = document.querySelectorAll(&#x27;span.rank&#x27;);
+        const startingNumber = getStartingNumber();
+
+        let visiblePosts = [];
+
+        titleLines.forEach((titleLine, index) =&gt; {
+            const postLink = titleLine.querySelector(&#x27;a&#x27;);
+            if (postLink &amp;&amp; searchTerm.test(postLink.textContent)) {
+                const athingRow = titleLine.closest(&#x27;tr.athing&#x27;);
+                if (athingRow) {
+                    athingRow.style.display = &#x27;none&#x27;;
+                    const subtextRow = athingRow.nextElementSibling;
+                    if (subtextRow &amp;&amp; subtextRow.querySelector(&#x27;td.subtext&#x27;)) {
+                        subtextRow.style.display = &#x27;none&#x27;;
+                    }
+                }
+            } else {
+                visiblePosts.push(index);
+            }
+        });
+
+        visiblePosts.forEach((visiblePostIndex, index) =&gt; {
+            const postNumber = startingNumber + index;
+            if (rankSpans[visiblePostIndex]) {
+                rankSpans[visiblePostIndex].textContent = `${postNumber}.`;
+            }
+        });
+    }
+
+    &#x2F;&#x2F; Wait for the content to load before executing the function
+    window.addEventListener(&#x27;load&#x27;, blockGPTPosts);</code></pre>
+})();",story,,"{""connection_name"":""hackernews""}"
+35215950,Is your bank “important” enough to save? Don’t count on it,2023-03-19T04:10:40Z,cinquemb,1,false,false,1,[35215960],,,,,story,https://bombthrower.com/is-your-bank-important-enough-to-save-dont-count-on-it/,"{""connection_name"":""hackernews""}"
+35215822,First bioanthropological evidence for Yamnaya horsemanship,2023-03-19T03:43:11Z,bookofjoe,2,false,false,,,,,,,story,https://www.science.org/doi/10.1126/sciadv.ade2451,"{""connection_name"":""hackernews""}"
+35215853,How America Manufactures Poverty,2023-03-19T03:48:54Z,paulpauper,31,false,false,6,"[35215908,35215913,35215938]",,,,,story,https://www.newyorker.com/magazine/2023/03/20/matthew-desmond-poverty-by-america-book-review,"{""connection_name"":""hackernews""}"
+35215760,Pepsi logo design document is still (2022),2023-03-19T03:32:05Z,walterbell,1,false,false,,[35215779],,,,,story,https://www.creativebloq.com/news/pepsi-logo-design,"{""connection_name"":""hackernews""}"
+35215770,American colleges in crisis with enrollment decline largest on record,2023-03-19T03:34:32Z,paulpauper,3,false,false,,[35215776],,,,,story,https://fortune.com/2023/03/09/american-skipping-college-huge-numbers-pandemic-turned-them-off-education/,"{""connection_name"":""hackernews""}"
+35215745,Italy Decides Leonardo da Vinci’s 500 Year Old Works Aren't in the Public Domain,2023-03-19T03:30:00Z,mirthlessend,3,false,false,2,[35215819],,,,,story,https://www.techdirt.com/2023/03/17/italy-decides-that-leonardo-da-vincis-500-year-old-works-are-not-in-the-public-domain/,"{""connection_name"":""hackernews""}"
+35215775,99% of borrowers have a mortgage rate lower than 6%,2023-03-19T03:35:12Z,paulpauper,2,false,false,,,,,,,story,https://fortune.com/2023/03/02/housing-market-lock-in-effect-3-percent-mortgage-rates-real-estate-home-buyers-sellers/,"{""connection_name"":""hackernews""}"
+35215902,US Handgun Law,2023-03-19T04:00:04Z,graderjs,1,false,false,,,,,,,story,https://handgunlaw.us/,"{""connection_name"":""hackernews""}"
+35215735,Will the explosion of productivity in individual countries lead to war?,2023-03-19T03:28:17Z,tvvocold,2,false,false,,,,,,,story,https://twitter.com/capray92/status/1636642864703889408,"{""connection_name"":""hackernews""}"
+35215780,Bringing Rust to the Xen Project,2023-03-19T03:35:36Z,jerryjerryjerry,2,false,false,,,,,,,story,https://xcp-ng.org/blog/2023/03/17/bringing-rust-to-the-xen-project/,"{""connection_name"":""hackernews""}"
+35215971,Monetary Tightening and U.S. Bank Fragility in 2023,2023-03-19T04:14:51Z,actually_a_dog,1,false,false,,,,,,,story,https://siepr.stanford.edu/publications/monetary-tightening-and-us-bank-fragility-2023-mark-market-losses-and-uninsured,"{""connection_name"":""hackernews""}"
+35215851,"For Long-Term Health and Happiness, Marriage Still Matters",2023-03-19T03:48:46Z,impish9208,2,false,false,,,,,,,story,https://www.wsj.com/articles/for-long-term-health-and-happiness-marriage-still-matters-86114ced,"{""connection_name"":""hackernews""}"
+35215824,There are two facets to dd usage,2023-03-19T03:43:56Z,zdw,2,false,false,,,,,,,story,https://utcc.utoronto.ca/~cks/space/blog/unix/DdTwoFacets,"{""connection_name"":""hackernews""}"
+35215838,EndBASIC,2023-03-19T03:46:55Z,6581,1,false,false,,,,,,,story,https://repl.endbasic.dev/,"{""connection_name"":""hackernews""}"
+35215721,Last Hurrah for Chivalry: Long Live Chivalric Brotherhood,2023-03-19T03:25:26Z,prismatic,1,false,false,,,,,,,story,https://www.criterion.com/current/posts/8095-last-hurrah-for-chivalry-long-live-chivalric-brotherhood,"{""connection_name"":""hackernews""}"
+35215918,Chinese Football Stars and Officials Held in Xi’s Corruption Crackdown,2023-03-19T04:02:33Z,PaulHoule,1,false,false,,,,,,,story,https://www.theguardian.com/world/2023/mar/18/chinese-stars-officials-held-xi-jinping-football-corruption-crackdown,"{""connection_name"":""hackernews""}"
+35215781,ChatBot lies and the fate of online libraries,2023-03-19T03:35:55Z,wolverine876,2,false,false,1,[35215794],,,,,story,https://www.thenation.com/article/culture/internet-archive-publishers-lawsuit-chatbot/,"{""connection_name"":""hackernews""}"
+35215719,China’s M&A Star Tells Staff to Be Bold–Then Disappears,2023-03-19T03:24:37Z,mirthlessend,2,false,false,,,,,,,story,https://www.wsj.com/articles/chinas-m-a-star-told-his-employees-to-be-boldthen-he-disappeared-2d94976a,"{""connection_name"":""hackernews""}"
+35215949,Distributed Machine Learning at Instacart,2023-03-19T04:10:24Z,robertnishihara,1,false,false,,,,,,,story,https://tech.instacart.com/distributed-machine-learning-at-instacart-4b11d7569423,"{""connection_name"":""hackernews""}"
+35215791,ChatGLM: Open bilingual language model based on General Language Model framework,2023-03-19T03:37:42Z,tvvocold,1,false,false,,,,,,,story,https://github.com/THUDM/ChatGLM-6B/blob/main/README_en.md,"{""connection_name"":""hackernews""}"
+35215755,A school in India taught me to raise my expectations for my child,2023-03-19T03:31:45Z,t23,2,false,false,,,,,,,story,https://www.washingtonpost.com/lifestyle/2019/05/10/how-school-india-taught-me-raise-my-expectations-my-child/,"{""connection_name"":""hackernews""}"
+35215704,Figure is an AI robotics company bringing a general purpose humanoid to life,2023-03-19T03:20:10Z,danboarder,1,false,false,,,,,,,story,https://www.figure.ai/,"{""connection_name"":""hackernews""}"
+35215870,A Rant on Terra (2019),2023-03-19T03:51:12Z,akkartik,1,false,false,,,,,,,story,https://erikmcclure.com/blog/a-rant-on-terra/,"{""connection_name"":""hackernews""}"
+35215898,How many ways can circles overlap? [video],2023-03-19T03:59:15Z,notmysql_,1,false,false,,,,,,,story,https://www.youtube.com/watch?v=bRIL9kMJJSc,"{""connection_name"":""hackernews""}"
+35215982,Documenso: The DocuSign Open Source Alternative,2023-03-19T04:17:05Z,talboren,1,false,false,,,,,,,story,https://github.com/documenso/documenso,"{""connection_name"":""hackernews""}"
+35215713,"How to Learn and Teach Economics with Large Language Models, Including GPT",2023-03-19T03:23:06Z,paulpauper,2,false,false,1,[35215985],,,,,story,https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4391863,"{""connection_name"":""hackernews""}"
+35215826,What's new for RISC-V in LLVM 16,2023-03-19T03:44:21Z,zdw,1,false,false,,,,,,,story,https://muxup.com/2023q1/whats-new-for-risc-v-in-llvm-16,"{""connection_name"":""hackernews""}"

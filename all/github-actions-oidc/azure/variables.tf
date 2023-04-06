@@ -11,5 +11,5 @@ variable "github_branch" {
 variable "azuread_application_name" {
   type        = string
   description = "Name of the Azure AD Application to create. Example: steampipe_gh_oidc_demo"
-  default     = "steampipe-gh-oidc-demo"
+  default     = "steampipe_gh_oidc_demo"
 }

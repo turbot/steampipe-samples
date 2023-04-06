@@ -6,8 +6,8 @@ OpenID Connect (OIDC) allows your GitHub Actions workflows to access resources i
 
 This Terraform template creates the following Azure resources:
 
-- `Azure > Active Directory > Application (steampipe_gh_oidc_demo)`
 - `Azure > Active Directory > Service Principal (steampipe_gh_oidc_demo)`
+- `Azure > Active Directory > Service Principal (steampipe_gh_oidc_demo) > Federated credential`
 
 **NOTE**: The Azure AD Service Principal(steampipe_gh_oidc_demo) has the BuiltInRole `Reader` assigned.
 
@@ -83,5 +83,3 @@ A sample GitHub Actions Workflow for AWS is available [here](./steampipe-sample-
 - OIDC_AZURE_CLIENT_ID
 - OIDC_AZURE_TENANT_ID
 - OIDC_AZURE_SUBSCRIPTION_ID
-- OIDC_SLACK_CHANNEL_ID
-- OIDC_SLACK_OAUTH_ACCESS_TOKEN

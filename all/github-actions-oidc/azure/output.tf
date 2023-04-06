@@ -9,6 +9,6 @@ output "OIDC_AZURE_SUBSCRIPTION_ID" {
 }
 
 output "OIDC_AZURE_TENANT_ID" {
-  description = "Tenant ID. Add this to your GitHub Secrets"
+  description = "Directory (Tenant) ID. Add this to your GitHub Secrets"
   value       = data.azurerm_client_config.current.tenant_id
 }

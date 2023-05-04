@@ -1,0 +1,136 @@
+name: "fetch hackernews items"
+
+defaults:
+  run:
+    working-directory: ./all/hackernews
+
+  push:
+   branches:
+     - main
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v3
+
+#    actions are not compatible with working-directory
+#
+#    - uses: francois2metz/setup-steampipe@v1
+#      with:
+#        steampipe-version: 'latest'
+#        steampipe-plugins: |
+#          {
+#            "hackernews": {}
+#          }
+#
+#    so install steampipe this way
+
+    - name: echo ~
+      run: echo ~
+
+    - name: ls ~
+      run: ls ~
+
+    - name: pwd
+      run: pwd
+
+    - name: ls
+      run: ls
+
+    - name: clock1
+      run: echo `date`
+
+    - name: clock2
+      run: echo `date` >> ./times.txt
+    - name: install steampipe
+      run: sudo /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/turbot/steampipe/main/install.sh)"
+
+    - name: install hackernews
+      run:  steampipe plugin install hackernews
+
+    - name: install csv
+      run: steampipe plugin install csv
+
+    - name: install github
+      run: steampipe plugin install github
+
+    - name: install net
+      run: steampipe plugin install net
+
+    - name: configure csv
+      run: cp ./csv.spc ~/.steampipe/config/csv.spc
+
+    - name: check config
+      run: more ~/.steampipe/config/csv.spc
+
+    - name: capture hourly snapshot
+      run: STEAMPIPE_LOG=trace steampipe query "select * from hackernews_new where time > now() - interval '1 hour'" --output csv >> ./csv/hn_`date +%s`.csv
+
+    - name: combine files
+      run: |
+        cat hn_header.txt > hn.csv
+
+        for file in ./csv/hn_*.csv; do
+          tail -n +2 $file >> hn.csv
+        done
+
+    - name: create hn_items_all      
+      run: |
+        steampipe query "create table hn_items_tmp as select * from csv.hn"
+        steampipe query "select count(*) from csv.hn"
+        steampipe query "create table hn_items_all as select distinct on (id) * from hn_items_tmp"
+        steampipe query "delete from hn_items_all where substring(time from 1 for 10) < to_char(now() - interval '31 day' , 'YYYY-MM-DD')"
+        steampipe query "update hn_items_all set score = 0::text where score = '<null>'"
+        steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>' or descendants = ''"
+        steampipe query "select count(*) from hn_items_all"
+
+    - name: create hn_scores_and_comments
+      run: steampipe query query.create_scores_and_comments
+
+    - name: check hn_scores_and_comments
+      run: steampipe query "select sum(descendants::bigint) as descendants from hn_scores_and_comments"
+
+    - name: create new_sc
+      run: steampipe query query.new_scores_and_comments
+
+    - name: check new_sc
+      run: steampipe query "select sum(descendants::bigint) as descendants from new_sc"
+
+    - name: save new_sc
+      run: steampipe query "select * from new_sc" --output csv > ./new_sc.csv
+
+    - name: update hn_items_all from new_sc
+      run: steampipe query query.update_scores_and_comments
+
+    - name: save hn_items_all 
+      run: |
+        steampipe query "alter table hn_items_all drop column _ctx"
+        steampipe query "update hn_items_all set score = 0::text where score = '<null>'"
+        steampipe query "update hn_items_all set descendants = 0::text where descendants = '<null>'"
+        steampipe query "select * from hn_items_all" --output csv > ./hn_items_all.csv
+
+    - name: setup git 
+      run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+
+    - name: add
+      run: |
+        git add ./csv
+        cp ~/.steampipe/logs/p*.log ./logs
+        git add ./csv ./logs 
+
+    - name: commit
+      run:
+        git commit -m "update hn" ./csv ./logs ./times.txt ./new_sc.csv ./hn_items_all.csv
+
+    - name: push 
+      run:
+        git push origin main
+
+    - name: Exit
+      if: ${{ steps.checks.outcome == 'failure' }}
+      run: exit 1
+      

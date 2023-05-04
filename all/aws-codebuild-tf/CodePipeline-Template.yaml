@@ -1,0 +1,355 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CI/CD Pipeline to scan and deploy terraform
+
+Parameters:
+
+  pBuildImageName:
+    Type: String
+    Description: Docker image for application build
+    Default: aws/codebuild/amazonlinux2-x86_64-standard:2.0
+
+  pPipelineBucketName:
+    Type: String
+    Description: Name of the State Bucket
+
+  pInitialSubscriberEmail:
+    Description: Add this initial email to the alerts
+    Type: String
+    Default: NONE
+
+  pGitHubRepo:
+    Description: Full name of GithubRepo in the form of orgname/reponame
+    Type: String
+
+  pGitHubBranch:
+    Description: Branch on which this codepipeline will trigger
+    Type: String
+
+  pConnectionArn:
+    Description: pre-configured CodeStar Connection to the GitHub Org and Repo
+    Type: String
+
+  pSecretName:
+    Description: Secret Name for Steampipe Cloud
+    Type: String
+    Default: steampipe-cloud
+
+  pEnvironment:
+    Description: Name of the Environment to configure
+    Type: String
+
+  pSteampipeBinary:
+    Description: URL to the Steampipe binary to install
+    Type: String
+    Default: https://github.com/turbot/steampipe/releases/latest/download/steampipe_linux_amd64.tar.gz
+
+  pSnapshotTitle:
+    Description: Title to give to the snapshots uploaded to Steampipe Cloud
+    Type: String
+    Default: Terraform Compliance Report
+
+Conditions:
+  cEMailSubscription: !Not [!Equals [ !Ref pInitialSubscriberEmail, "NONE"]]
+
+Resources:
+
+  PipelineBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref pPipelineBucketName
+
+  PipelineNotificationsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: !Sub ${AWS::StackName}-pipeline-notifications
+      Subscription:
+      - !If
+        - cEMailSubscription
+        - Endpoint: !Ref 'pInitialSubscriberEmail'
+          Protocol: email
+        - !Ref AWS::NoValue
+
+  PipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-pipeline-service-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+                - codebuild.amazonaws.com
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: UseGitHubConnection
+                Resource: !Ref pConnectionArn
+                Effect: Allow
+                Action:
+                  - codestar-connections:UseConnection
+              - Sid: CodeBuildPermissions
+                Resource: '*'
+                Effect: Allow
+                Action:
+                  - codebuild:StartBuild
+                  - codebuild:BatchGetBuilds
+                  - sns:Publish
+              - Sid: CloudWatchLogs
+                Resource: '*'
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+              - Sid: AccessPipelineBucket
+                Effect: Allow
+                Action:
+                  - s3:Get*
+                  - s3:ListBucket
+                Resource:
+                 - !Sub arn:aws:s3:::${PipelineBucket}
+              - Sid: AccessPipelineBucketObjects
+                Effect: Allow
+                Action:
+                  - s3:PutObject*
+                  - s3:GetObject*
+                Resource:
+                  - !Sub arn:aws:s3:::${PipelineBucket}/*
+              - Sid: GetSecret
+                Effect: "Allow"
+                Action:
+                - secretsmanager:GetSecret*
+                Resource: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${pSecretName}-*"
+
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      RoleArn: !GetAtt PipelineServiceRole.Arn
+      Name: !Sub ${AWS::StackName}
+      ArtifactStores:
+        - Region: !Ref AWS::Region
+          ArtifactStore:
+            Type: S3
+            Location: !Sub ${PipelineBucket}
+      Stages:
+        - Name: source
+          Actions:
+            - Name: GitHub
+              RunOrder: 1
+              ActionTypeId:
+                Category: Source
+                Provider: CodeStarSourceConnection
+                Owner: AWS
+                Version: '1'
+              Namespace: GitHubSource
+              OutputArtifacts:
+                - Name: GitHubCode
+              Configuration:
+                ConnectionArn: !Ref pConnectionArn
+                FullRepositoryId: !Ref pGitHubRepo
+                BranchName: !Ref pGitHubBranch
+                OutputArtifactFormat: CODE_ZIP
+                DetectChanges: true
+
+        - Name: PreviewChanges
+          Actions:
+            - Name: steampipe_check
+              RunOrder: 1
+              Namespace: SteampipeCheck
+              InputArtifacts:
+                - Name: GitHubCode
+              # OutputArtifacts:
+              #   - Name: BuildArtifact
+              ActionTypeId:
+                Category: Build
+                Provider: CodeBuild
+                Owner: AWS
+                Version: '1'
+              Configuration:
+                ProjectName: !Ref SteampipeProject
+                EnvironmentVariables: !Sub |
+                  [
+                    {"name": "EXECUTION_ID",    "value": "#{codepipeline.PipelineExecutionId}"},
+                    {"name": "BRANCH",          "value": "#{GitHubSource.BranchName}"},
+                    {"name": "REPO",            "value": "#{GitHubSource.FullRepositoryName}"},
+                    {"name": "COMMIT_ID",       "value": "#{GitHubSource.CommitId}"},
+                    {"name": "AWS_REGIONS",     "value": "${AWS::Region}"},
+                    {"name": "BUCKET",          "value": "${PipelineBucket}"},
+                    {"name": "AWS_ACCOUNT_ID",  "value": "${AWS::AccountId}"},
+                    {"name": "SNAPSHOT_TITLE",  "value": "${pSnapshotTitle}"},
+                    {"name": "STEAMPIPE_BINARY_URL",        "value": "${pSteampipeBinary}"},
+                    {"name": "STEAMPIPE_CLOUD_SECRETNAME",  "value": "${pSecretName}"}
+                  ]
+            - Name: terraform_plan
+              RunOrder: 1
+              Namespace: TfPlan
+              InputArtifacts:
+                - Name: GitHubCode
+              OutputArtifacts:
+                - Name: TerraformPlan
+              ActionTypeId:
+                Category: Build
+                Provider: CodeBuild
+                Owner: AWS
+                Version: '1'
+              Configuration:
+                ProjectName: !Ref TerraformPlanProject
+                EnvironmentVariables: !Sub |
+                  [
+                    {"name": "EXECUTION_ID",    "value": "#{codepipeline.PipelineExecutionId}"},
+                    {"name": "BRANCH",          "value": "#{GitHubSource.BranchName}"},
+                    {"name": "REPO",            "value": "#{GitHubSource.FullRepositoryName}"},
+                    {"name": "COMMIT_ID",       "value": "#{GitHubSource.CommitId}"},
+                    {"name": "BUCKET",          "value": "${PipelineBucket}"},
+                    {"name": "env",             "value": "${pEnvironment}"}
+                  ]
+
+        - Name: ReviewChanges
+          Actions:
+            - Name: approve-security-exception
+              RunOrder: 1
+              ActionTypeId:
+                Category: Approval
+                Provider: Manual
+                Owner: AWS
+                Version: '1'
+              Configuration:
+                NotificationArn: !Ref PipelineNotificationsTopic
+                ExternalEntityLink: '#{SteampipeCheck.STATUS_URL}'
+                CustomData: "Steampipe found #{SteampipeCheck.ALARM_COUNT} issues with your proposed terraform deployment. Please review the URL below and enter management approval to proceed"
+            - Name: review-plan
+              RunOrder: 1
+              ActionTypeId:
+                Category: Approval
+                Provider: Manual
+                Owner: AWS
+                Version: '1'
+              Configuration:
+                NotificationArn: !Ref PipelineNotificationsTopic
+                ExternalEntityLink: !Sub "https://${AWS::Region}.console.aws.amazon.com/codesuite/codebuild/${AWS::AccountId}/projects/#{TfPlan.BuildID}/build/#{TfPlan.BuildID}%3A#{TfPlan.BuildTag}/?region=${AWS::Region}"
+                CustomData: "Please approve this change. Commit message: #{GitHubSource.CommitMessage}"
+
+        - Name: ExecuteTerraform
+          Actions:
+            - Name: terraform-apply
+              RunOrder: 1
+              InputArtifacts:
+                - Name: GitHubCode
+                - Name: TerraformPlan
+              # OutputArtifacts:
+              #   - Name: ExecuteArtifact
+              ActionTypeId:
+                Category: Build
+                Provider: CodeBuild
+                Owner: AWS
+                Version: '1'
+              Configuration:
+                ProjectName: !Ref ExecuteTerraformProject
+                PrimarySource: GitHubCode
+                EnvironmentVariables: !Sub |
+                  [
+                    {"name": "EXECUTION_ID",    "value": "#{codepipeline.PipelineExecutionId}"},
+                    {"name": "BRANCH",          "value": "#{GitHubSource.BranchName}"},
+                    {"name": "REPO",            "value": "#{GitHubSource.FullRepositoryName}"},
+                    {"name": "COMMIT_ID",       "value": "#{GitHubSource.CommitId}"},
+                    {"name": "BUCKET",          "value": "${PipelineBucket}"},
+                    {"name": "env",             "value": "${pEnvironment}"}
+                  ]
+
+  ProjectServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-codebuild-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: CloudWatchLogs
+                Resource: '*'
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+              - Sid: AccessPipelineBucket
+                Effect: Allow
+                Action:
+                  - s3:Get*
+                  - s3:ListBucket
+                Resource:
+                 - !Sub arn:aws:s3:::${PipelineBucket}
+              - Sid: AccessPipelineBucketObjects
+                Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketVersioning
+                Resource:
+                  - !Sub arn:aws:s3:::${PipelineBucket}/*
+              - Sid: GetSecret
+                Effect: "Allow"
+                Action:
+                - secretsmanager:GetSecret*
+                Resource: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${pSecretName}-*"
+
+  TerraformPlanProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${AWS::StackName}-tf-plan
+      Artifacts:
+        Type: CODEPIPELINE
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec-tf-plan.yaml
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Type: LINUX_CONTAINER
+        Image: !Ref pBuildImageName
+      ServiceRole: !GetAtt ProjectServiceRole.Arn
+
+  SteampipeProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${AWS::StackName}-steampipe
+      Artifacts:
+        Type: CODEPIPELINE
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec.steampipe.yaml
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Type: LINUX_CONTAINER
+        Image: !Ref pBuildImageName
+      ServiceRole: !GetAtt ProjectServiceRole.Arn
+
+  ExecuteTerraformProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub ${AWS::StackName}-tf-apply
+      Artifacts:
+        Type: CODEPIPELINE
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec-tf-apply.yaml
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Type: LINUX_CONTAINER
+        Image: !Ref pBuildImageName
+      ServiceRole: !GetAtt ProjectServiceRole.Arn

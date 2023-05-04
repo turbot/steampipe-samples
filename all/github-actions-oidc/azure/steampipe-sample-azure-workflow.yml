@@ -1,0 +1,76 @@
+name: Steampipe Azure Benchmark
+on:
+  # run a workflow manually on demand
+  workflow_dispatch:
+  # runs on the 7th, 14th, 21st and 28th day of every month at 04:00 UTC i.e., 09:30 AM IST
+  schedule:
+    - cron: "0 4 7,14,21,28 * *"
+
+# These permissions are needed to interact with GitHub's OIDC Token endpoint.
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: write # This is required for actions/checkout
+
+jobs:
+  azure:
+    name: Steampipe Azure Demo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout working branch"
+        uses: actions/checkout@v3
+
+      - name: "Az CLI login"
+        id: config-azure-auth
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.OIDC_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.OIDC_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.OIDC_AZURE_SUBSCRIPTION_ID }}
+
+      - name: "Install Steampipe cli and plugin"
+        id: steampipe-installation
+        run: |
+
+          # Install Steampipe CLI
+          sudo /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/turbot/steampipe/main/install.sh)"
+          # Check steampipe version
+          steampipe -v
+          # Install Azure and AzureAD plugins
+          steampipe plugin install azure
+          steampipe plugin install azuread
+
+      - name: "Run Steampipe benchmark"
+        id: steampipe-benchmark
+        continue-on-error: true
+        run: |
+
+          # Install the Steampipe Azure Compliance mod
+          steampipe mod install github.com/turbot/steampipe-mod-azure-compliance
+          cd .steampipe/mods/github.com/turbot/steampipe-mod-azure-compliance*
+          # Run the Azure CIS v2.0.0 benchmark
+          steampipe check benchmark.cis_v200 --export=$GITHUB_WORKSPACE/steampipe/benchmarks/azure/cis_v200_"$(date +"%d_%B_%Y")".html --output=none
+
+      - name: "Commit the file to github"
+        id: push-to-gh
+        working-directory: steampipe/benchmarks/azure
+        run: |
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add cis_v200_"$(date +"%d_%B_%Y")".html
+          git commit -m "Add Steampipe Benchmark Results"
+          git push
+
+      - name: Az logout
+        id: cleanup-azure
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az logout
+            az cache purge
+            az account clear
+
+      - name: Cleanup Steampipe files
+        id: cleanup-steampipe
+        run: rm -rf ~/.steampipe && rm -rf .steampipe

@@ -40,8 +40,12 @@ if ( [ $COMMAND == "IMDS" ] || [ $COMMAND == "ECS" ] ) && [ -z $AWS_CONFIG_FILE 
 fi
 
 if [ -z $SOURCE_PROFILE ] ; then
-  echo "ERROR: Source profile not defined"
-  usage
+  if [ $COMMAND == "LOCAL" ] ; then
+    echo "ERROR: Source profile not defined"
+    usage
+  else
+    SOURCE_PROFILE="default"
+  fi
 fi
 
 # STEAMPIPE_INSTALL_DIR overrides the default steampipe directory of ~/.steampipe

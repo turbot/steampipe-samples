@@ -39,7 +39,7 @@ if ( [ $COMMAND == "IMDS" ] || [ $COMMAND == "ECS" ] ) && [ -z $AWS_CONFIG_FILE 
   usage
 fi
 
-if [ $COMMAND == "LOCAL" ] && [ -z $SOURCE_PROFILE ] ; then
+if [ -z $SOURCE_PROFILE ] ; then
   echo "ERROR: Source profile not defined"
   usage
 fi

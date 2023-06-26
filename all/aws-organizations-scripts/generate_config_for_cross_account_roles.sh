@@ -20,7 +20,7 @@ AWS_CONFIG_FILE=$3
 SOURCE_PROFILE=$4
 
 usage () {
-  echo "Usage: $0 [IMDS | LOCAL ] <AUDITROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
+  echo "Usage: $0 [IMDS | ECS | LOCAL ] <AUDITROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
   exit 1
 }
 
@@ -29,19 +29,23 @@ if [ -z "$COMMAND" ] ; then
   usage
 fi
 
-if [ $COMMAND != "IMDS" ] && [ $COMMAND != "LOCAL" ] ; then
+if [ $COMMAND != "IMDS" ] && [ $COMMAND != "ECS" ] && [ $COMMAND != "LOCAL" ] ; then
   echo "ERROR: Invalid Command: $COMMAND"
   usage
 fi
 
-if [ $COMMAND == "IMDS" ] && [ -z $AWS_CONFIG_FILE ] ; then
+if ( [ $COMMAND == "IMDS" ] || [ $COMMAND == "ECS" ] ) && [ -z $AWS_CONFIG_FILE ] ; then
   echo "ERROR: AWS config file not defined"
   usage
 fi
 
-if [ $COMMAND == "LOCAL" ] && [ -z $SOURCE_PROFILE ] ; then
-  echo "ERROR: Source profile not defined"
-  usage
+if [ -z $SOURCE_PROFILE ] ; then
+  if [ $COMMAND == "LOCAL" ] ; then
+    echo "ERROR: Source profile not defined"
+    usage
+  else
+    SOURCE_PROFILE="default"
+  fi
 fi
 
 # STEAMPIPE_INSTALL_DIR overrides the default steampipe directory of ~/.steampipe
@@ -67,7 +71,7 @@ echo "Creating Steampipe Connections in $SP_CONFIG_FILE and AWS Profiles in $AWS
 echo "# Automatically Generated at `date`" > $SP_CONFIG_FILE
 echo "# Steampipe profiles, Automatically Generated at `date`" > $AWS_CONFIG_FILE
 
-if [ $COMMAND == "IMDS" ] ; then
+if [ $COMMAND == "IMDS" ] || [ $COMMAND == "ECS" ] ; then
 # Your AWS Config file needs a [default] section
 cat <<EOF>>$AWS_CONFIG_FILE
 [default]
@@ -110,6 +114,16 @@ cat <<EOF>>$AWS_CONFIG_FILE
 [profile sp_${ACCOUNT_NAME}]
 role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDITROLE}
 credential_source = Ec2InstanceMetadata
+role_session_name = steampipe
+EOF
+
+elif [ $COMMAND == "ECS" ] ; then
+# Append an entry to the AWS Creds file
+cat <<EOF>>$AWS_CONFIG_FILE
+
+[profile sp_${ACCOUNT_NAME}]
+role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDITROLE}
+credential_source = EcsContainer
 role_session_name = steampipe
 EOF
 

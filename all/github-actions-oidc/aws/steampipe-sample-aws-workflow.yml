@@ -33,14 +33,13 @@ jobs:
 
       - name: "Install Steampipe cli and plugin"
         id: steampipe-installation
-        run: |
-
-          # Install Steampipe CLI
-          sudo /bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/turbot/steampipe/main/install.sh)"
-          # Check steampipe version
-          steampipe -v
-          # Install AWS plugin
-          steampipe plugin install aws
+        uses: turbot/steampipe-action-setup@v1
+        with:
+          steampipe-version: 'latest'
+          plugin-connections: |
+            connection "aws" {
+              plugin = "aws"
+            }
 
       - name: "Run Steampipe benchmark"
         id: steampipe-benchmark
@@ -51,8 +50,8 @@ jobs:
           steampipe mod install github.com/turbot/steampipe-mod-aws-compliance 
           cd .steampipe/mods/github.com/turbot/steampipe-mod-aws-compliance*
 
-          # Run the AWS CIS v1.5.0 benchmark
-          steampipe check benchmark.cis_v150 --export=$GITHUB_WORKSPACE/steampipe/benchmarks/aws/cis_v150_"$(date +"%d_%B_%Y")".html --output=none
+          # Run the AWS CIS v2.0.0 benchmark
+          steampipe check benchmark.cis_v200 --export=$GITHUB_WORKSPACE/steampipe/benchmarks/aws/cis_v200_"$(date +"%d_%B_%Y")".html --output=none
 
       - name: "Commit the file to github"
         id: push-to-gh
@@ -61,7 +60,7 @@ jobs:
 
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add cis_v150_"$(date +"%d_%B_%Y")".html 
+          git add cis_v200_"$(date +"%d_%B_%Y")".html 
           git commit -m "Add Steampipe Benchmark Results"
           git push
 

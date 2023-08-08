@@ -149,7 +149,7 @@ connection "aws_${SP_NAME}" {
 
 EOF
 
-done < <(aws organizations list-accounts --query Accounts[].[Name,Id,Status] --output text --profile $SOURCE_PROFILE)
+done < <(aws organizations list-accounts --query "Accounts[?Status!='SUSPENDED'].[Name,Id,Status]" --output text --profile $SOURCE_PROFILE)
 
 if [ $COMMAND == "LOCAL" ] ; then
   echo "Now append $AWS_CONFIG_FILE to your active config file where $SOURCE_PROFILE is defined"

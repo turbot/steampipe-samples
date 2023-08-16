@@ -30,12 +30,12 @@ EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
 
 # choose one set of vars from above
 
-ORG_LOGIN = 'tensorflow'
-REPO = 'tensorflow'
-REPO_TABLE = REPO.replace('-','_')
-COMPANY = 'google'
-EXCLUDE_FROM_EXTERNAL_COMMITS = "['']"
-EXCLUDE_FROM_EXTERNAL_ISSUES = "['']"
+ORG_LOGIN = 'microsoft'
+REPO = 'typescript'
+REPO_TABLE = REPO
+COMPANY = 'microsoft'
+EXCLUDE_FROM_EXTERNAL_COMMITS = "['CyrusNajmabadi','vladima','mhegazy','csigs']"
+EXCLUDE_FROM_EXTERNAL_ISSUES = "['mhegazy','ghost']"
 
 # common variables
 
@@ -61,13 +61,11 @@ drop table if exists {REPO_TABLE}_org_members;
 insert into {REPO_TABLE}_log(time, event) values (now(), '{REPO_TABLE}_org_members');
 create table {REPO_TABLE}_org_members as (
   select
-    g.name,
-    g.login,
-    jsonb_array_elements_text(g.member_logins) as member_login
+    login
   from
-    github_organization g
+    github_organization_member
   where
-    g.login = '{ORG_LOGIN}'
+    organization = '{ORG_LOGIN}'
 );
 
 drop table if exists {REPO_TABLE}_commits;
@@ -76,10 +74,10 @@ create table {REPO_TABLE}_commits as (
   select
     g.repository_full_name,
     g.author_login,
-    g.author_date,
-    g.commit->'author'->>'email' as author_email,
-    g.committer_login,
-    g.committer_date
+    g.authored_date,
+    g.author->'email' as author_email,
+    g.committer->'login',
+    g.committed_date
   from
     github_commit g
   where
@@ -134,7 +132,7 @@ create table {REPO_TABLE}_internal_committers as (
     join
       {REPO_TABLE}_org_members o
     on
-      c.author_login = o.member_login
+      c.author_login = o.login
     order by
       c.author_login
   ),
@@ -260,13 +258,13 @@ create table {REPO_TABLE}_issues as (
   select
     repository_full_name,
     author_login,
-    issue_number,
+    number,
     title,
     created_at,
     closed_at,
     state,
-    comments,
-    tags
+    comments_total_count,
+    labels
   from
     github_issue
   where
@@ -308,7 +306,7 @@ create table {REPO_TABLE}_internal_issue_filers as (
   join
     {REPO_TABLE}_org_members o
   on
-    i.author_login = o.member_login
+    i.author_login = o.login
   order by
     i.author_login
 );
@@ -319,13 +317,13 @@ create table {REPO_TABLE}_internal_issues as (
   select 
     i.repository_full_name,
     lower(i.author_login) as author_login,
-    i.issue_number,
+    i.number,
     i.created_at,
     i.closed_at,
-    i.comments,
+    i.comments_total_count,
+    i.labels,
     i.state,
-    i.title,
-    i.tags
+    i.title
   from    
     {REPO_TABLE}_issues i
   join
@@ -444,8 +442,8 @@ create table {REPO_TABLE}_external_commit_timelines as (
     select
       e.repository_full_name,
       e.author_login,
-      min(c.author_date) as first,
-      max(c.author_date) as last
+      min(c.authored_date) as first,
+      max(c.authored_date) as last
     from
       {REPO_TABLE}_external_contributors e
     join 

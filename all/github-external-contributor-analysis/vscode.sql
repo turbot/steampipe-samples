@@ -6,13 +6,11 @@ drop table if exists vscode_org_members;
 insert into vscode_log(time, event) values (now(), 'vscode_org_members');
 create table vscode_org_members as (
   select
-    g.name,
-    g.login,
-    jsonb_array_elements_text(g.member_logins) as member_login
+    login
   from
-    github_organization g
+    github_organization_member
   where
-    g.login = 'microsoft'
+    organization = 'microsoft'
 );
 
 drop table if exists vscode_commits;
@@ -21,10 +19,10 @@ create table vscode_commits as (
   select
     g.repository_full_name,
     g.author_login,
-    g.author_date,
-    g.commit->'author'->>'email' as author_email,
-    g.committer_login,
-    g.committer_date
+    g.authored_date,
+    g.author->'email' as author_email,
+    g.committer->'login',
+    g.committed_date
   from
     github_commit g
   where
@@ -79,7 +77,7 @@ create table vscode_internal_committers as (
     join
       vscode_org_members o
     on
-      c.author_login = o.member_login
+      c.author_login = o.login
     order by
       c.author_login
   ),
@@ -205,13 +203,13 @@ create table vscode_issues as (
   select
     repository_full_name,
     author_login,
-    issue_number,
+    number,
     title,
     created_at,
     closed_at,
     state,
-    comments,
-    tags
+    comments_total_count,
+    labels
   from
     github_issue
   where
@@ -253,7 +251,7 @@ create table vscode_internal_issue_filers as (
   join
     vscode_org_members o
   on
-    i.author_login = o.member_login
+    i.author_login = o.login
   order by
     i.author_login
 );
@@ -264,13 +262,13 @@ create table vscode_internal_issues as (
   select 
     i.repository_full_name,
     lower(i.author_login) as author_login,
-    i.issue_number,
+    i.number,
     i.created_at,
     i.closed_at,
-    i.comments,
+    i.comments_total_count,
+    i.labels,
     i.state,
-    i.title,
-    i.tags
+    i.title
   from    
     vscode_issues i
   join
@@ -389,8 +387,8 @@ create table vscode_external_commit_timelines as (
     select
       e.repository_full_name,
       e.author_login,
-      min(c.author_date) as first,
-      max(c.author_date) as last
+      min(c.authored_date) as first,
+      max(c.authored_date) as last
     from
       vscode_external_contributors e
     join 

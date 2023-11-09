@@ -101,6 +101,9 @@ while read line ; do
   # Steampipe doesn't like dashes, so we need to swap for underscores
   SP_NAME=`echo $ACCOUNT_NAME | sed s/-/_/g`
 
+  # Steampipe doesn't like uppercase letters, so we need to lowercase the account name
+  SP_NAME=`echo $SP_NAME | tr '[:upper:]' '[:lower:]'`
+
 if [ $ACCOUNT_NAME == "$SOURCE_PROFILE" ] ; then
   # TODO: improve how the source profile is checked
   echo "Skipping $ACCOUNT_NAME as it is the source profile"

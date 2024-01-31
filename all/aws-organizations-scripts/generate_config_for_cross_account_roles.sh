@@ -95,7 +95,7 @@ while read line ; do
 
   # extract the values we need
   # print from first to NF-1 (except last two fields) replacing middle spaces by _
-  ACCOUNT_NAME=`echo $line | awk '{for (i=1; i<NF-1; i++) printf $i " "}' | sed 's/ $//' | sed 's/ /_/g'`
+  ACCOUNT_NAME=`echo $line | awk '{for (i=1; i<NF-1; i++) printf $i " "}' | sed 's/ $//' | sed 's/ /_/g' | tr '[:upper:]' '[:lower:]'`
   ACCOUNT_ID=`echo $line | awk '{print $(NF - 1)}'`
 
   # Steampipe doesn't like dashes, so we need to swap for underscores
@@ -149,7 +149,7 @@ connection "aws_${SP_NAME}" {
 
 EOF
 
-done < <(aws organizations list-accounts --query "Accounts[?Status!='SUSPENDED'].[Name,Id,Status]" --output text --profile $SOURCE_PROFILE)
+done < <(aws organizations list-accounts --query "Accounts[?Status!='SUSPENDED'].[Name,Id,Status]" --output text --profile $SOURCE_PROFILE | sort -f) 
 
 if [ $COMMAND == "LOCAL" ] ; then
   echo "Now append $AWS_CONFIG_FILE to your active config file where $SOURCE_PROFILE is defined"

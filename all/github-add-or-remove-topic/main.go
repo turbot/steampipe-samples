@@ -18,13 +18,13 @@ import (
 var query = `
 	with names as (
 		select
-			replace(full_name, 'judell/', '') as name -- replace with your ownerLogin
+			replace(name_with_owner, 'judell/', '') as name -- replace with your ownerLogin
 		from
 			github_my_repository
 		where
-			full_name ~ 'judell/(elmcity|facet)' -- replace with your ownerLogin and a pattern
+			name_with_owner ~ 'judell/(elmcity|facet)' -- replace with your ownerLogin and a pattern
 		order by
-			full_name desc
+			name_with_owner desc
 		)
 		select
 			array_to_string(array_agg(name), ',') as names 
@@ -65,7 +65,7 @@ func querySpcForRepos() string {
 			Names string `json:"names"`
 		} `json:"items"`
 	}
-	uri := fmt.Sprintf("https://cloud.steampipe.io/api/latest/org/acme/workspace/jon/query?sql=%s", url.PathEscape(query)) //-- use your handle and workspace
+	uri := fmt.Sprintf("https://pipes.turbot.com/api/latest/org/acme/workspace/jon/query?sql=%s", url.PathEscape(query)) //-- use your handle and workspace
 	req, err := http.NewRequest("GET", uri, nil)
 	CheckError(err)
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", os.Getenv("STEAMPIPE_CLOUD_TOKEN")))

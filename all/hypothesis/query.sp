@@ -134,7 +134,7 @@ query "top_annotators" {
       count(*) as annotations
     from 
       hypothesis_search
-    where query = 'limit=' || $1
+    where query = 'limit=' || $1::int
       || '&group=' || $2
       || case when $3 = 'all' then '' else '&uri=' || $3 end
     group by 
@@ -155,7 +155,7 @@ query "top_domains" {
         (regexp_matches(uri, '.*://([^/]*)'))[1] as domain
       from 
         hypothesis_search
-    where query = 'limit=' || $1
+    where query = 'limit=' || $1::int
       || '&group=' || $2
       || case when $3 = 'all' then '' else '&uri=' || $3 end
     )
@@ -182,7 +182,7 @@ query "top_tags" {
         jsonb_array_elements_text(tags) as tag
       from 
         hypothesis_search
-      where query = 'limit=' || $1
+      where query = 'limit=' || $1::int
         || '&group=' || $2
         || case when $3 = 'all' then '' else '&uri=' || $3 end
     )
@@ -212,7 +212,7 @@ query "conversational_data" {
       from 
         hypothesis_search
       where
-        query = 'group=' || $1 || '&limit=' || $2 || '&uri=' || $3 
+        query = 'group=' || $1 || '&limit=' || $2::int || '&uri=' || $3 
     ),
     unnested as (
       select

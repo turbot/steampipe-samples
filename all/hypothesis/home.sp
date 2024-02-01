@@ -52,7 +52,7 @@ Home
         from
           hypothesis_search
         where
-          query = 'group=' || $1 || '&limit=' || $2
+          query = 'group=' || $1 || '&limit=' || $2::int
         group by
           uri, title, group_id
         order by 
@@ -85,7 +85,7 @@ Home
     ]
     sql = <<EOQ
     select 
-      'limit=' || $1
+      'limit=' || $1::int 
       || '&group=' || $2
       || case when $3 = 'all' then '' else '&uri=' || $3 end
     as "api query"
@@ -125,7 +125,7 @@ Home
         select count(*) as "matching annos"
       from
         hypothesis_search
-      where query = 'limit=' || $1
+      where query = 'limit=' || $1::int
         || '&group=' || $2
         || case when $3 = 'all' then '' else '&uri=' || $3 end
       EOQ
@@ -142,7 +142,7 @@ Home
         select count( distinct username) as "annotators"
       from
         hypothesis_search
-      where query = 'limit=' || $1
+      where query = 'limit=' || $1::int
         || '&group=' || $2
         || case when $3 = 'all' then '' else '&uri=' || $3 end
       EOQ
@@ -159,7 +159,7 @@ Home
         select substring(min(created) from 1 for 10) as "first anno"
       from
         hypothesis_search
-      where query = 'limit=' || $1
+      where query = 'limit=' || $1::int
         || '&group=' || $2
         || case when $3 = 'all' then '' else '&uri=' || $3 end
       EOQ
@@ -176,7 +176,7 @@ Home
         select substring(max(created) from 1 for 10) as "last anno"
       from
         hypothesis_search
-      where query = 'limit=' || $1
+      where query = 'limit=' || $1::int
         || '&group=' || $2
         || case when $3 = 'all' then '' else '&uri=' || $3 end
       EOQ
@@ -281,7 +281,7 @@ Home
           uri
         from 
             hypothesis_search
-        where query = 'limit=' || $1
+        where query = 'limit=' || $1::int
           || '&group=' || $2
           || case when $3 = 'all' then '' else '&uri=' || $3 end
         group by 
@@ -312,7 +312,7 @@ Home
           select username, jsonb_array_elements_text(tags) as tag
           from 
             hypothesis_search
-          where query = 'limit=' || $1
+          where query = 'limit=' || $1::int
             || '&group=' || $2
             || case when $3 = 'all' then '' else '&uri=' || $3 end
         ),

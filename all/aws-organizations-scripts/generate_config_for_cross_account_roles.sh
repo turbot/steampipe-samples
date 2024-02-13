@@ -3,24 +3,25 @@
 #
 # generate_config_for_cross_account_roles.sh
 #
-# Iterates across a list of AWS Accounts from `aws organizations list-accounts` to:
-#   1. Generate an entry in the AWS_CONFIG_FILE specified on the command line
-#   2. Generate an associated connection entry in the aws.spc file for steampipe CLI
+# Iterates across a list of AWS accounts from `aws organizations list-accounts` to:
+#   1. Generate a profile entry in the AWS_CONFIG_FILE specified on the command line
+#   2. Append a Steampipe connection entry in the aws.spc file
 #
-# Note: you will need to execute this script with permissions form the AWS Organizations Management Account
-# or any AWS account that is configured as a Delegated Administrator for an AWS Organizations
-# service (like GuardDuty or IAM Access Analyzer)
+# Note: you will need to execute this script with permissions form the AWS
+# Organizations management account or any AWS account that is configured as a
+# delegated administrator for an AWS Organizations service (like GuardDuty or
+# IAM Access Analyzer)
 #
 
 set -e
 
 COMMAND=$1
-AUDITROLE=$2
+AUDIT_ROLE=$2
 AWS_CONFIG_FILE=$3
 SOURCE_PROFILE=$4
 
 usage () {
-  echo "Usage: $0 [IMDS | ECS | LOCAL ] <AUDITROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
+  echo "Usage: $0 [IMDS | ECS | LOCAL ] <AUDIT_ROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
   exit 1
 }
 
@@ -30,7 +31,7 @@ if [ -z "$COMMAND" ] ; then
 fi
 
 if [ $COMMAND != "IMDS" ] && [ $COMMAND != "ECS" ] && [ $COMMAND != "LOCAL" ] ; then
-  echo "ERROR: Invalid Command: $COMMAND"
+  echo "ERROR: Invalid command: $COMMAND"
   usage
 fi
 
@@ -50,26 +51,28 @@ fi
 
 # STEAMPIPE_INSTALL_DIR overrides the default steampipe directory of ~/.steampipe
 if [ -z $STEAMPIPE_INSTALL_DIR ] ; then
-  echo "STEAMPIPE_INSTALL_DIR not defined. Using the default."
+  echo "STEAMPIPE_INSTALL_DIR not defined, using the default location"
   export STEAMPIPE_INSTALL_DIR=~/.steampipe
 fi
 
 if [ ! -d $STEAMPIPE_INSTALL_DIR ] ; then
-  echo "STEAMPIPE_INSTALL_DIR: $STEAMPIPE_INSTALL_DIR doesn't exist. Creating it."
+  echo "STEAMPIPE_INSTALL_DIR: $STEAMPIPE_INSTALL_DIR doesn't exist, creating it"
   mkdir -p ${STEAMPIPE_INSTALL_DIR}/config/
 fi
 
 if [ -f $AWS_CONFIG_FILE ] ; then
-  echo "$AWS_CONFIG_FILE exists. Aborting rather than overwriting a critical file."
+  echo "$AWS_CONFIG_FILE exists, aborting rather than overwriting a critical file"
   exit 1
 fi
 
 SP_CONFIG_FILE=${STEAMPIPE_INSTALL_DIR}/config/aws.spc
 ALL_REGIONS='["*"]'
 
-echo "Creating Steampipe Connections in $SP_CONFIG_FILE and AWS Profiles in $AWS_CONFIG_FILE"
-echo "# Automatically Generated at `date`" > $SP_CONFIG_FILE
-echo "# Steampipe profiles, Automatically Generated at `date`" > $AWS_CONFIG_FILE
+echo "Generating AWS profiles in $AWS_CONFIG_FILE"
+echo "# Steampipe profiles, automatically generated at `date`" > $AWS_CONFIG_FILE
+
+echo "Appending Steampipe connections in $SP_CONFIG_FILE"
+echo "# Automatically generated at `date`" >> $SP_CONFIG_FILE
 
 if [ $COMMAND == "IMDS" ] || [ $COMMAND == "ECS" ] ; then
 # Your AWS Config file needs a [default] section
@@ -81,7 +84,7 @@ fi
 
 cat <<EOF>>$SP_CONFIG_FILE
 
-# Create an aggregator of _all_ the accounts as the first entry in the search path.
+# Create an aggregator for all accounts as the first entry in the search path.
 connection "aws" {
   plugin = "aws"
   type        = "aggregator"
@@ -112,7 +115,7 @@ if [ $COMMAND == "IMDS" ] ; then
 cat <<EOF>>$AWS_CONFIG_FILE
 
 [profile sp_${ACCOUNT_NAME}]
-role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDITROLE}
+role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDIT_ROLE}
 credential_source = Ec2InstanceMetadata
 role_session_name = steampipe
 EOF
@@ -122,22 +125,22 @@ elif [ $COMMAND == "ECS" ] ; then
 cat <<EOF>>$AWS_CONFIG_FILE
 
 [profile sp_${ACCOUNT_NAME}]
-role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDITROLE}
+role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDIT_ROLE}
 credential_source = EcsContainer
 role_session_name = steampipe
 EOF
 
 else
 
-
 cat <<EOF>>$AWS_CONFIG_FILE
 
 [profile sp_${ACCOUNT_NAME}]
-role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDITROLE}
+role_arn = arn:aws:iam::${ACCOUNT_ID}:role/${AUDIT_ROLE}
 source_profile = ${SOURCE_PROFILE}
 role_session_name = steampipe
 EOF
 fi
+
 
 # And append an entry to the Steampipe config file
 cat <<EOF>>$SP_CONFIG_FILE
@@ -152,7 +155,8 @@ EOF
 done < <(aws organizations list-accounts --query "Accounts[?Status!='SUSPENDED'].[Name,Id,Status]" --output text --profile $SOURCE_PROFILE | sort -f) 
 
 if [ $COMMAND == "LOCAL" ] ; then
-  echo "Now append $AWS_CONFIG_FILE to your active config file where $SOURCE_PROFILE is defined"
+  echo "Append $AWS_CONFIG_FILE to your active AWS config file where profile $SOURCE_PROFILE is defined"
+  echo "Review your aws.spc file to ensure there are no conflicting connections"
 fi
 
 # All done!

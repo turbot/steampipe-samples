@@ -15,13 +15,35 @@
 
 set -e
 
+# Initialize variables
+DURATION_SECONDS=""
+OU=""
+EXTERNAL_ID=""
+
+# Process flags
+while getopts d:o:e: flag
+do
+    case "${flag}" in
+        d) DURATION_SECONDS=${OPTARG};;
+        o) OU=${OPTARG};;
+        e) EXTERNAL_ID=${OPTARG};;
+    esac
+done
+
+# Shift positional parameters
+shift $((OPTIND -1))
+
+# Now $1, $2, etc. are positional parameters
 COMMAND=$1
 AUDIT_ROLE=$2
 AWS_CONFIG_FILE=$3
 SOURCE_PROFILE=$4
 
 usage () {
-  echo "Usage: $0 [IMDS | ECS | LOCAL ] <AUDIT_ROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
+  echo "Usage: $0 [IMDS | ECS | LOCAL ] <AUDIT_ROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE> [-d DURATION_SECONDS] [-o OU] [-e EXTERNAL_ID]"
+  echo "  -d DURATION_SECONDS: Optional duration in seconds for the role session"
+  echo "  -o OU: Optional Organizational Unit ID to list accounts for"
+  echo "  -e EXTERNAL_ID: Optional External ID to use when assuming the role"
   exit 1
 }
 
@@ -47,6 +69,13 @@ if [ -z $SOURCE_PROFILE ] ; then
   else
     SOURCE_PROFILE="default"
   fi
+fi
+
+# Check if OU is provided
+if [ ! -z $OU ] ; then
+  LIST_ACCOUNTS_COMMAND="aws organizations list-accounts-for-parent --parent-id $OU --query \"Accounts[?Status!='SUSPENDED'].[Name,Id,Status]\" --output text --profile $SOURCE_PROFILE | sort -f"
+else
+  LIST_ACCOUNTS_COMMAND="aws organizations list-accounts --query \"Accounts[?Status!='SUSPENDED'].[Name,Id,Status]\" --output text --profile $SOURCE_PROFILE | sort -f"
 fi
 
 # STEAMPIPE_INSTALL_DIR overrides the default steampipe directory of ~/.steampipe
@@ -141,6 +170,13 @@ role_session_name = steampipe
 EOF
 fi
 
+if [ ! -z $DURATION_SECONDS ] ; then
+  echo "duration_seconds = $DURATION_SECONDS" >> $AWS_CONFIG_FILE
+fi
+
+if [ ! -z $EXTERNAL_ID ] ; then
+  echo "external_id = $EXTERNAL_ID" >> $AWS_CONFIG_FILE
+fi
 
 # And append an entry to the Steampipe config file
 cat <<EOF>>$SP_CONFIG_FILE
@@ -152,7 +188,7 @@ connection "aws_${SP_NAME}" {
 
 EOF
 
-done < <(aws organizations list-accounts --query "Accounts[?Status!='SUSPENDED'].[Name,Id,Status]" --output text --profile $SOURCE_PROFILE | sort -f) 
+done < <(eval $LIST_ACCOUNTS_COMMAND)
 
 if [ $COMMAND == "LOCAL" ] ; then
   echo "Append $AWS_CONFIG_FILE to your active AWS config file where profile $SOURCE_PROFILE is defined"

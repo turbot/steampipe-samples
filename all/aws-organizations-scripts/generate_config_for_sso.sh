@@ -27,6 +27,7 @@ SSO_PREFIX=$1
 SSO_ROLE=$2
 STEAMPIPE_CONFIG=$3
 AWS_CONFIG=$4
+AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
 
 if [ -z "$AWS_CONFIG" ] ; then
   echo "Missing SSO Prefix"
@@ -98,14 +99,13 @@ connection "aws" {
 
 EOF
 
+while read line; do
+  acctnum=`echo $line | awk -F: '{print $1}'`
+  acctname="$(echo $line | awk -F: '{print $2}')"
 
-for a in `aws sso list-accounts --access-token "$token" --region "${AWS_DEFAULT_REGION}" --output text | awk '{print $2":"$3}'` ; do
-
-  acctnum=`echo $a | awk -F: '{print $1}'`
-  acctname=`echo $a | awk -F: '{print $2}'`
-
-  # Steampipe doesn't like dashes, so we need to swap for underscores
-  SP_NAME=`echo $acctname | sed s/-/_/g`
+  # Steampipe doesn't like dashes or spaces, so we need to swap for underscores.
+  # Likewise, AWS configuration file doesn't like spaces.
+  ACCT_SAFE_NAME="$(echo $acctname | sed -e 's/-/_/g' -e 's/ /_/g')"
 
   aws sso list-account-roles --account-id "$acctnum" --access-token "$token" --region "${AWS_DEFAULT_REGION}" | grep $SSO_ROLE > /dev/null
   if [ $? -ne 0 ] ; then
@@ -114,7 +114,7 @@ for a in `aws sso list-accounts --access-token "$token" --region "${AWS_DEFAULT_
 
 cat << EOF>> $AWS_CONFIG
 
-[profile ${acctname}]
+[profile ${ACCT_SAFE_NAME}]
 sso_start_url = ${START_URL}
 sso_region = ${AWS_DEFAULT_REGION}
 sso_account_id = ${acctnum}
@@ -123,17 +123,13 @@ EOF
 
 # And append an entry to the Steampipe config file
 cat <<EOF>>$STEAMPIPE_CONFIG
-connection "aws_${SP_NAME}" {
+connection "aws_${ACCT_SAFE_NAME}" {
   plugin  = "aws"
-  profile = "${acctname}"
+  profile = "${ACCT_SAFE_NAME}"
   regions = ["*"]
 }
 
 EOF
 
   fi
-
-
-
-done
-
+done < <(aws sso list-accounts --access-token "$token" --region ${AWS_DEFAULT_REGION} --output text --query 'accountList[*].{accountId: accountId, accountName: accountName}' | tr '\t' ':')

@@ -123,7 +123,7 @@ EOF
 
 # And append an entry to the Steampipe config file
 cat <<EOF>>$STEAMPIPE_CONFIG
-connection "aws_${ACCT_SAFE_NAME}" {
+connection "aws_$(echo ${ACCT_SAFE_NAME} | tr '[:upper:]' '[:lower:]')" {
   plugin  = "aws"
   profile = "${ACCT_SAFE_NAME}"
   regions = ["*"]

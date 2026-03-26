@@ -12,12 +12,13 @@ Please refer to the [documentation on steampipe.io](https://steampipe.io/docs/gu
 
 * **[generate_config_for_cross_account_roles.sh](https://github.com/turbot/steampipe-samples/tree/main/all/aws-organizations-scripts/generate_config_for_cross_account_roles.sh)**\
   This script can be used to generate the aws config file and steampipe aws.spc files for a single AWS Organization. Usage is:
-  `./generate_config_for_cross_account_roles.sh [IMDS | LOCAL ] <AUDIT_ROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>`, where:
+  `./generate_config_for_cross_account_roles.sh [IMDS | LOCAL ] <AUDIT_ROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE> <REGIONS>`, where:
     * `IMDS` if you're running in EC2.
     * `LOCAL` if you're running from the local machine.
     * `AUDIT_ROLE` is the name fo the [cross-account role](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) created in all accounts.
     * `AWS_CONFIG_FILE` is where the script will output the AWS SDK profiles
     * `SOURCE_PROFILE` is only required when `LOCAL` is specified. It is the profile with the local credentials used to perform the [AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) on the cross-account role.
+    * `REGIONS` is only required if you need to limit your queries to specific regions (e.g. due to having the region deny control enabled in Control Tower). Format: `'["us-east-1", "eu-central-1"]'`. Defaults to `'["*"]'`.
 
 * **[generate_config_for_multipayer.py](https://github.com/turbot/steampipe-samples/tree/main/all/aws-organizations-scripts/generate_config_for_multipayer.py)**\
   This script takes a list of AWS Management Accounts, and uses the specified `--rolename` to AssumeRole into the management account, list the child accounts, and build an AWS Config File and aws.spc file. Usage is:

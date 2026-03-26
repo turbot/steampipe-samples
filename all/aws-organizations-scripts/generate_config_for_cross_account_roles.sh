@@ -19,9 +19,10 @@ COMMAND=$1
 AUDIT_ROLE=$2
 AWS_CONFIG_FILE=$3
 SOURCE_PROFILE=$4
+REGIONS=$5
 
 usage () {
-  echo "Usage: $0 [IMDS | ECS | LOCAL ] <AUDIT_ROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE>"
+  echo "Usage: $0 [IMDS | ECS | LOCAL ] <AUDIT_ROLE> <AWS_CONFIG_FILE> <SOURCE_PROFILE> <REGIONS>"
   exit 1
 }
 
@@ -49,6 +50,16 @@ if [ -z $SOURCE_PROFILE ] ; then
   fi
 fi
 
+# If regions are not provided, default to all regions
+if [ -z "$REGIONS" ]; then
+  echo "No regions specified, using all regions."
+  ENABLED_REGIONS='["*"]'
+else
+  echo "Regions specified: $REGIONS"
+  ENABLED_REGIONS=$REGIONS
+fi
+
+
 # STEAMPIPE_INSTALL_DIR overrides the default steampipe directory of ~/.steampipe
 if [ -z $STEAMPIPE_INSTALL_DIR ] ; then
   echo "STEAMPIPE_INSTALL_DIR not defined, using the default location"
@@ -66,7 +77,6 @@ if [ -f $AWS_CONFIG_FILE ] ; then
 fi
 
 SP_CONFIG_FILE=${STEAMPIPE_INSTALL_DIR}/config/aws.spc
-ALL_REGIONS='["*"]'
 
 echo "Generating AWS profiles in $AWS_CONFIG_FILE"
 echo "# Steampipe profiles, automatically generated at `date`" > $AWS_CONFIG_FILE
@@ -147,7 +157,7 @@ cat <<EOF>>$SP_CONFIG_FILE
 connection "aws_${SP_NAME}" {
   plugin  = "aws"
   profile = "sp_${ACCOUNT_NAME}"
-  regions = ${ALL_REGIONS}
+  regions = ${ENABLED_REGIONS}
 }
 
 EOF
